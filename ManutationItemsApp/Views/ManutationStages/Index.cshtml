@@ -1,0 +1,11 @@
+﻿@model IEnumerable<ManutationItemsApp.Domain.Entities.Manutation>
+
+@using ManutationItemsApp.Domain.Entities;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div id="manutationsViewDiv">
+    @{ await Html.RenderPartialAsync("NewView", Model);}
+</div>

@@ -1,0 +1,32 @@
+﻿@model ManutationItemsApp.Domain.Entities.Manutation
+
+    <div class="modal fade" id="timelineModal" tabindex="-1" role="dialog" aria-labelledby="timelineModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="timelineModalLabel">Timeline</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div id="timeline-content">
+
+                        <ul class="timeline">
+                            @foreach (var item in Model.ManutationStages)
+                            {
+                            <li class="event" data-date="@item.StartDate">
+                                <h3>@item.Name</h3>
+                                <h3>@item.Status</h3>
+                                <p>@item.Description</p>
+                            </li>
+                            }
+
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>

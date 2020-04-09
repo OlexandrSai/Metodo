@@ -1,0 +1,85 @@
+﻿@model IEnumerable<ManutationItemsApp.Domain.Entities.Consumable>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nome
+            </th>
+            <th>
+                Descrizione Originale
+            </th>
+            <th>
+                Descrizione italiana
+            </th>
+            <th>
+                Genere
+            </th>
+            <th>
+                Nome del modello
+            </th>
+            <th>
+                Conta al magazzino
+            </th>
+            <th>
+                Numero del produttore
+            </th>
+            <th>
+                Livello di sicurezza delle scorte
+            </th>
+            <th>
+                Livello di riordino
+            </th>
+            <th>
+                Quantita di acquisto ottimale
+            </th>
+            <th>
+                Unità di misura
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescriptionItalian)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModelName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountAtWarehouse)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManufacturerNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StockSL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReorderLevel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OptimalPurchaseQuantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitOfMeasure)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" asp-controller="Consumables" data-ajax="true" data-ajax-method="GET" data-ajax-success="GetConsumableEditForm"><i class="fa fa-marker fa-lg"></i></a>
+                <a asp-action="Delete" asp-route-id="@item.Id" asp-controller="Consumables" data-ajax="true" data-ajax-method="GET" data-ajax-success="ConsumableDeleteComplete"><i class="fa fa-trash-alt fa-lg"></i></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

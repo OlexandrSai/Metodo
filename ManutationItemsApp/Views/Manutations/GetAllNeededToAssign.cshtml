@@ -1,0 +1,97 @@
+﻿@model IEnumerable<ManutationItemsApp.Domain.Entities.Manutation>
+
+@{
+    ViewData["Title"] = "GetAllNeededToAssign";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Data di creazione
+            </th>
+            <th>
+                Descrizione originale
+            </th>
+            <th>
+                Creatore
+            </th>
+            <th>
+                Asset
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (item.IsFailure)
+                    {
+                        <button type="button" class="btn btn-danger rounded-circle" />
+                    }
+                    else if (item.IsCartolinaRossa)
+                    {
+
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-warning rounded-circle" />
+                    }
+                    @item.Id
+                </td>
+                <td>
+                    @item.DateOfCreation
+                </td>
+                <td>
+                    @item.BaseDescription
+                </td>
+                <td>
+                    @item.Creator.UserName
+                </td>
+                <td>
+                    @item.Asset.FullName
+                </td>
+                @*<td>
+                        <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#initializeModal-@item.Id" asp-action="Edit" asp-route-id="@item.Id">Initialize</a>
+                    </td>*@
+            <td>
+                <button class="btn btn-primary assignBtn" data-toggle="modal" data-target="#assignModal" value="@item.Id">Assegnare</button>
+            </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="assignModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="assignModal">Assegna all'utente:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label class="control-label">Utente:</label>
+                        <select id="utenteName" class="form-control" asp-items="@ViewBag.freeMastersNames">
+                            <option disabled selected>Selezionare</option>
+                        </select>
+                        <span class="text-danger">
+                        </span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="assignUtente" class="btn btn-primary" disabled>Assegnare</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+﻿@model IEnumerable<ManutationItemsApp.Domain.Entities.Consumable>
+
+@using ManutationItemsApp.Domain.Entities;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+    <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#createNewConsumable">Crea nuovo +</a>
+    <i class="fa fa-file-excel fa-lg"></i>
+<div id="consumablesViewDiv">
+    @{ await Html.RenderPartialAsync("GetAll", Model);}
+</div>
+<div>
+    <a type="button" class="btn btn-primary" asp-controller="Home" asp-action="Index">Tornare a casa</a>
+</div>
+
+@{await Html.RenderPartialAsync("Create", new Consumable());}
+<div id="editConsumable"></div>

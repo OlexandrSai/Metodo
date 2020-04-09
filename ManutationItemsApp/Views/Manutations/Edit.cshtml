@@ -1,0 +1,25 @@
+﻿@model ManutationItemsApp.Domain.Entities.Manutation
+
+<h4>Manutation</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" asp-controller="Manutations" data-ajax="true" data-ajax-method="POST" data-ajax-success="ManutationCreateOnComplete">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="BaseDescription" class="control-label">Descrizione originale</label>
+                <input asp-for="BaseDescription" class="form-control" />
+                <span asp-validation-for="BaseDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Torna alla lista</a>
+</div>
+

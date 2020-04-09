@@ -1,0 +1,83 @@
+﻿@model ManutationItemsApp.Domain.Entities.Consumable
+
+<div class="modal fade" id="editConsumableForm" tabindex="-1" role="dialog" aria-labelledby="editConsumableForm" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editConsumableForm">Modifica consumabile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Edit" data-ajax="true" data-ajax-method="POST" data-ajax-success="ConsumableEditComplete">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label">Nome</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label">Descrizione Originale</label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DescriptionItalian" class="control-label">Descrizione italiana</label>
+                        <input asp-for="DescriptionItalian" class="form-control" />
+                        <span asp-validation-for="DescriptionItalian" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Type" class="control-label">Genere</label>
+                        <input asp-for="Type" class="form-control" />
+                        <span asp-validation-for="Type" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ModelName" class="control-label">Nome del modello</label>
+                        <input asp-for="ModelName" class="form-control" />
+                        <span asp-validation-for="ModelName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CountAtWarehouse" class="control-label">Conta al magazzino</label>
+                        <input asp-for="CountAtWarehouse" class="form-control" />
+                        <span asp-validation-for="CountAtWarehouse" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SafetyInstruction" class="control-label">Istruzioni di sicurezza</label>
+                        <input asp-for="SafetyInstruction" class="form-control" />
+                        <span asp-validation-for="SafetyInstruction" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StockSL" class="control-label">Livello di sicurezza delle scorte</label>
+                        <input asp-for="StockSL" class="form-control" />
+                        <span asp-validation-for="StockSL" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ReorderLevel" class="control-label">Livello di riordino</label>
+                        <input asp-for="ReorderLevel" class="form-control" />
+                        <span asp-validation-for="ReorderLevel" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="OptimalPurchaseQuantity" class="control-label">Quantità di acquisto ottimale</label>
+                        <input asp-for="OptimalPurchaseQuantity" class="form-control" />
+                        <span asp-validation-for="OptimalPurchaseQuantity" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UnitOfMeasure" class="control-label">Unità di misura</label>
+                        <input asp-for="UnitOfMeasure" class="form-control" />
+                        <span asp-validation-for="UnitOfMeasure" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Salva" class="btn btn-primary" />
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

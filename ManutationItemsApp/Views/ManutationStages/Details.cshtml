@@ -1,0 +1,14 @@
+﻿@model ManutationItemsApp.Domain.Entities.Manutation
+
+@{
+    ViewData["Title"] = "Details";
+}
+    <div id="details">
+        @{ await Html.RenderPartialAsync("Request", Model);}
+        @{await Html.RenderPartialAsync("CheckIn", Model); }
+        @{await Html.RenderPartialAsync("Attivita", Model, ViewData); }
+        @{await Html.RenderPartialAsync("CheckOut", Model, ViewData); }
+    </div>
+
+
+

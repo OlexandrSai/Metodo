@@ -1,0 +1,147 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<ManutationItemsApp.Domain.Entities.ApplicationUser> UserManager
+@inject SignInManager<ManutationItemsApp.Domain.Entities.ApplicationUser> SignInManager
+@{
+    if (SignInManager.IsSignedIn(User))
+    {
+        var user = UserManager.FindByNameAsync(User.Identity.Name);
+    }
+}
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="loader" id="AjaxLoader" style="display:none;">
+    <button class="btn btn-primary" type="button" disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Loading...
+    </button>
+</div>
+
+<div id="partialViewDiv">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        @if (User.IsInRole("Simple User"))
+        {
+            <h2>Simple User View</h2>
+            <div class="row justify-content-center mt-4">
+                <a asp-action="Create" asp-controller="Manutations" asp-route-mType="CORRETTIVA" type="button" class="btn btn-danger btn-lg mr-5">NUOVA RICHIESTA</a>
+                <a type="button" class="btn btn-danger btn-lg mr-5">PREVENTIVA</a>
+                <a type="button" class="btn btn-danger btn-lg mr-5">PULIZIE</a>
+                <a type="button" class="btn btn-danger btn-lg mr-5">PREDITTIVA</a>
+            </div>
+        }
+        @if (User.IsInRole("Master"))
+        {
+            <h2>Master View</h2>
+            @*<div class="btn-group " role="group" aria-label="Basic example">
+                    <a asp-action="Index" asp-controller="ManutationStages" asp-route-stageName="Check In" type="button" class="btn btn-secondary mr-4" data-ajax="true" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-update="#stagesDiv">Check In</a>
+                    <a asp-action="Index" asp-controller="ManutationStages" asp-route-stageName="Attivita" type="button" class="btn btn-secondary mr-4" data-ajax="true" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-update="#stagesDiv">Attivita</a>
+                    <a asp-action="Index" asp-controller="ManutationStages" asp-route-stageName="Check Out" type="button" class="btn btn-secondary mr-4" data-ajax="true" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-update="#stagesDiv">Check Out</a>
+                    <a asp-action="NewView" asp-controller="ManutationStages"  type="button" class="btn btn-secondary mr-4" data-ajax="true" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-update="#stagesDiv">New View</a>
+                </div>*@
+            <div id="stagesDiv"></div>
+
+        }
+        @if (User.IsInRole("Order Guy"))
+        {
+            <h2>Order Guy View</h2>
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-secondary">Orders</button>
+            </div>
+        }
+        @if (User.IsInRole("Maintance Supervisor"))
+        {
+            <h2>Maintance Supervisor View</h2>
+            <div class="row mt-4 ">
+                <div class="float-left">
+                    @if (ViewBag.ManutationsToValidateCount > 0)
+                    {
+                        <a type="button" class="btn btn-warning" asp-action="Administration" asp-controller="ManutationStages">Le mie attività <span class="badge badge-danger">@ViewBag.ManutationsToValidateCount</span></a>
+
+                    }
+                    else
+                    {
+                        <a type="button" class="btn btn-warning" asp-action="Administration" asp-controller="ManutationStages">Le mie attività</a>
+
+                    }
+                </div>
+            </div>
+            <div class="row justify-content-center mt-4">
+                <a asp-action="Create" asp-controller="Manutations" asp-route-mType="CORRETTIVA" type="button" class="btn btn-danger btn-lg mr-5">NUOVA RICHIESTA</a>
+                <a type="button" class="btn btn-danger btn-lg mr-5">PREVENTIVA</a>
+                <a type="button" class="btn btn-danger btn-lg mr-5">PULIZIE</a>
+                <a type="button" class="btn btn-danger btn-lg mr-5">PREDITTIVA</a>
+            </div>
+            <div class="row justify-content-center mt-4">
+                <button type="button" class="btn btn-outline-danger btn-lg mr-2">UTENTI</button>
+                <button type="button" class="btn btn-outline-danger btn-lg mr-2">FORNITORI</button>
+                <button type="button" class="btn btn-outline-danger btn-lg mr-2">PARTI RICAMBIO</button>
+                <button type="button" class="btn btn-outline-danger btn-lg mr-2">MATERIALI DI CONSUMO</button>
+                <button type="button" class="btn btn-outline-danger btn-lg mr-2">ATTREZZATURE</button>
+                <button type="button" class="btn btn-outline-danger btn-lg mr-2">STRUMENTI</button>
+                <button type="button" class="btn btn-outline-danger btn-lg mr-2">OUTSOURCER</button>
+            </div>
+
+        }
+        @if (User.IsInRole("Admin"))
+        {
+            <h2>Admin View</h2>
+
+            <div class="row mt-4 ">
+                <div class="float-left">
+                    @if (ViewBag.ManutationsToAssignCount > 0)
+                    {
+                        <a type="button" class="btn btn-warning" asp-controller="Manutations" asp-action="GetAllNeededToAssign">Le mie attività <span class="badge badge-danger">@ViewBag.ManutationsToAssignCount</span></a>
+
+                    }
+                    else
+                    {
+                        <a type="button" class="btn btn-warning" asp-controller="Manutations" asp-action="GetAllNeededToAssign">Le mie attività</a>
+
+                    }
+
+                </div>
+                <div class="float-right">
+                    <button type="button" class="btn btn-light btn-lg mr-1 assetBtn">Asset</button>
+                    <a type="button" class="btn btn-light btn-lg mr-1" asp-controller="Items" asp-action="Index">Items</a>
+
+                </div>
+            </div>
+            <div class="row mt-4">
+                <button type="button" class="btn btn-primary btn-lg btn-block">CALENDARIO - PLANNING</button>
+            </div>
+            <div class="row justify-content-center mt-4">
+                <a asp-action="Create" asp-controller="Manutations" asp-route-mType="CORRETTIVA" type="button" class="btn btn-danger btn-lg mr-5">NUOVA RICHIESTA</a>
+                <a type="button" class="btn btn-danger btn-lg mr-5">PREVENTIVA</a>
+                <a type="button" class="btn btn-danger btn-lg mr-5">PULIZIE</a>
+                <a type="button" class="btn btn-danger btn-lg mr-5">PREDITTIVA</a>
+
+                @*<a asp-action="Create" asp-controller="Manutations" asp-route-mType="PREVENTIVA" type="button" class="btn btn-danger btn-lg mr-5">PREVENTIVA</a>
+                    <a asp-action="Create" asp-controller="Manutations" asp-route-mType="CARTOLINA ROSSA" type="button" class="btn btn-danger btn-lg mr-5">CARTOLINA ROSSA</a>
+                    <a asp-action="Create" asp-controller="Manutations" asp-route-mType="PULIZIE" type="button" class="btn btn-danger btn-lg mr-5">PULIZIE</a>
+                    <a asp-action="Create" asp-controller="Manutations" asp-route-mType="PREDITTIVA" type="button" class="btn btn-danger btn-lg mr-5">PREDITTIVA</a>*@
+            </div>
+            <div class="row justify-content-center mt-4">
+                <button type="button" class="btn btn-outline-danger btn-lg mr-2 userBtn">UTENTI</button>
+                <a type="button" class="btn btn-outline-danger btn-lg mr-2" asp-controller="Suppliers" asp-action="Index">FORNITORI</a>
+                <button class="btn btn-outline-danger btn-lg mr-2">PARTI RICAMBIO</button>
+                <a type="button" class="btn btn-outline-danger btn-lg mr-2" asp-controller="Consumables" asp-action="Index">MATERIALI DI CONSUMO</a>
+                <button type="button" class="btn btn-outline-danger btn-lg mr-2">ATTREZZATURE</button>
+                <a type="button" class="btn btn-outline-danger btn-lg mr-2" asp-controller="Tools" asp-action="Index">STRUMENTI</a>
+                <button type="button" class="btn btn-outline-danger btn-lg mr-2">OUTSOURCER</button>
+            </div>
+            <div class="row justify-content-center mt-4">
+                <button type="button" class="btn btn-success btn-lg mr-5">KPI</button>
+                <button type="button" class="btn btn-success btn-lg mr-5">AUDIT</button>
+                <button type="button" class="btn btn-success btn-lg mr-5">MANAGEMENT REVIEW</button>
+            </div>
+            <div class="row mt-4">
+                <button type="button" class="btn btn-info btn-lg btn-block">MASTER ACTION PLAN</button>
+            </div>
+        }
+
+
+    }
+</div>
+

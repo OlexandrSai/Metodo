@@ -1,0 +1,74 @@
+﻿@model ManutationItemsApp.Domain.Entities.Supplier
+
+
+    <div class="modal fade" id="editSupplierForm" tabindex="-1" role="dialog" aria-labelledby="editSupplierFormLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editSupplierForm">Edit supplier</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="Edit" data-ajax="true" data-ajax-method="POST" data-ajax-success="SupplierEditComplete">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Nationality" class="control-label"></label>
+                            <input asp-for="Nationality" class="form-control" />
+                            <span asp-validation-for="Nationality" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Address" class="control-label"></label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CommercialRefferent" class="control-label"></label>
+                            <input asp-for="CommercialRefferent" class="form-control" />
+                            <span asp-validation-for="CommercialRefferent" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="PhoneCom" class="control-label"></label>
+                            <input asp-for="PhoneCom" class="form-control" />
+                            <span asp-validation-for="PhoneCom" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="EmailCom" class="control-label"></label>
+                            <input asp-for="EmailCom" class="form-control" />
+                            <span asp-validation-for="EmailCom" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="TechnicalRefferent" class="control-label"></label>
+                            <input asp-for="TechnicalRefferent" class="form-control" />
+                            <span asp-validation-for="TechnicalRefferent" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="PhoneTechn" class="control-label"></label>
+                            <input asp-for="PhoneTechn" class="form-control" />
+                            <span asp-validation-for="PhoneTechn" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="EmailTechn" class="control-label"></label>
+                            <input asp-for="EmailTechn" class="form-control" />
+                            <span asp-validation-for="EmailTechn" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ApprovTemp" class="control-label"></label>
+                            <input asp-for="ApprovTemp" class="form-control" />
+                            <span asp-validation-for="ApprovTemp" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

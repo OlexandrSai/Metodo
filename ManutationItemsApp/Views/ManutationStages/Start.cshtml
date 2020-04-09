@@ -1,0 +1,34 @@
+﻿@model ManutationItemsApp.Domain.Entities.ManutationStage
+
+
+<form asp-action="Start" asp-controller="ManutationStages">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="@Model.Manutation.Asset.FullName" class="control-label"></label>
+       @Html.DisplayFor(modelItem => Model.Manutation.Asset.ModelName)
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Description" class="control-label"></label>
+        <textarea asp-for="@Model.Description" class="form-control" />
+        <span asp-validation-for="@Model.Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Error Code</label>
+        <select asp-for="@Model.Manutation.ErrorCode.Name" class="form-control" asp-items="@ViewBag.errorCodesNames">
+        </select>
+        <span asp-validation-for=" @Model.Manutation.ErrorCode.Name" class="text-danger">
+        </span>
+    </div>
+    <div class="form-group">
+    <label class="control-label">Manutation Type</label>
+    <select asp-for="@Model.Manutation.ManutationType.Name" class="form-control" asp-items="@ViewBag.mTypesNames">
+    </select>
+    <span asp-validation-for=" @Model.Manutation.ManutationType.Name" class="text-danger">
+    </span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Chiudi Check In e Passa all’ATTIVITA" class="btn btn-primary" />
+    </div>
+</form>
+

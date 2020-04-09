@@ -1,0 +1,48 @@
+﻿@model IEnumerable<ManutationItemsApp.Domain.Entities.Asset>
+
+    <button type="button" class="btn-primary addAssetBtn">Crea nuovo +</button>
+    <i class="fa fa-file-excel fa-lg"></i>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">
+                Attiva
+            </th>
+            <th scope="col">
+                Modello
+            </th>
+            <th scope="col">
+                Versione
+            </th>
+            <th scope="col">
+                N. Fabbricazione
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModelName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Version)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManufacturerNumber)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" asp-controller="Assets" data-ajax="true" data-ajax-method="GET" data-ajax-success="GetAssetEditForm"><i class="fa fa-marker fa-lg"></i></a>
+                <a asp-action="Delete" asp-route-id="@item.Id" asp-controller="Assets" data-ajax="true" data-ajax-method="GET" data-ajax-success="AssetCreateOnComplete"><i class="fa fa-trash-alt fa-lg"></i></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<div>
+    <a type="button" class="btn btn-primary" asp-controller="Home" asp-action="Index">Tornare a casa</a>
+</div>

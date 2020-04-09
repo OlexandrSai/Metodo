@@ -1,0 +1,226 @@
+﻿@model ManutationItemsApp.Domain.Entities.Manutation
+@{
+    var isNext = Model.ManutationStages.FirstOrDefault(a => a.Name == "Attivita") != null &&
+        Model.ManutationStages.FirstOrDefault(a => a.Name == "Attivita").Statuses.Where(a => a.Name == "Finished").Count() > 0;
+    var stage = Model.ManutationStages.FirstOrDefault(a => a.Name == "Check Out");
+    if (stage != null && stage.Tools != null && stage.Tools.Count() > 0)
+    {
+        ViewBag.Tools = stage.Tools;
+    }
+    //ViewData["activeStageStatus"] = Model.ManutationStages.First(a => a.Active == true).Statuses.First(a=>a.Active==true).Name;
+}
+
+
+
+@if (stage != null && stage.Active && stage.Statuses.First(a => a.Active).Name != "Paused" && stage.Active && stage.Statuses.First(a => a.Active).Name != "Finished")
+{
+    <div class="card mt-5">
+        <div class="card-header">
+            <button type="button" class="btn btn-success mr-4">Check Out</button>
+            <div class="input-group mt-2 col-4">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
+                </div>
+                <input asp-for="@stage.StartDate" name="CheckOutStartDate" class="form-control" placeholder="" />
+                <span asp-validation-for="@stage.StartDate" class="text-danger"></span>
+            </div>
+            <div class="input-group mt-2 col-4">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
+                </div>
+                <input asp-for="@stage.EndDate" name="CheckOutEndDate" class="form-control" placeholder="" />
+                <span asp-validation-for="@stage.EndDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="card-body">
+            <form>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" value="@Model.Id" name="CheckOutManutationId" />
+                <div class="form-group">
+                    <label class="control-label">
+                        Descrizione attività di Check Out:
+                    </label>
+                    <div class="form-group">
+                        <i class="fa fa-file-alt fa-2x"></i>
+                        <i class="fa fa-file-video fa-2x"></i>
+                        <i class="fa fa-file-audio fa-2x"></i>
+                    </div>
+                    <textarea asp-for="@stage.Description" class="form-control" name="CheckOutDescription"></textarea>
+                    <span asp-validation-for="@stage.Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Aggiungi Manutentore o Outsoucer:
+                    </label>
+                    <a><i class="fa fa-plus-square fa-lg"></i></a>
+                    @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
+            <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Attrezzatura:
+                    </label>
+                    <div id="checkOutMdcList">
+                        @if (ViewBag.Tools != null)
+                        {
+                            @foreach (var item in ViewBag.Tools)
+                            {
+                                <div class="checkOutMdc">
+                                    <button type="button" class="btn btn-light">@item.Name<span class="badge badge-dark">@item.Count</span></button>
+                                    <button type="button" class="checkOutClose"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                            }
+                        }
+
+                    </div>
+                    <a data-toggle="modal" data-target="#checkOutAttrezzaturaModal"><i class="fa fa-plus-square fa-lg"></i></a>
+                    @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
+            <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Strumento Misura:
+                    </label>
+                    <a><i class="fa fa-plus-square fa-lg"></i></a>
+                    @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
+            <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                </div>
+                <div class="form-group">
+                    <button id="pauseCheckOut" asp-action="PauseCheckOut" asp-controller="ManutationStages" class="btn btn-primary">Sospendi</button>
+                    <button id="finishCheckOut" asp-controller="ManutationStages" asp-action="FinishCheckOut" class="btn btn-primary">Chiudi  CHECK OUT E Passa alla  VALIDAZIONE</button>
+                </div>
+            </form>
+            <div class="modal fade" id="checkOutAttrezzaturaModal" tabindex="-1" role="dialog" aria-labelledby="checkOutAttrezzaturaModal" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Attrezzatura:</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label class="control-label">Name:</label>
+                                    <select id="checkOutMdcName" class="form-control" asp-items="@ViewBag.ToolsNames">
+                                    </select>
+                                    <span class="text-danger">
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-form-label">Count:</label>
+                                    <input id="checkOutMdcCount" class="form-control" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="AddCheckOutMdc" class="btn btn-primary">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card mt-5">
+        <div class="card-header">
+            @if (isNext || (stage != null && stage.Statuses != null && stage.Statuses.Where(a => a.Active).Count() > 0 && stage.Statuses.First(a => a.Active).Name == "Paused"))
+            {
+                <a type="button" class="btn btn-success mr-4" asp-action="StartOrContinue" asp-route-manutationId="@Model.Id" asp-route-stageName="Check Out" data-ajax="true" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-update="#details" data-ajax-success="renewDisabled">Check Out  <i class="fas fa-play"></i></a>
+            }
+            else
+            {
+                <button type="button" class="btn btn-success mr-4" disabled>Check Out</button>
+            }
+            @if (stage != null && stage.StartDate != null)
+            {
+                <div class="input-group mt-2 disabled col-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
+                    </div>
+                    <input disabled asp-for="@stage.StartDate" name="CheckOutStartDate" class="form-control" />
+                </div>
+            }
+            else
+            {
+                <div class="input-group mt-2 disabled col-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
+                    </div>
+                    <input disabled name="CheckOutStartDate" class="form-control" />
+                </div>
+            }
+
+            @if (stage != null && stage.EndDate != null)
+            {
+                <div class="input-group mt-2 disabled col-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
+                    </div>
+                    <input disabled asp-for="@stage.EndDate" name="CheckOutEndDate" class="form-control" />
+                </div>
+            }
+            else
+            {
+                <div class="input-group mt-2 disabled col-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
+                    </div>
+                    <input disabled name="CheckOutEndDate" class="form-control" />
+                </div>
+            }
+        </div>
+        <div class="card-body disabledcard">
+            <form asp-action="Continue" asp-controller="ManutationStages">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Descrizione attività di Check Out:
+                    </label>
+                    <textarea asp-for="@stage.Description" class="form-control"></textarea>
+                    <span asp-validation-for="@stage.Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Aggiungi Manutentore o Outsoucer:
+                    </label>
+                    <a><i class="fa fa-plus-square fa-lg"></i></a>
+                    @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
+            <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Attrezzatura:
+                    </label>
+                    <div id="checkOutMdcList">
+                        @if (ViewBag.Tools != null)
+                        {
+                            @foreach (var item in ViewBag.Tools)
+                            {
+                                <div class="checkOutMdc">
+                                    <button type="button" class="btn btn-light">@item.Name<span class="badge badge-dark">@item.Count</span></button>
+                                    <button type="button" class="checkOutClose"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                            }
+                        }
+
+                    </div>
+                    <a data-toggle="modal" data-target="#checkOutAttrezzaturaModal"><i class="fa fa-plus-square fa-lg"></i></a>
+                    @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
+            <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Strumento Misura:
+                    </label>
+                    <a><i class="fa fa-plus-square fa-lg"></i></a>
+                    @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
+            <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                </div>
+            </form>
+        </div>
+    </div>
+}

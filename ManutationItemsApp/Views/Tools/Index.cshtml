@@ -1,0 +1,18 @@
+﻿@model IEnumerable<ManutationItemsApp.Domain.Entities.Tool>
+@using ManutationItemsApp.Domain.Entities;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<a type="button" class="btn btn-primary" data-toggle="modal" data-target="#createNewTool">Create New+</a>
+<i class="fa fa-file-excel fa-lg"></i>
+<div id="toolsViewDiv">
+    @{ await Html.RenderPartialAsync("GetAll", Model);}
+</div>
+<div>
+    <a type="button" class="btn btn-primary" asp-controller="Home" asp-action="Index">Back to Home</a>
+</div>
+
+@{await Html.RenderPartialAsync("Create", new Tool());}
+<div id="editForm"></div>

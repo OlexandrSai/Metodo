@@ -1,0 +1,15 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "tempusdominus-bootstrap-4@5.1.2",
+      "destination": "wwwroot/lib/datepicker"
+    },
+    {
+      "library": "moment.js@2.24.0",
+      "destination": "wwwroot/lib/momentjs",
+      "files": [ "locale/de-ch.js", "moment.min.js" ]
+    }
+  ]
+}

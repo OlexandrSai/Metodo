@@ -1,0 +1,20 @@
+﻿@model IEnumerable<ManutationItemsApp.Domain.Entities.Supplier>;
+@using ManutationItemsApp.Domain.Entities;
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<a type="button" class="btn btn-primary" data-toggle="modal" data-target="#createNewSupplier">Create New+</a>
+<i class="fa fa-file-excel fa-lg"></i>
+<div id="suppliersViewDiv">
+    @{ await Html.RenderPartialAsync("GetAll", Model);}
+</div>
+<div>
+    <a type="button" class="btn btn-primary" asp-controller="Home" asp-action="Index">Back to Home</a>
+</div>
+
+@{ await Html.RenderPartialAsync("Create", new Supplier()); }
+<div id="editForm"></div>
+

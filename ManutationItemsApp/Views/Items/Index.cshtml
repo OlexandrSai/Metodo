@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ManutationItemsApp.Domain.Entities.Item>
+    <div id="partialViewDiv">
+        <button class="btn-primary addItemBtn">Crea nuovo +</button>
+        <i class="fa fa-file-excel fa-lg"></i>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Modello FMECA
+                    </th>
+                    <th>
+                        Nome
+                    </th>
+                    <th>
+                        Descrizione italiana
+                    </th>
+                    <th>
+                        Descrizione Originale
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ModelFMECA)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DescriptionItalian)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DescriptionOriginal)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" asp-controller="Items" data-ajax="true" data-ajax-method="GET" data-ajax-success="GetItemEditForm"><i class="fa fa-marker fa-lg"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" asp-controller="Items" data-ajax="true" data-ajax-method="GET" data-ajax-success="ItemCreateOnComplete"><i class="fa fa-trash-alt fa-lg"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div>
+            <a type="button" class="btn btn-primary" asp-controller="Home" asp-action="Index">Tornare a casa</a>
+        </div>
+    </div>

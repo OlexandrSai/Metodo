@@ -1,0 +1,16 @@
+﻿@model IEnumerable<ManutationItemsApp.Domain.Entities.ItemFile>
+
+<p>
+    <a asp-action="Create">Crea nuovo +</a>
+</p>
+<ul class="list-group list-group-flush">
+
+    @foreach (var item in Model)
+    {
+        <li class="list-group-item">
+            @item.Name<a><i class="fa fa-download fa-lg"></i></a>
+            <a><i class="fa fa-trash-alt fa-lg"></i></a>
+        </li>
+
+    }
+</ul>

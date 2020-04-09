@@ -1,0 +1,136 @@
+﻿@model ManutationItemsApp.Domain.Entities.Asset
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+    <h1>Creare</h1>
+
+<h4>Asset</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form enctype="multipart/form-data" asp-action="Create" asp-controller="Assets" data-ajax="true" data-ajax-method="POST" data-ajax-success="AssetCreateOnComplete">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModelName" class="control-label">Modello</label>
+                <input asp-for="ModelName" class="form-control" />
+                <span asp-validation-for="ModelName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Version" class="control-label">Versione</label>
+                <input asp-for="Version" class="form-control" />
+                <span asp-validation-for="Version" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManufacturerNumber" class="control-label">N. Fabbricazione</label>
+                <input asp-for="ManufacturerNumber" class="form-control" />
+                <span asp-validation-for="ManufacturerNumber" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="FullName" class="control-label">Nome e cognome</label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="InternalIdentificationalCode" class="control-label">
+                    Cod. Identificativo Interno
+                </label>
+                <input asp-for="InternalIdentificationalCode" class="form-control" />
+                <span asp-validation-for="InternalIdentificationalCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QRCode" class="control-label">QRCODE</label>
+                <input asp-for="QRCode" class="form-control" />
+                <span asp-validation-for="QRCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NFC" class="control-label">NFC</label>
+                <input asp-for="NFC" class="form-control" />
+                <span asp-validation-for="NFC" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BarCode" class="control-label">Codice a Barre</label>
+                <input asp-for="BarCode" class="form-control" />
+                <span asp-validation-for="BarCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SerialNumber" class="control-label">N. Matricola</label>
+                <input asp-for="SerialNumber" class="form-control" />
+                <span asp-validation-for="SerialNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YearOfManufacture" class="control-label">Anno di Fabbricazione</label>
+                <input asp-for="YearOfManufacture" class="form-control" />
+                <span asp-validation-for="YearOfManufacture" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TestDate" class="control-label">Data Collaudo</label>
+                <input asp-for="TestDate" class="form-control" />
+                <span asp-validation-for="TestDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CommissioningDate" class="control-label">Data messa in Servizio</label>
+                <input asp-for="CommissioningDate" class="form-control" />
+                <span asp-validation-for="CommissioningDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HourConterAtcommissioning" class="control-label">Conta-ore alla messa in servizio</label>
+                <input asp-for="HourConterAtcommissioning" class="form-control" />
+                <span asp-validation-for="HourConterAtcommissioning" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WarrantyExpiresDate" class="control-label">Data Scadenza Garanzia</label>
+                <input asp-for="WarrantyExpiresDate" class="form-control" />
+                <span asp-validation-for="WarrantyExpiresDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WorkingHoursCount" class="control-label">Conta-ore</label>
+                <input asp-for="WorkingHoursCount" class="form-control" />
+                <span asp-validation-for="WorkingHoursCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label">Locazione – Lay Out</label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GeneralMachineZone" class="control-label">Zone dell’Asset (Generale)</label>
+                <input asp-for="GeneralMachineZone" class="form-control" />
+                <span asp-validation-for="GeneralMachineZone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DetailedMachineZone" class="control-label">Zone dell’Asset (di dettaglio)</label>
+                <input asp-for="DetailedMachineZone" class="form-control" />
+                <span asp-validation-for="DetailedMachineZone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ErrorCode" class="control-label">Codici di guasto</label>
+                <input asp-for="ErrorCode" class="form-control" />
+                <span asp-validation-for="ErrorCode" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Files" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <div class="custom-file">
+                        <input asp-for="Files" type="file" multiple class="form-control custom-file-input">
+                        <label class="custom-file-label">Choose File...</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Creare" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <button type="button" class="btn btn-primary assetBtn">Torna alla lista</button>
+</div>
