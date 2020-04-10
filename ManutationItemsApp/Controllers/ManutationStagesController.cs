@@ -96,7 +96,7 @@ namespace ManutationItemsApp.Controllers
             {
                 List<Manutation> model = _unitOfWork.ManutationRepository.GetManutationsWithTimelinesById(_userManager.GetUserId(User));
                 ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames());
-                ViewBag.Stages = new string[] { "Request", "Check In", "Attivita", "Check Out" };
+                ViewBag.Stages = new string[] { "Richiesta", "Check In", "Attivita", "Check Out" };
                 ViewBag.Statuses = new string[] { "Assigned", "Started", "Paused", "Finished" };
                 //ViewBag.mTypesNames = new SelectList(await _unitOfWork.ManutationTypeRepository.GetAllManutationTypesNames());
 
