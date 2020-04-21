@@ -21,11 +21,14 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
             await RepositoryContext.AssetsItems.AddRangeAsync(assetItems);
         }
 
-        public async void AddSupliers(List<ItemSupplier> itemSuppliers)
-        {
-            await RepositoryContext.ItemSuppliers.AddRangeAsync(itemSuppliers);
+        //public  void AddSupliers(List<ItemSupplier> itemSuppliers)
+        //{
+        //    //foreach (var item in itemSuppliers)
+        //    //{
+        //    //    RepositoryContext.ItemSuppliers.Add(item);
+        //    //}
             
-        }
+        //}
 
         public void ChangeAssets(List<AssetItem> newAssets, int id)
         {
@@ -38,6 +41,7 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
         {
             return await RepositoryContext.Items
                .Include(a => a.Files)
+               .Include(a=>a.Supplier)
                .FirstAsync(a =>a.Id == id);
         }
 
@@ -56,6 +60,12 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
         {
             return await RepositoryContext.Items.OrderBy(a=>a.Name).Select(a => a.Name).ToListAsync();
         }
+
+        //public async Task<List<string>> GetSuppliersNames(int id)
+        //{
+        //    var items = RepositoryContext.Suppliers.Where(i => i.ItemId == id);
+        //    return await items.OrderBy(a => a.Supplier.Name).Select(a => a.Supplier.Name).ToListAsync();
+        //}
 
         public async Task<bool> ItemExists(int id)
         {

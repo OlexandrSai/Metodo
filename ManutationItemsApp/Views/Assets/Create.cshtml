@@ -1,10 +1,12 @@
 ﻿@model ManutationItemsApp.Domain.Entities.Asset
+@using Kendo.Mvc.UI
+
 
 @{
     ViewData["Title"] = "Create";
 }
 
-    <h1>Creare</h1>
+<h1>Creare</h1>
 
 <h4>Asset</h4>
 <hr />
@@ -14,7 +16,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+                    <input class="form-check-input" asp-for="Active" /> Attivo
                 </label>
             </div>
             <div class="form-group">
@@ -33,16 +35,25 @@
                 <span asp-validation-for="ManufacturerNumber" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-                <label asp-for="FullName" class="control-label">Nome e cognome</label>
-                <input asp-for="FullName" class="form-control" />
-                <span asp-validation-for="FullName" class="text-danger"></span>
-            </div>*@
+                    <label asp-for="FullName" class="control-label">Nome e cognome</label>
+                    <input asp-for="FullName" class="form-control" />
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <label asp-for="InternalIdentificationalCode" class="control-label">
                     Cod. Identificativo Interno
                 </label>
                 <input asp-for="InternalIdentificationalCode" class="form-control" />
                 <span asp-validation-for="InternalIdentificationalCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SupplierName" class="control-label">
+                    Fornitore
+                </label>
+                <select asp-for="SupplierName" class="form-control" asp-items="@ViewBag.suppliersNames">
+                    <option disabled selected></option>
+                </select>
+                <span asp-validation-for="SupplierName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="QRCode" class="control-label">QRCODE</label>
@@ -95,26 +106,14 @@
                 <span asp-validation-for="WorkingHoursCount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Location" class="control-label">Locazione – Lay Out</label>
-                <input asp-for="Location" class="form-control" />
-                <span asp-validation-for="Location" class="text-danger"></span>
+                <label asp-for="ErrorCodes" class="control-label">Codice di guasto</label>
+                @(Html.Kendo().MultiSelect()
+                  .Name("ErrorCodes")
+                  .Placeholder("Select error codes...")
+                  .BindTo(ViewBag.errorCodesNames)
+                )
+                <span asp-validation-for="ErrorCodes" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="GeneralMachineZone" class="control-label">Zone dell’Asset (Generale)</label>
-                <input asp-for="GeneralMachineZone" class="form-control" />
-                <span asp-validation-for="GeneralMachineZone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DetailedMachineZone" class="control-label">Zone dell’Asset (di dettaglio)</label>
-                <input asp-for="DetailedMachineZone" class="form-control" />
-                <span asp-validation-for="DetailedMachineZone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ErrorCode" class="control-label">Codici di guasto</label>
-                <input asp-for="ErrorCode" class="form-control" />
-                <span asp-validation-for="ErrorCode" class="text-danger"></span>
-            </div>
-
             <div class="form-group">
                 <label asp-for="Files" class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-10">

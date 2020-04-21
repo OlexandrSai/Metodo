@@ -9,5 +9,6 @@ namespace ManutationItemsApp.DAL.Contracts.Repositories
     public interface ISupplierRepository:IRepositoryBase<Supplier>
     {
         public Task<List<string>> GetSupplierNames();
+        public Task<Supplier> FindByName(string name);
     }
 }

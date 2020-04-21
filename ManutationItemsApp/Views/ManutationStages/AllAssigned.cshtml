@@ -1,0 +1,85 @@
+﻿@model IEnumerable<ManutationItemsApp.Domain.Entities.Manutation>
+
+    <div id="manutations">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        Data di creazione
+                    </th>
+                    <th>
+                        Descrizione originale
+                    </th>
+                    <th>
+                        Creatore
+                    </th>
+                    <th>
+                        Asset
+                    </th>
+                    <th>
+                        Tipologia Guasto/M.:
+                    </th>
+                    <th>
+                        <div class="row">
+                            Fase
+                        </div>
+                    </th>
+                    <th>
+                        <div class="row">
+                            Stato
+                          
+                        </div>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (item.IsFailure)
+                            {
+                                <button type="button" class="btn btn-danger rounded-circle">@item.Id</button>
+                            }
+                            else if (item.IsCartolinaRossa)
+                            {
+                                <button type="button" class="btn" style="border: 3px solid #FF6347;">@item.Id</button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-warning rounded-circle">@item.Id</button>
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DateOfCreation)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BaseDescription)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Creator.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Asset.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TypeOfFault.Name)
+                        </td>
+                        <td>
+                            Richuesta
+                        </td>
+                        <td>
+                            Assegnato
+                        </td>
+                        <td>
+                            <a type="button" class="btn btn-primary" asp-action="AssignToMe" asp-route-id="@item.Id">Aggiungiti</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>

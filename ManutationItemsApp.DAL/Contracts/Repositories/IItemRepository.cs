@@ -13,9 +13,10 @@ namespace ManutationItemsApp.DAL.Contracts.Repositories
         public Task<List<string>> GetItemsNames();
         public void AddAssets(List<AssetItem> assetItems);
         
-            public void AddSupliers(List<ItemSupplier> itemSuppliers);
+            //public void AddSupliers(List<ItemSupplier> itemSuppliers);
         public void ChangeAssets(List<AssetItem> newAssets, int id);
         public Task<bool> ItemExists(int id);
         public Task<List<String>> GetAssetsNames(int id);
+            //public Task<List<String>> GetSuppliersNames(int id);
     }
 }

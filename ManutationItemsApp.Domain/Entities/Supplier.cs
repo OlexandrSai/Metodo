@@ -21,6 +21,6 @@ namespace ManutationItemsApp.Domain.Entities
         public string PhoneTechn { get; set; }
         public string EmailTechn { get; set; }
         public int ApprovTemp { get; set; }
-        public virtual IEnumerable<ItemSupplier> ItemSuppliers { get; set; }
+        public virtual IEnumerable<Item> Items { get; set; }
     }
 }

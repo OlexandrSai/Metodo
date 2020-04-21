@@ -1,0 +1,139 @@
+﻿@model IEnumerable<ManutationItemsApp.Domain.Entities.Manutation>
+
+<div id="manutations">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Data di creazione
+                </th>
+                <th>
+                    Descrizione originale
+                </th>
+                <th>
+                    Creatore
+                </th>
+                <th>
+                    Asset
+                </th>
+                <th>
+                    Tipologia Guasto/M.:
+                </th>
+                <th>
+                    <div class="row">
+                        Fase
+                        <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-filter" aria-hidden="true"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                                @for (int i = 0; i < ViewBag.Stages.Length; i++)
+                                {
+                                    <div class="form-check">
+                                        @if (ViewBag.stageFilter != null && ViewBag.stageFilter.Contains(ViewBag.Stages[i]))
+                                        {
+                                            <input class="form-check-input stagecheck" type="checkbox" value="@ViewBag.Stages[i]" checked="checked">
+                                        }
+                                        else
+                                        {
+                                            <input class="form-check-input stagecheck" type="checkbox" value="@ViewBag.Stages[i]">
+                                        }
+                                        <label class="form-check-label">
+                                            @ViewBag.Stages[i]
+                                        </label>
+                                    </div>
+                                }
+
+                                <button id="stageFilter" type="button" class="btn btn-info">Filtro</button>
+                                <a type="button" class="btn btn-light" asp-action="NewView" asp-route-stageFilter="clear" data-ajax="true" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-update="#manutationsViewDiv">Rimuovi</a>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </th>
+                <th>
+                    <div class="row">
+                        Stato
+                        <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-filter" aria-hidden="true"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+
+                                @for (int i = 0; i < ViewBag.Statuses.Length; i++)
+                                {
+                                    <div class="form-check">
+                                        @if (ViewBag.statusFilter != null && ViewBag.statusFilter.Contains(ViewBag.Statuses[i]))
+                                        {
+                                            <input class="form-check-input statuscheck" type="checkbox" value="@ViewBag.Statuses[i]" checked="checked">
+                                        }
+                                        else
+                                        {
+                                            <input class="form-check-input statuscheck" type="checkbox" value="@ViewBag.Statuses[i]">
+                                        }
+                                        <label class="form-check-label">
+                                            @ViewBag.Statuses[i]
+                                        </label>
+                                    </div>
+                                }
+                                <button id="statusFilter" type="button" class="btn btn-info">Filtro</button>
+                                <a type="button" class="btn btn-light" asp-action="NewView" asp-route-statusFilter="clear" data-ajax="true" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-update="#manutationsViewDiv">Rimuovi</a>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @if (item.IsFailure)
+                        {
+                            <button type="button" class="btn btn-danger rounded-circle">@item.Id</button>
+                        }
+                        else if (item.IsCartolinaRossa)
+                        {
+                            <button type="button" class="btn" style="border: 3px solid #FF6347;">@item.Id</button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-warning rounded-circle">@item.Id</button>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOfCreation)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BaseDescription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Creator.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Asset.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TypeOfFault.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ManutationStages.First(a => a.Active == true).Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ManutationStages.First(a => a.Active == true).Statuses.First(a => a.Active == true).Name)
+                    </td>
+                    <td>
+                        <a type="button" class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

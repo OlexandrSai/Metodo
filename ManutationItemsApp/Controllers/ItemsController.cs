@@ -40,7 +40,11 @@ namespace ManutationItemsApp.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.AssetNames = await _unitOfWork.AssetRepository.GetAssetNames();
-            ViewBag.SupplierNames = await _unitOfWork.SupplierRepository.GetSupplierNames();
+            ViewBag.SupplierNames =new SelectList( await _unitOfWork.SupplierRepository.GetSupplierNames());
+            ViewBag.Sizes = new SelectList(new List<string>() { "Piccolo", "Medio", "Grande" });
+            ViewBag.HandlingWays = new SelectList(new List<string>() { "Manuale", "Transpallet", "Muletto" });
+            ViewBag.Reparaible = new SelectList(new List<string>() { "N.A.", "Non riparabile", "Revisionabile internamente", "Riparabile esternamente" });
+            ViewBag.Characteristics = new SelectList(new List<string>() { "Componente elettrico", "Componente meccanico", "Componente elettromeccanico", "Materiale di consumo" });
             return PartialView("CreateTest");
         }
 
@@ -63,29 +67,29 @@ namespace ManutationItemsApp.Controllers
                     item.Files = files;
 
                 }
-
+                item.Supplier = await _unitOfWork.SupplierRepository.FindByName(item.SupplierNames);
                 _unitOfWork.ItemRepository.Create(item);
                 await _unitOfWork.CommitAsync();
 
-                if (item.AssetsNames!=null&& item.AssetsNames.Count > 0)
-                {
-                    List<AssetItem> assetItems = new List<AssetItem>();
-                    foreach (var name in item.AssetsNames)
-                    {
-                        var asset = await _unitOfWork.AssetRepository.FindByFullName(name);
-                        assetItems.Add(new AssetItem() { Asset = asset, AssetId = asset.Id, Item = item, ItemId =item.Id });
-                    }
-                    _unitOfWork.ItemRepository.AddAssets(assetItems);
-                    await _unitOfWork.CommitAsync();
-                }
+                //if (item.AssetsNames != null && item.AssetsNames.Count > 0)
+                //{
+                //    List<AssetItem> assetItems = new List<AssetItem>();
+                //    foreach (var name in item.AssetsNames)
+                //    {
+                //        var asset = await _unitOfWork.AssetRepository.FindByFullName(name);
+                //        assetItems.Add(new AssetItem() { Asset = asset, AssetId = asset.Id, Item = item, ItemId = item.Id });
+                //    }
+                //    _unitOfWork.ItemRepository.AddAssets(assetItems);
+                //    await _unitOfWork.CommitAsync();
+                //}
 
-                //if (item.SupplierNames!=null&& item.SupplierNames.Count > 0)
+                //if (item.SupplierNames != null && item.SupplierNames.Count > 0)
                 //{
                 //    List<ItemSupplier> itemsuppliers = new List<ItemSupplier>();
                 //    foreach (var name in item.SupplierNames)
                 //    {
                 //        var supplier = _unitOfWork.SupplierRepository.FindByCondition(s => s.Name == name).First();
-                //        itemsuppliers.Add(new ItemSupplier() { Supplier = supplier, SupplierId = supplier.Id, Item = item, ItemId = item.Id });
+                //        itemsuppliers.Add(new ItemSupplier() { Supplier = supplier,SupplierId = supplier.Id,  Item = item,ItemId=item.Id });
                 //    }
                 //    _unitOfWork.ItemRepository.AddSupliers(itemsuppliers);
                 //    await _unitOfWork.CommitAsync();
@@ -170,9 +174,27 @@ namespace ManutationItemsApp.Controllers
                 return NotFound();
             }
             ViewBag.AllAssetNames = await _unitOfWork.AssetRepository.GetAssetNames();
-            ViewBag.AllSupplierNames = await _unitOfWork.SupplierRepository.GetSupplierNames();
+            if (item.Supplier!=null)
+            {
+                ViewBag.SupplierNames = new SelectList(await _unitOfWork.SupplierRepository.GetSupplierNames(), item.Supplier.Name);
+            }
+            else
+            {
+                ViewBag.SupplierNames = new SelectList(await _unitOfWork.SupplierRepository.GetSupplierNames());
+            }
+            if (item.IsReparaible!=null)
+            {
+                ViewBag.Reparaible = new SelectList(new List<string>() { "N.A.","Non riparabile", "Revisionabile internamente", "Riparabile esternamente" },item.IsReparaible);
+            }
+            else
+            {
+                ViewBag.Reparaible = new SelectList(new List<string>() { "N.A.", "Non riparabile", "Revisionabile internamente", "Riparabile esternamente" });
+            }
+            
             ViewBag.AssetNames = await _unitOfWork.ItemRepository.GetAssetsNames(Convert.ToInt32(item.Id));
-            ViewBag.SupplierNames = null;
+            ViewBag.Sizes = new SelectList(new List<string>() { "Piccolo", "Medio", "Grande" },item.Size);
+            ViewBag.HandlingWays = new SelectList(new List<string>() { "Manuale", "Transpallet", "Muletto" },item.HandlingWay);
+            ViewBag.Characteristics = new SelectList(new List<string>() { "Componente elettrico", "Componente meccanico", "Componente elettromeccanico", "Materiale di consumo" });
             return PartialView(item);
         }
 
@@ -193,20 +215,21 @@ namespace ManutationItemsApp.Controllers
             {
                 try
                 {
+                    item.Supplier = await _unitOfWork.SupplierRepository.FindByName(item.SupplierNames);
                     _unitOfWork.ItemRepository.Update(item);
                     await _unitOfWork.CommitAsync();
 
-                    if (item.AssetsNames.Count > 0)
-                    {
-                        List<AssetItem> assetItems = new List<AssetItem>();
-                        foreach (var name in item.AssetsNames)
-                        {
-                            var asset = await _unitOfWork.AssetRepository.FindByFullName(name);
-                            assetItems.Add(new AssetItem() { Asset = asset, AssetId = asset.Id, Item = item, ItemId =item.Id });
-                        }
-                        _unitOfWork.ItemRepository.ChangeAssets(assetItems,Convert.ToInt32(item.Id));
-                        await _unitOfWork.CommitAsync();
-                    }
+                    //if (item.AssetsNames.Count > 0)
+                    //{
+                    //    List<AssetItem> assetItems = new List<AssetItem>();
+                    //    foreach (var name in item.AssetsNames)
+                    //    {
+                    //        var asset = await _unitOfWork.AssetRepository.FindByFullName(name);
+                    //        assetItems.Add(new AssetItem() { Asset = asset, AssetId = asset.Id, Item = item, ItemId =item.Id });
+                    //    }
+                    //    _unitOfWork.ItemRepository.ChangeAssets(assetItems,Convert.ToInt32(item.Id));
+                    //    await _unitOfWork.CommitAsync();
+                    //}
                 }
                 catch (DbUpdateConcurrencyException)
                 {

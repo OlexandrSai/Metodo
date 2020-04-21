@@ -22,6 +22,7 @@ namespace ManutationItemsApp.Domain.Entities
         public virtual IEnumerable<UserManutationStage> UserManutationStages { get; set; }
         public virtual IEnumerable<ItemTemp> Items { get; set; }
         public virtual IEnumerable<ToolTemp> Tools { get; set; }
+        public virtual IEnumerable<MeasuringToolTemp> MeasuringTools { get; set; }
         public virtual IEnumerable<ConsumableTemp> Consumables { get; set; }
 
         //need to add measuring tools

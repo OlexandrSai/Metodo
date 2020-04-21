@@ -363,6 +363,33 @@ $(document).on('click', '#AddCheckOutMdc', function (e) {
     $('#checkOutAttrezzaturaModal').modal('hide');
 });
 
+$(document).on('click', '#AddAttivitaMeasuring', function (e) {
+    e.preventDefault();
+    var prevHtml;
+    var isContains = $('#attivitaMeasuringList').text().indexOf($('#attivittaMeasuringName').val()) > -1;
+    if (isContains) {
+        $('button:contains(' + $('#attivittaMeasuringName').val() + ')').html($('#attivittaMeasuringName').val() + '<span class="badge badge-dark">' + $('#attivittaMeasuringCount').val() + '</span>');
+        prevHtml = $('#attivitaMdcList').html();
+    } else {
+        prevHtml = $('#attivitaMeasuringList').html();
+        $('#attivitaMeasuringList').html(prevHtml + '<div class="attivitaMeasuring"><button type="button" class="btn btn-light">' + $('#attivittaMeasuringName').val() + '<span class="badge badge-dark">' + $('#attivittaMeasuringCount').val() + '</span><button type="button" class="attivitaClose"><span aria-hidden="true">&times;</span></button></button></div>');
+    }
+    $('#attivitaMeasuringModal').modal('hide');
+});
+
+$(document).on('click', '#AddCheckOutMeasuring', function (e) {
+    e.preventDefault();
+    var prevHtml;
+    var isContains = $('#checkOutMeasuringList').text().indexOf($('#checkOutMeasuringName').val()) > -1;
+    if (isContains) {
+        $('button:contains(' + $('#checkOutMeasuringName').val() + ')').html($('#checkOutMeasuringName').val() + '<span class="badge badge-dark">' + $('#checkOutMeasuringCount').val() + '</span>');
+        prevHtml = $('#checkOutMeasuringList').html();
+    } else {
+        prevHtml = $('#checkOutMeasuringList').html();
+        $('#checkOutMeasuringList').html(prevHtml + '<div class="checkOutMeasuring"><button type="button" class="btn btn-light">' + $('#checkOutMeasuringName').val() + '<span class="badge badge-dark">' + $('#checkOutMeasuringCount').val() + '</span><button type="button" class="checkOutClose"><span aria-hidden="true">&times;</span></button></button></div>');
+    }
+    $('#checkOutMeasuringModal').modal('hide');
+});
 
 $(document).on('click', '#AddAttivitaConsumable', function (e) {
     e.preventDefault();
@@ -597,6 +624,12 @@ $(document).on('click', '#pauseAttivita', function (e) {
         model.Tools[name] = count;
     });
 
+    $(".attivitaMeasuring").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.MeasuringTools[name] = count;
+    });
+
     $(".attivitaItem").each(function () {
         var name = $(this).children('button').first().contents().get(0).nodeValue;
         var count = $(this).children('button').first().children('span').text();
@@ -644,6 +677,12 @@ $(document).on('click', '#finishAttivita', function (e) {
         var name = $(this).children('button').first().contents().get(0).nodeValue;
         var count = $(this).children('button').first().children('span').text();
         model.Tools[name] = count;
+    });
+
+    $(".attivitaMeasuring").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.MeasuringTools[name] = count;
     });
 
     $(".attivitaItem").each(function () {
@@ -695,6 +734,12 @@ $(document).on('click', '#editAttivita', function (e) {
         model.Tools[name] = count;
     });
 
+    $(".attivitaMeasuring").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.MeasuringTools[name] = count;
+    });
+
     $(".attivitaItem").each(function () {
         var name = $(this).children('button').first().contents().get(0).nodeValue;
         var count = $(this).children('button').first().children('span').text();
@@ -726,6 +771,12 @@ $(document).on('click', '#pauseCheckOut', function (e) {
         var name = $(this).children('button').first().contents().get(0).nodeValue;
         var count = $(this).children('button').first().children('span').text();
         model.Tools[name] = count;
+    });
+
+    $(".checkOutMeasuring").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.MeasuringTools[name] = count;
     });
 
     $.ajax({
@@ -764,6 +815,12 @@ $(document).on('click', '#finishCheckOut', function (e) {
         model.Tools[name] = count;
     });
 
+    $(".checkOutMeasuring").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.MeasuringTools[name] = count;
+    });
+
     $.ajax({
         type: "POST",
         url: $('#finishCheckOut').attr('formaction'),
@@ -772,6 +829,56 @@ $(document).on('click', '#finishCheckOut', function (e) {
         dataType: "json",
         success: function (data) {
             window.location.href = '/ManutationStages';
+        },
+    });
+});
+
+//Master spinners
+
+$(document).on('click', '#getAllAssigned', function (e) {
+    e.preventDefault();
+    $('#getAllAssigned').hide();
+    $('#spinner').show();
+
+    $.ajax({
+        type: "GET",
+        url: $('#getAllAssigned').attr('href'),
+        success: function (data) {
+            $('#manutations').html(data);
+            $('#getAllAssigned').show();
+            $('#spinner').hide();
+        },
+    });
+});
+
+$(document).on('click', '#getMyActive', function (e) {
+    e.preventDefault();
+    $('#getMyActive').hide();
+    $('#spinner').show();
+
+    $.ajax({
+        type: "GET",
+        url: $('#getMyActive').attr('href'),
+        success: function (data) {
+            $('#manutations').html(data);
+            $('#getMyActive').show();
+            $('#spinner').hide();
+        },
+    });
+});
+
+$(document).on('click', '#getMyHistorical', function (e) {
+    e.preventDefault();
+    $('#getMyHistorical').hide();
+    $('#spinner').show();
+
+    $.ajax({
+        type: "GET",
+        url: $('#getMyHistorical').attr('href'),
+        success: function (data) {
+            $('#manutations').html(data);
+            $('#getMyHistorical').show();
+            $('#spinner').hide();
         },
     });
 });

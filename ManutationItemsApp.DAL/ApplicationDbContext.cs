@@ -12,6 +12,7 @@ namespace ManutationItemsApp.DAL
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Asset> Assets { get; set; }
         public DbSet<AssetItem> AssetsItems { get; set; }
+        public DbSet<AssetErrorCode> AssetErrorCodes { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<ErrorCode> ErrorCodes { get; set; }
         public DbSet<ItemType> ItemTypes { get; set; }
@@ -23,16 +24,18 @@ namespace ManutationItemsApp.DAL
         public DbSet<ManutationStage> ManutationStages { get; set; }
         //public DbSet<ManutationStageStatus> ManutationStagesStatuses { get; set; }
         public DbSet<Tool> Tools { get; set; }
+        public DbSet<MeasuringTool> MeasuringTools { get; set; }
         public DbSet<UserManutationStage> UserManutationStages { get; set; }
         public DbSet<Consumable> Consumables { get; set; }
         public DbSet<AssetFile> AssetFiles { get; set; }
         public DbSet<ItemFile> ItemFiles { get; set; }
-        public DbSet<ItemSupplier> ItemSuppliers { get; set; }
+        //public DbSet<ItemSupplier> ItemSuppliers { get; set; }
         public DbSet<TypeOfFault> typeOfFaults { get; set; }
 
         public DbSet<ConsumableTemp> ConsumableTemps { get; set; }
         public DbSet<ItemTemp> ItemTemps { get; set; }
         public DbSet<ToolTemp> ToolTemps { get; set; }
+        public DbSet<MeasuringToolTemp> MeasuringToolTemps { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -67,19 +70,33 @@ namespace ManutationItemsApp.DAL
                 .WithMany(p => p.AssetsItems)
                 .HasForeignKey(pt => pt.AssetId);
 
-            //ItemsSuppliers
-            builder.Entity<ItemSupplier>()
-                .HasKey(t => new { t.ItemId, t.SupplierId });
+            //AssetsErrorCodes
+            builder.Entity<AssetErrorCode>()
+                .HasKey(t => new { t.AssetId, t.ErrorCodeId });
 
-            builder.Entity<ItemSupplier>()
-                .HasOne(pt => pt.Item)
-                .WithMany(p => p.ItemFornitores)
-                .HasForeignKey(pt => pt.ItemId);
+            builder.Entity<AssetErrorCode>()
+                .HasOne(pt => pt.ErrorCode)
+                .WithMany(p => p.AssetsErrorCodes)
+                .HasForeignKey(pt => pt.ErrorCodeId);
 
-            builder.Entity<ItemSupplier>()
-                .HasOne(pt => pt.Supplier)
-                .WithMany(p => p.ItemSuppliers)
-                .HasForeignKey(pt => pt.SupplierId);
+            builder.Entity<AssetErrorCode>()
+                .HasOne(pt => pt.Asset)
+                .WithMany(p => p.AssetsErrorCodes)
+                .HasForeignKey(pt => pt.AssetId);
+
+            ////ItemsSuppliers
+            //builder.Entity<ItemSupplier>()
+            //    .HasKey(t => new { t.ItemId, t.SupplierId });
+
+            //builder.Entity<ItemSupplier>()
+            //    .HasOne(pt => pt.Item)
+            //    .WithMany(p => p.ItemFornitores)
+            //    .HasForeignKey(pt => pt.ItemId);
+
+            //builder.Entity<ItemSupplier>()
+            //    .HasOne(pt => pt.Supplier)
+            //    .WithMany(p => p.ItemSuppliers)
+            //    .HasForeignKey(pt => pt.SupplierId);
 
             //UserManutationStage
             builder.Entity<UserManutationStage>()

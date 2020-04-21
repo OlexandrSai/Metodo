@@ -28,6 +28,11 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
             await RepositoryContext.ToolTemps.AddAsync(value);
         }
 
+        public async Task AddMeasuringTool(MeasuringToolTemp value)
+        {
+            await RepositoryContext.MeasuringToolTemps.AddAsync(value);
+        }
+
         public async Task AddConsumable(ConsumableTemp value)
         {
             await RepositoryContext.ConsumableTemps.AddAsync(value);
@@ -81,6 +86,11 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
             allStagesByCategory = allStagesByCategory.Where(a => a.Active == true).ToList();
             return allStagesByCategory;
 
+        }
+
+        public async Task<List<string>> GetMeasuringNames()
+        {
+            return await RepositoryContext.MeasuringTools.OrderBy(a => a.Name).Select(a => a.Name).ToListAsync();
         }
     }
 }

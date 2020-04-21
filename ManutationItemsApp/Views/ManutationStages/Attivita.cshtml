@@ -10,6 +10,10 @@
     {
         ViewBag.Tools = stage.Tools;
     }
+    if (stage != null && stage.MeasuringTools != null && stage.MeasuringTools.Count() > 0)
+    {
+        ViewBag.MeasuringTools = stage.MeasuringTools;
+    }
     if (stage != null && stage.Items != null && stage.Items.Count() > 0)
     {
         ViewBag.Items = stage.Items;
@@ -64,7 +68,7 @@
                     </label>
                     <a><i class="fa fa-plus-square fa-lg"></i></a>
                     @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
-                        <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
                 </div>
                 <div class="form-group">
                     <label class="control-label">
@@ -103,7 +107,7 @@
                     </div>
                     <a data-toggle="modal" data-target="#attivitaConsumableModal"><i class="fa fa-plus-square fa-lg"></i></a>
                     @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
-                        <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
                 </div>
                 <div class="form-group">
                     <label class="control-label">
@@ -123,16 +127,26 @@
 
                     </div>
                     <a data-toggle="modal" data-target="#attivitaAttrezzaturaModal"><i class="fa fa-plus-square fa-lg"></i></a>
-                    @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
-                        <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
                 </div>
                 <div class="form-group">
                     <label class="control-label">
                         Strumento Misura:
                     </label>
-                    <a><i class="fa fa-plus-square fa-lg"></i></a>
-                    @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
-                        <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                    <div id="attivitaMeasuringList">
+                        @if (ViewBag.MeasuringTools != null)
+                        {
+                            @foreach (var item in ViewBag.MeasuringTools)
+                            {
+                                <div class="attivitaMeasuring">
+                                    <button type="button" class="btn btn-light">@item.Name<span class="badge badge-dark">@item.Count</span></button>
+                                    <button type="button" class="attivitaClose"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                            }
+                        }
+
+                    </div>
+                    <a data-toggle="modal" data-target="#attivitaMeasuringModal"><i class="fa fa-plus-square fa-lg"></i></a>
+
                 </div>
                 <div class="form-group">
                     <button id="pauseAttivita" asp-action="PauseAttivita" asp-controller="ManutationStages" class="btn btn-primary">Sospendi</button>
@@ -231,6 +245,36 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="attivitaMeasuringModal" tabindex="-1" role="dialog" aria-labelledby="attivitaMeasuringModal" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Strumento Misura:</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label class="control-label">Name:</label>
+                                    <select id="attivittaMeasuringName" class="form-control" asp-items="@ViewBag.MeasuringToolsNames">
+                                    </select>
+                                    <span class="text-danger">
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-form-label">Count:</label>
+                                    <input id="attivittaMeasuringCount" class="form-control" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="AddAttivitaMeasuring" class="btn btn-primary">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 }
@@ -245,7 +289,7 @@ else
             else
             {
                 <button type="button" class="btn btn-success mr-4" disabled>Attivita</button>
-                if (finished)
+                if (finished&&ViewBag.MasterView==true)
                 {
         <a asp-action="EditAttivita" asp-route-id="@Model.Id" asp-controller="ManutationStages"><i class="fa fa-marker fa-lg"></i></a>
                 }
@@ -379,8 +423,19 @@ else
                         Strumento Misura:
                     </label>
                     <a><i class="fa fa-plus-square fa-lg"></i></a>
-                    @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
-                        <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                    <div id="attivitaMeasuringList">
+                        @if (ViewBag.MeasuringTools != null)
+                        {
+                            @foreach (var item in ViewBag.MeasuringTools)
+                            {
+                                <div class="attivitaMeasuring">
+                                    <button type="button" class="btn btn-light">@item.Name<span class="badge badge-dark">@item.Count</span></button>
+                                    <button type="button" class="attivitaClose"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <a data-toggle="modal" data-target="#attivitaMeasuringModal"><i class="fa fa-plus-square fa-lg"></i></a>
                 </div>
             </form>
         </div>

@@ -47,8 +47,10 @@ namespace ManutationItemsApp.Controllers
         }
 
         // GET: Assets/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.suppliersNames = new SelectList(await _unitOfWork.SupplierRepository.GetSupplierNames());
+            ViewBag.errorCodesNames = await _unitOfWork.ErrorCodeRepository.GetAllNames();
             return PartialView();
         }
 
@@ -104,9 +106,31 @@ namespace ManutationItemsApp.Controllers
 
                 }
 
+                asset.FullName = asset.ModelName;
+                if (asset.Version!=null)
+                {
+                    asset.FullName += asset.Version;
+                }
+                if (asset.ManufacturerNumber != null)
+                {
+                    asset.FullName += asset.ManufacturerNumber;
+                }
 
                 _unitOfWork.AssetRepository.Create(asset);
                 await _unitOfWork.CommitAsync();
+
+                if (asset.ErrorCodes != null)
+                {
+                    List<AssetErrorCode> assetErrorCodes = new List<AssetErrorCode>();
+                    foreach (var item in asset.ErrorCodes)
+                    {
+                        ErrorCode code = await _unitOfWork.ErrorCodeRepository.GetCodeByNameAsync(item);
+                        assetErrorCodes.Add(new AssetErrorCode() { Asset = asset, AssetId = asset.Id, ErrorCode = code, ErrorCodeId = code.Id });
+                    }
+                    await _unitOfWork.AssetRepository.AddErrorCodes(assetErrorCodes);
+                    await _unitOfWork.CommitAsync();
+                }
+
                 return Redirect(nameof(Index));
             }
             catch (Exception ex)
@@ -149,12 +173,22 @@ namespace ManutationItemsApp.Controllers
             {
                 return NotFound();
             }
-
             var asset = await _unitOfWork.AssetRepository.FindByIdAsync(id.Value);
             if (asset == null)
             {
                 return NotFound();
             }
+
+            if (asset.Supplier!=null)
+            {
+                ViewBag.suppliersNames = new SelectList(await _unitOfWork.SupplierRepository.GetSupplierNames(), asset.Supplier.Name);
+            }
+            else
+            {
+                ViewBag.suppliersNames = new SelectList(await _unitOfWork.SupplierRepository.GetSupplierNames());
+            }
+            ViewBag.AllErrorCodesNames = await _unitOfWork.ErrorCodeRepository.GetAllNames();
+            ViewBag.assetErrorCodesNames = await _unitOfWork.AssetRepository.GetAssetErrorCodes(asset.Id);
             return PartialView(asset);
         }
 
@@ -163,34 +197,72 @@ namespace ManutationItemsApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Active,ModelName,Version,ManufacturerNumber,InternalIdentificationalCode,QRCode,NFC,BarCode,SerialNumber,YearOfManufacture,TestDate,CommissioningDate,HourConterAtcommissioning,WarrantyExpiresDate,WorkingHoursCount,Name,Characteristics,Function,Note,Location,GeneralMachineZone,DetailedMachineZone,ErrorCode,InstructionsForUse,MaintanceInstructions,DeclarationOfConformity,Schemes,ItemsListFile,TechnicalInformation,BestPracticeExperience,IntalledQuantity,CountAtWarehouse,Deterioration,Size,ConsumptionSpeed,HandlingWay,SecurityLevelLs,ReorderLevelLr,OptimalPurchaseQuantity")] Asset asset)
+        public async Task<IActionResult> Edit(int id, Asset asset)
         {
-            if (id != asset.Id)
+            try
             {
-                return NotFound();
-            }
+                if (id != asset.Id)
+                {
+                    return NotFound();
+                }
 
-            if (ModelState.IsValid)
-            {
-                try
+                if (ModelState.IsValid)
                 {
-                    _unitOfWork.AssetRepository.Update(asset);
-                    await _unitOfWork.CommitAsync();
+                    try
+                    {
+                        asset.FullName = asset.ModelName;
+                        if (asset.Version != null)
+                        {
+                            asset.FullName += asset.Version;
+                        }
+                        if (asset.ManufacturerNumber != null)
+                        {
+                            asset.FullName += asset.ManufacturerNumber;
+                        }
+
+                        _unitOfWork.AssetRepository.Update(asset);
+                        await _unitOfWork.CommitAsync();
+
+                        if (asset.SupplierName != null)
+                        {
+                            asset.Supplier = await _unitOfWork.SupplierRepository.FindByName(asset.SupplierName);
+                        }
+                        await _unitOfWork.CommitAsync();
+
+                        if (asset.ErrorCodes != null)
+                        {
+                            List<AssetErrorCode> assetErrorCodes = new List<AssetErrorCode>();
+                            foreach (var item in asset.ErrorCodes)
+                            {
+                                ErrorCode code = await _unitOfWork.ErrorCodeRepository.GetCodeByNameAsync(item);
+                                assetErrorCodes.Add(new AssetErrorCode() { Asset = asset, AssetId = asset.Id, ErrorCode = code, ErrorCodeId = code.Id });
+                            }
+                            await _unitOfWork.AssetRepository.AddErrorCodes(assetErrorCodes);
+                            await _unitOfWork.CommitAsync();
+                        }
+
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        //if (!await AssetExists(asset.Id))
+                        //{
+                        //    return NotFound();
+                        //}
+                        //else
+                        //{
+                        //    throw;
+                        //}
+                    }
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    //if (!await AssetExists(asset.Id))
-                    //{
-                    //    return NotFound();
-                    //}
-                    //else
-                    //{
-                    //    throw;
-                    //}
-                }
-                return RedirectToAction(nameof(Index));
+                return PartialView(asset);
             }
-            return PartialView(asset);
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
         }
 
         // GET: Assets/Delete/5

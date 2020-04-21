@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace ManutationItemsApp.Domain.Entities
@@ -20,6 +22,9 @@ namespace ManutationItemsApp.Domain.Entities
         public string FullName { get; set; }
 
         public string InternalIdentificationalCode { get; set; }
+        [NotMapped]
+        [Required]
+        public string SupplierName { get; set; }
 
         public byte[] QRCode { get; set; }
         public byte[] NFC { get; set; }
@@ -45,14 +50,15 @@ namespace ManutationItemsApp.Domain.Entities
 
         public string Note { get; set; }
 
-        public string Location { get; set; }
+        //public string Location { get; set; }
 
-        public string GeneralMachineZone { get; set; }
+        //public string GeneralMachineZone { get; set; }
 
-        public string DetailedMachineZone { get; set; }
+        //public string DetailedMachineZone { get; set; }
 
         // in future must be link to ErrorCode table
-        public string ErrorCode { get; set; }
+        [NotMapped]
+        public List<string> ErrorCodes { get; set; }
         public IEnumerable<AssetFile> Files { get; set; }
 
         //public IEnumerable<File> InstructionsForUse { get; set; }
@@ -86,6 +92,8 @@ namespace ManutationItemsApp.Domain.Entities
         //public virtual ItemType ItemType { get; set; }
         //public virtual IEnumerable<ItemCreator> ItemCreators { get; set; }
         public virtual IEnumerable<Manutation> Manutations { get; set; }
+        public virtual Supplier Supplier { get; set; }
         public virtual IEnumerable<AssetItem> AssetsItems { get; set; }
+        public virtual IEnumerable<AssetErrorCode> AssetsErrorCodes { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace ManutationItemsApp.Domain.Entities
         [NotMapped]
         public List<string> AssetsNames { get; set; }
         [NotMapped]
-        public List<string> SupplierNames { get; set; }
+        public string SupplierNames { get; set; }
 
         //[Required]
 
@@ -44,6 +44,7 @@ namespace ManutationItemsApp.Domain.Entities
         public string DescriptionItalian { get; set; }
 
         public string DescriptionOriginal { get; set; }
+        public string Model { get; set; }
 
         public string Characteristics { get; set; }
 
@@ -90,7 +91,7 @@ namespace ManutationItemsApp.Domain.Entities
 
         public virtual Asset Parent { get; set; }
         public virtual ItemType ItemType { get; set; }
-        public virtual IEnumerable<ItemSupplier> ItemFornitores { get; set; }
+        public virtual Supplier Supplier { get; set; }
         public virtual IEnumerable<AssetItem> AssetsItems { get; set; }
         //public virtual IEnumerable<ManutationStageItem> ManutationStageItems { get; set; }
     }

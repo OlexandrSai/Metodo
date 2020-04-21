@@ -18,7 +18,7 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
 
         public async Task<List<string>> GetAllNames()
         {
-            return await RepositoryContext.ErrorCodes.OrderBy(a=>a.Name).Select(e => e.Name).ToListAsync();
+            return await RepositoryContext.ErrorCodes.Where(a=>a.NotToDisplay==false).OrderBy(a=>a.Name).Select(e => e.Name).ToListAsync();
         }
 
         public async Task<List<string>> GetAllFaultTypes()

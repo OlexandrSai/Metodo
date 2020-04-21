@@ -20,6 +20,7 @@ namespace ManutationItemsApp.DAL.Contracts
 
         IManutationStageRepository ManutationStageRepository { get; }
         IToolRepository ToolRepository { get; }
+        IMeasuringToolRepository MeasuringToolRepository { get; }
         IConsumableRepository ConsumableRepository { get; }
         IStatusRepository StatusRepository { get; }
         ISupplierRepository SupplierRepository { get; set; }

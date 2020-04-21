@@ -17,6 +17,7 @@ namespace ManutationItemsApp.DAL.Contracts.Repositories
 
         public Task<List<Manutation>> GetHistoricalManutationsWithTimelines();
         public List<Manutation> GetManutationsWithTimelinesById(string id);
+        public List<Manutation> GetManutationsWithTimelinesByIdHistorical(string id);
         public Task<Manutation> GetManutation(int id);
         public Task<List<Manutation>> FindAllNeededToAssign();
         public Task<int> GetAllNeededToValidateCount();

@@ -85,6 +85,7 @@ namespace ManutationItemsApp
             services.AddScoped<IAssetFileRepository, AssetFileRepository>();
             services.AddScoped<IItemFileRepository, ItemFileRepository>();
             services.AddScoped<IAssetItemRepository, AssetItemRepository>();
+            services.AddScoped<IMeasuringToolRepository, MeasuringToolRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 

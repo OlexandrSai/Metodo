@@ -72,6 +72,7 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
         {
             return await RepositoryContext.Assets
                 .Include(a => a.Files)
+                .Include(a=>a.Supplier)
                 //.Include(a=>a.InstructionsForUse)
                 //.Include(a => a.MaintanceInstructions)
                 //.Include(a => a.DeclarationOfConformity)
@@ -103,6 +104,21 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
         }
 
         //public void AddFiles()
+             public async Task AddErrorCodes(List<AssetErrorCode> assetErrorCodes)
+        {
+            RepositoryContext.AssetErrorCodes.RemoveRange(RepositoryContext.AssetErrorCodes.Where(a => a.AssetId == assetErrorCodes[0].AssetId));
+            await RepositoryContext.AssetErrorCodes.AddRangeAsync(assetErrorCodes);
+        }
 
+        public async Task ChangeErrorCodes(List<AssetErrorCode> newAssets, int id)
+        {
+            RepositoryContext.AssetErrorCodes.RemoveRange(RepositoryContext.AssetErrorCodes.Where(a => a.AssetId == id));
+            await RepositoryContext.AssetErrorCodes.AddRangeAsync(newAssets);
+        }
+
+        public async Task<List<string>> GetAssetErrorCodes(int id)
+        {
+            return await  RepositoryContext.AssetErrorCodes.Where(a => a.AssetId == id).Select(a => a.ErrorCode.Name).ToListAsync();
+        }
     }
 }

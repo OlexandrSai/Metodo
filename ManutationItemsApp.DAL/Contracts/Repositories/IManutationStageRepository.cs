@@ -10,6 +10,7 @@ namespace ManutationItemsApp.DAL.Contracts.Repositories
     {
         public Task CreateNew(ManutationStage mstage);
         public  Task AddTool(ToolTemp value);
+        public Task AddMeasuringTool(MeasuringToolTemp value);
         public  Task AddConsumable(ConsumableTemp value);
         public Task AddItem(ItemTemp value);
         
@@ -17,6 +18,7 @@ namespace ManutationItemsApp.DAL.Contracts.Repositories
         public Task<List<ManutationStage>> GetAllUserManutationStages(string userId);
         public Task<List<string>> GetAllToolsNames();
         public Task<List<string>> GetAllConsumablesNames();
+        public Task<List<string>> GetMeasuringNames();
         public Task<List<string>> GetAllItemsNames(string modelName);
 
     }

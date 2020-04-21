@@ -155,6 +155,150 @@ namespace ManutationItemsApp.Controllers
                 throw;
             }
         }
+
+        public async Task<IActionResult> GetAllAssigned(string stageFilter = null, string statusFilter = null)
+        {
+            try
+            {
+                if (stageFilter == "clear")
+                {
+                    stageFilterPrev = null;
+                    stageFilter = null;
+                }
+                if (statusFilter == "clear")
+                {
+                    statusFilterPrev = null;
+                    statusFilter = null;
+                }
+                List<Manutation> model = await _unitOfWork.ManutationRepository.FindAllNeededToAssign();
+                ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames());
+                ViewBag.Stages = new string[] { "Check In", "Attivita", "Check Out" };
+                ViewBag.Statuses = new string[] { "Assigned", "Started", "Paused", "Finished" };
+                //ViewBag.mTypesNames = new SelectList(await _unitOfWork.ManutationTypeRepository.GetAllManutationTypesNames());
+
+                if (stageFilter != null && stageFilter != "null")
+                {
+
+                    var arr = stageFilter.Split(",").ToList();
+                    model = model.Where(a => arr.Any(b => b == a.ActiveStageName)).ToList();
+
+                    ViewBag.stageFilter = arr.ToList();
+                }
+                if (statusFilter != null && statusFilter != "null")
+                {
+
+                    var arr = statusFilter.Split(",").ToList();
+                    model = model.Where(a => arr.Any(b => b == a.ActiveStageStatus)).ToList();
+
+                    ViewBag.statusFilter = arr.ToList();
+                }
+
+
+                return PartialView("AllAssigned",model);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public async Task<IActionResult> AllMasterManutations(string stageFilter = null, string statusFilter = null)
+        {
+            try
+            {
+                if (stageFilter == "clear")
+                {
+                    stageFilterPrev = null;
+                    stageFilter = null;
+                }
+                if (statusFilter == "clear")
+                {
+                    statusFilterPrev = null;
+                    statusFilter = null;
+                }
+                List<Manutation> model = _unitOfWork.ManutationRepository.GetManutationsWithTimelinesById(_userManager.GetUserId(User));
+                ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames());
+                ViewBag.Stages = new string[] { "Check In", "Attivita", "Check Out" };
+                ViewBag.Statuses = new string[] { "Assigned", "Started", "Paused", "Finished" };
+                //ViewBag.mTypesNames = new SelectList(await _unitOfWork.ManutationTypeRepository.GetAllManutationTypesNames());
+
+                if (stageFilter != null && stageFilter != "null")
+                {
+
+                    var arr = stageFilter.Split(",").ToList();
+                    model = model.Where(a => arr.Any(b => b == a.ActiveStageName)).ToList();
+
+                    ViewBag.stageFilter = arr.ToList();
+                }
+                if (statusFilter != null && statusFilter != "null")
+                {
+
+                    var arr = statusFilter.Split(",").ToList();
+                    model = model.Where(a => arr.Any(b => b == a.ActiveStageStatus)).ToList();
+
+                    ViewBag.statusFilter = arr.ToList();
+                }
+
+
+                return PartialView("AllMasterManutations",model);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IActionResult> AssignToMe(int id)
+        {
+            try
+            {
+                ViewBag.Stages = new string[] { "Check In", "Attivita", "Check Out" };
+                ViewBag.Statuses = new string[] { "Assigned", "Started", "Paused", "Finished" };
+                var user = await _unitOfWork.ApplicationUserRepository.GetUserByNameAsync(User.Identity.Name);
+                var manutation = await _unitOfWork.ManutationRepository.GetManutation(id);
+                DateTime date = DateTime.Now;
+
+                ManutationStage manutationNextStage = new ManutationStage()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Description = manutation.BaseDescription,
+                    StartDate = date,
+                    Name = "Request",
+                    Manutation = manutation,
+                    Active = true
+                };
+
+                Status checkInAssigned = new Status()
+                {
+                    Active = true,
+                    Name = "Assigned",
+                    StartDate = date,
+                    ManutationStage = manutationNextStage
+                };
+
+                await _unitOfWork.ManutationStageRepository.CreateNew(manutationNextStage);
+                await _unitOfWork.CommitAsync();
+
+                _unitOfWork.StatusRepository.Create(checkInAssigned);
+                await _unitOfWork.CommitAsync();
+
+                _unitOfWork.UserManutationsStagesRepository.CreateNewAsync(user, manutationNextStage);
+                await _unitOfWork.CommitAsync();
+
+                manutation.NeedToAssign = false;
+                manutation.NotToDiplay = false;
+                await _unitOfWork.CommitAsync();
+
+                var model = await _unitOfWork.ManutationRepository.FindAllNeededToAssign();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
         public async Task<IActionResult> Administration()
         {
             try
@@ -234,9 +378,14 @@ namespace ManutationItemsApp.Controllers
 
 
                 var model = await _unitOfWork.ManutationRepository.GetManutation(id);
+                if (User.IsInRole("Master"))
+                {
+                    ViewBag.MasterView = true;
+                }
                 ViewBag.ItemsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllItemsNames(model.Asset.ModelName));
                 ViewBag.ToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllToolsNames());
                 ViewBag.ConsumablesNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllConsumablesNames());
+                ViewBag.MeasuringToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetMeasuringNames());
                 ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames(), model.ErrorCode.Name);
                 ViewBag.FaultTypeName = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllFaultTypes(), model.TypeOfFault.Name);
 
@@ -259,6 +408,7 @@ namespace ManutationItemsApp.Controllers
                 ViewBag.ItemsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllItemsNames(model.Asset.ModelName));
                 ViewBag.ToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllToolsNames());
                 ViewBag.ConsumablesNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllConsumablesNames());
+                ViewBag.MeasuringToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetMeasuringNames());
                 ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames(), model.ErrorCode.Name);
                 ViewBag.FaultTypeName = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllFaultTypes(), model.TypeOfFault.Name);
 
@@ -280,6 +430,7 @@ namespace ManutationItemsApp.Controllers
                 ViewBag.ItemsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllItemsNames(manutation.Asset.ModelName));
                 ViewBag.ToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllToolsNames());
                 ViewBag.ConsumablesNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllConsumablesNames());
+                ViewBag.MeasuringToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetMeasuringNames());
                 ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames(), manutation.ErrorCode.Name);
                 ViewBag.FaultTypeName = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllFaultTypes(), manutation.TypeOfFault.Name);
                 if (manutation.ManutationStages.FirstOrDefault(a => a.Name == stageName) != null
@@ -514,6 +665,7 @@ namespace ManutationItemsApp.Controllers
                 ViewBag.ItemsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllItemsNames(manutation.Asset.ModelName));
                 ViewBag.ToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllToolsNames());
                 ViewBag.ConsumablesNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllConsumablesNames());
+                ViewBag.MeasuringToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetMeasuringNames());
                 ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames(), manutation.ErrorCode.Name);
                 ViewBag.FaultTypeName = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllFaultTypes(), manutation.TypeOfFault.Name);
 
@@ -591,7 +743,18 @@ namespace ManutationItemsApp.Controllers
 
                 if (model.MeasuringTools.Count > 0)
                 {
-
+                    foreach (var item in model.MeasuringTools)
+                    {
+                        if (stage.MeasuringTools.Count(a => a.Name == item.Key) > 0)
+                        {
+                            stage.MeasuringTools.First(a => a.Name == item.Key).Count = item.Value.ToString();
+                        }
+                        else
+                        {
+                            var tool = _unitOfWork.MeasuringToolRepository.FindByCondition(a => a.Name == item.Key).First();
+                            await _unitOfWork.ManutationStageRepository.AddMeasuringTool(new MeasuringToolTemp() { Id = Guid.NewGuid().ToString(), ManutationStage = stage, Name = tool.Name, Count = item.Value.ToString() });
+                        }
+                    }
                 }
                 await _unitOfWork.CommitAsync();
 
@@ -614,6 +777,7 @@ namespace ManutationItemsApp.Controllers
                 ViewBag.ItemsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllItemsNames(manutation.Asset.ModelName));
                 ViewBag.ToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllToolsNames());
                 ViewBag.ConsumablesNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllConsumablesNames());
+                ViewBag.MeasuringToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetMeasuringNames());
                 ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames(), manutation.ErrorCode.Name);
                 ViewBag.FaultTypeName = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllFaultTypes(), manutation.TypeOfFault.Name);
 
@@ -702,7 +866,18 @@ namespace ManutationItemsApp.Controllers
 
                 if (model.MeasuringTools.Count > 0)
                 {
-
+                    foreach (var item in model.MeasuringTools)
+                    {
+                        if (stage.MeasuringTools.Count(a => a.Name == item.Key) > 0)
+                        {
+                            stage.MeasuringTools.First(a => a.Name == item.Key).Count = item.Value.ToString();
+                        }
+                        else
+                        {
+                            var tool = _unitOfWork.MeasuringToolRepository.FindByCondition(a => a.Name == item.Key).First();
+                            await _unitOfWork.ManutationStageRepository.AddMeasuringTool(new MeasuringToolTemp() { Id = Guid.NewGuid().ToString(), ManutationStage = stage, Name = tool.Name, Count = item.Value.ToString() });
+                        }
+                    }
                 }
                 await _unitOfWork.CommitAsync();
 
@@ -722,6 +897,7 @@ namespace ManutationItemsApp.Controllers
             ViewBag.ItemsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllItemsNames(model.Asset.ModelName));
             ViewBag.ToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllToolsNames());
             ViewBag.ConsumablesNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllConsumablesNames());
+            ViewBag.MeasuringToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetMeasuringNames());
             //var model = manutation.ManutationStages.First(a => a.Name == "Check In");
             return View("EditAttivita", model);
         }
@@ -736,6 +912,7 @@ namespace ManutationItemsApp.Controllers
                 ViewBag.ItemsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllItemsNames(manutation.Asset.ModelName));
                 ViewBag.ToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllToolsNames());
                 ViewBag.ConsumablesNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllConsumablesNames());
+                ViewBag.MeasuringToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetMeasuringNames());
                 ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames(), manutation.ErrorCode.Name);
                 ViewBag.FaultTypeName = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllFaultTypes(), manutation.TypeOfFault.Name);
 
@@ -807,7 +984,18 @@ namespace ManutationItemsApp.Controllers
 
                 if (model.MeasuringTools.Count > 0)
                 {
-
+                    foreach (var item in model.MeasuringTools)
+                    {
+                        if (stage.MeasuringTools.Count(a => a.Name == item.Key) > 0)
+                        {
+                            stage.MeasuringTools.First(a => a.Name == item.Key).Count = item.Value.ToString();
+                        }
+                        else
+                        {
+                            var tool = _unitOfWork.MeasuringToolRepository.FindByCondition(a => a.Name == item.Key).First();
+                            await _unitOfWork.ManutationStageRepository.AddMeasuringTool(new MeasuringToolTemp() { Id = Guid.NewGuid().ToString(), ManutationStage = stage, Name = tool.Name, Count = item.Value.ToString() });
+                        }
+                    }
                 }
                 await _unitOfWork.CommitAsync();
 
@@ -834,6 +1022,7 @@ namespace ManutationItemsApp.Controllers
                 ViewBag.ItemsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllItemsNames(manutation.Asset.ModelName));
                 ViewBag.ToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllToolsNames());
                 ViewBag.ConsumablesNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllConsumablesNames());
+                ViewBag.MeasuringToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetMeasuringNames());
                 ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames(), manutation.ErrorCode.Name);
                 ViewBag.FaultTypeName = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllFaultTypes(), manutation.TypeOfFault.Name);
 
@@ -890,7 +1079,18 @@ namespace ManutationItemsApp.Controllers
 
                 if (model.MeasuringTools.Count > 0)
                 {
-
+                    foreach (var item in model.MeasuringTools)
+                    {
+                        if (stage.MeasuringTools.Count(a => a.Name == item.Key) > 0)
+                        {
+                            stage.MeasuringTools.First(a => a.Name == item.Key).Count = item.Value.ToString();
+                        }
+                        else
+                        {
+                            var tool = _unitOfWork.MeasuringToolRepository.FindByCondition(a => a.Name == item.Key).First();
+                            await _unitOfWork.ManutationStageRepository.AddMeasuringTool(new MeasuringToolTemp() { Id = Guid.NewGuid().ToString(), ManutationStage = stage, Name = tool.Name, Count = item.Value.ToString() });
+                        }
+                    }
                 }
                 await _unitOfWork.CommitAsync();
 
@@ -969,7 +1169,18 @@ namespace ManutationItemsApp.Controllers
 
                 if (model.MeasuringTools.Count > 0)
                 {
-
+                    foreach (var item in model.MeasuringTools)
+                    {
+                        if (stage.MeasuringTools.Count(a => a.Name == item.Key) > 0)
+                        {
+                            stage.MeasuringTools.First(a => a.Name == item.Key).Count = item.Value.ToString();
+                        }
+                        else
+                        {
+                            var tool = _unitOfWork.MeasuringToolRepository.FindByCondition(a => a.Name == item.Key).First();
+                            await _unitOfWork.ManutationStageRepository.AddMeasuringTool(new MeasuringToolTemp() { Id = Guid.NewGuid().ToString(), ManutationStage = stage, Name = tool.Name, Count = item.Value.ToString() });
+                        }
+                    }
                 }
                 await _unitOfWork.CommitAsync();
 
@@ -1043,6 +1254,7 @@ namespace ManutationItemsApp.Controllers
                 ViewBag.ItemsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllItemsNames(model.Asset.ModelName));
                 ViewBag.ToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllToolsNames());
                 ViewBag.ConsumablesNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllConsumablesNames());
+                ViewBag.MeasuringToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetMeasuringNames());
                 ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames(), model.ErrorCode.Name);
                 ViewBag.FaultTypeName = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllFaultTypes(), model.TypeOfFault.Name);
 
@@ -1089,6 +1301,7 @@ namespace ManutationItemsApp.Controllers
                 ViewBag.ItemsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllItemsNames(manutation.Asset.ModelName));
                 ViewBag.ToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllToolsNames());
                 ViewBag.ConsumablesNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllConsumablesNames());
+                ViewBag.MeasuringToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetMeasuringNames());
                 ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames(), manutation.ErrorCode.Name);
                 ViewBag.FaultTypeName = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllFaultTypes(), manutation.TypeOfFault.Name);
 
@@ -1158,8 +1371,21 @@ namespace ManutationItemsApp.Controllers
                     }
                 }
 
-                //if (model.MeasuringTools.Count > 0)
-                //{
+                if (model.AttivitaMeasuringTools.Count > 0)
+                {
+                    foreach (var item in model.AttivitaMeasuringTools)
+                    {
+                        if (stage.MeasuringTools.Count(a => a.Name == item.Key) > 0)
+                        {
+                            stage.MeasuringTools.First(a => a.Name == item.Key).Count = item.Value.ToString();
+                        }
+                        else
+                        {
+                            var tool = _unitOfWork.MeasuringToolRepository.FindByCondition(a => a.Name == item.Key).First();
+                            await _unitOfWork.ManutationStageRepository.AddMeasuringTool(new MeasuringToolTemp() { Id = Guid.NewGuid().ToString(), ManutationStage = stage, Name = tool.Name, Count = item.Value.ToString() });
+                        }
+                    }
+                }
 
                 //}
                 await _unitOfWork.CommitAsync();

@@ -222,7 +222,7 @@
                 </div>
                 <a data-toggle="modal" data-target="#attivitaConsumableModal"><i class="fa fa-plus-square fa-lg"></i></a>
                 @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
-                    <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
             </div>
             <div class="form-group">
                 <label class="control-label">
@@ -245,8 +245,19 @@
             <div class="form-group">
                 <label class="control-label">
                     Strumento Misura:
-                </label>
-                <a><i class="fa fa-plus-square fa-lg"></i></a>
+                </label><div id="attivitaMdcList">
+                    @if (ViewBag.attivitaMeasuring != null)
+                    {
+                        @foreach (var item in ViewBag.attivitaMeasuring)
+                        {
+                            <div class="attivitaMeasuring">
+                                <button type="button" class="btn btn-light">@item.Name<span class="badge badge-dark">@item.Count</span></button>
+                            </div>
+                        }
+                    }
+
+                </div>
+                <a data-toggle="modal" data-target="#attivitaMeasuringModal"><i class="fa fa-plus-square fa-lg"></i></a>
             </div>
         </form>
 
@@ -341,6 +352,37 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="attivitaMeasuringModal" tabindex="-1" role="dialog" aria-labelledby="attivitaMeasuringModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Strumento Misura:</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label class="control-label">Name:</label>
+                                <select id="attivittaMeasuringName" class="form-control" asp-items="@ViewBag.MeasuringToolsNames">
+                                </select>
+                                <span class="text-danger">
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Count:</label>
+                                <input id="attivittaMeasuringCount" class="form-control" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="AddAttivitaMeasuring" class="btn btn-primary">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -384,7 +426,7 @@
                     </label>
                     <a><i class="fa fa-plus-square fa-lg"></i></a>
                     @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
-                        <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
                 </div>
                 <div class="form-group">
                     <label class="control-label">
@@ -404,16 +446,25 @@
 
                     </div>
                     <a data-toggle="modal" data-target="#checkOutAttrezzaturaModal"><i class="fa fa-plus-square fa-lg"></i></a>
-                    @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
-                        <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
                 </div>
                 <div class="form-group">
                     <label class="control-label">
                         Strumento Misura:
                     </label>
-                    <a><i class="fa fa-plus-square fa-lg"></i></a>
-                    @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
-                        <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                    <div id="checkOutMeasuringList">
+                        @if (ViewBag.MeasuringTools != null)
+                        {
+                            @foreach (var item in ViewBag.MeasuringTools)
+                            {
+                                <div class="checkOutMeasuring">
+                                    <button type="button" class="btn btn-light">@item.Name<span class="badge badge-dark">@item.Count</span></button>
+                                    <button type="button" class="checkOutClose"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                            }
+                        }
+
+                    </div>
+                    <a data-toggle="modal" data-target="#checkOutMeasuringModal"><i class="fa fa-plus-square fa-lg"></i></a>
                 </div>
             </form>
             <div class="modal fade" id="checkOutAttrezzaturaModal" tabindex="-1" role="dialog" aria-labelledby="checkOutAttrezzaturaModal" aria-hidden="true">
@@ -442,6 +493,37 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" id="AddCheckOutMdc" class="btn btn-primary">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="checkOutMeasuringModal" tabindex="-1" role="dialog" aria-labelledby="checkOutMeasuringModal" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Strumento Misura:</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label class="control-label">Name:</label>
+                                    <select id="checkOutMeasuringName" class="form-control" asp-items="@ViewBag.MeasuringToolsNames">
+                                    </select>
+                                    <span class="text-danger">
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-form-label">Count:</label>
+                                    <input id="checkOutMeasuringCount" class="form-control" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="AddCheckOutMeasuring" class="btn btn-primary">Add</button>
                         </div>
                     </div>
                 </div>

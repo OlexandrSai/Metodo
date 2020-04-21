@@ -14,5 +14,9 @@ namespace ManutationItemsApp.DAL.Contracts.Repositories
         public Task<List<string>> GetAssetNames();
         //public void Delete(Asset asset);
         public Task<bool> AssetExists(int id);
+        public Task AddErrorCodes(List<AssetErrorCode> assetErrorCodes);
+        public Task ChangeErrorCodes(List<AssetErrorCode> newAssets, int id);
+        public Task<List<string>> GetAssetErrorCodes(int id);
+
     }
 }

@@ -15,7 +15,7 @@ namespace ManutationItemsApp.DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.1")
+                .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -121,22 +121,13 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.Property<int>("CountAtWarehouse")
                         .HasColumnType("int");
 
-                    b.Property<string>("DetailedMachineZone")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("Deterioration")
                         .HasColumnType("bit");
-
-                    b.Property<string>("ErrorCode")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Function")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("GeneralMachineZone")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HandlingWay")
@@ -149,9 +140,6 @@ namespace ManutationItemsApp.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("InternalIdentificationalCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ManufacturerNumber")
@@ -187,6 +175,9 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.Property<string>("Size")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("SupplierId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("TestDate")
                         .HasColumnType("datetime2");
 
@@ -204,7 +195,24 @@ namespace ManutationItemsApp.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("SupplierId");
+
                     b.ToTable("Assets");
+                });
+
+            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.AssetErrorCode", b =>
+                {
+                    b.Property<int>("AssetId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ErrorCodeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AssetId", "ErrorCodeId");
+
+                    b.HasIndex("ErrorCodeId");
+
+                    b.ToTable("AssetErrorCodes");
                 });
 
             modelBuilder.Entity("ManutationItemsApp.Domain.Entities.AssetFile", b =>
@@ -325,6 +333,9 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("NotToDisplay")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.ToTable("ErrorCodes");
@@ -408,6 +419,9 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.Property<int?>("ItemTypeId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Model")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ModelFMECA")
                         .HasColumnType("nvarchar(max)");
 
@@ -438,6 +452,9 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.Property<string>("Size")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("SupplierId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SupplierItemCode")
                         .HasColumnType("nvarchar(max)");
 
@@ -458,6 +475,8 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.HasIndex("ItemTypeId");
 
                     b.HasIndex("ParentId");
+
+                    b.HasIndex("SupplierId");
 
                     b.ToTable("Items");
                 });
@@ -482,24 +501,6 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.HasIndex("ItemId");
 
                     b.ToTable("ItemFiles");
-                });
-
-            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.ItemSupplier", b =>
-                {
-                    b.Property<int>("ItemId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SupplierId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.HasKey("ItemId", "SupplierId");
-
-                    b.HasIndex("SupplierId");
-
-                    b.ToTable("ItemSuppliers");
                 });
 
             modelBuilder.Entity("ManutationItemsApp.Domain.Entities.ItemTemp", b =>
@@ -642,6 +643,45 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ManutationTypes");
+                });
+
+            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.MeasuringTool", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MeasuringTools");
+                });
+
+            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.MeasuringToolTemp", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Count")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ManutationStageId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ManutationStageId");
+
+                    b.ToTable("MeasuringToolTemps");
                 });
 
             modelBuilder.Entity("ManutationItemsApp.Domain.Entities.Status", b =>
@@ -927,6 +967,28 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.Asset", b =>
+                {
+                    b.HasOne("ManutationItemsApp.Domain.Entities.Supplier", "Supplier")
+                        .WithMany()
+                        .HasForeignKey("SupplierId");
+                });
+
+            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.AssetErrorCode", b =>
+                {
+                    b.HasOne("ManutationItemsApp.Domain.Entities.Asset", "Asset")
+                        .WithMany("AssetsErrorCodes")
+                        .HasForeignKey("AssetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ManutationItemsApp.Domain.Entities.ErrorCode", "ErrorCode")
+                        .WithMany("AssetsErrorCodes")
+                        .HasForeignKey("ErrorCodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ManutationItemsApp.Domain.Entities.AssetFile", b =>
                 {
                     b.HasOne("ManutationItemsApp.Domain.Entities.Asset", "Asset")
@@ -988,6 +1050,10 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.HasOne("ManutationItemsApp.Domain.Entities.Asset", "Parent")
                         .WithMany()
                         .HasForeignKey("ParentId");
+
+                    b.HasOne("ManutationItemsApp.Domain.Entities.Supplier", "Supplier")
+                        .WithMany("Items")
+                        .HasForeignKey("SupplierId");
                 });
 
             modelBuilder.Entity("ManutationItemsApp.Domain.Entities.ItemFile", b =>
@@ -996,21 +1062,6 @@ namespace ManutationItemsApp.DAL.Migrations
                         .WithMany("Files")
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.ItemSupplier", b =>
-                {
-                    b.HasOne("ManutationItemsApp.Domain.Entities.Item", "Item")
-                        .WithMany("ItemFornitores")
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ManutationItemsApp.Domain.Entities.Supplier", "Supplier")
-                        .WithMany("ItemSuppliers")
-                        .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("ManutationItemsApp.Domain.Entities.ItemTemp", b =>
@@ -1048,6 +1099,13 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.HasOne("ManutationItemsApp.Domain.Entities.Manutation", "Manutation")
                         .WithMany("ManutationStages")
                         .HasForeignKey("ManutationId");
+                });
+
+            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.MeasuringToolTemp", b =>
+                {
+                    b.HasOne("ManutationItemsApp.Domain.Entities.ManutationStage", "ManutationStage")
+                        .WithMany("MeasuringTools")
+                        .HasForeignKey("ManutationStageId");
                 });
 
             modelBuilder.Entity("ManutationItemsApp.Domain.Entities.Status", b =>

@@ -16,6 +16,11 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
         {
         }
 
+        public async Task<Supplier> FindByName(string name)
+        {
+            return await RepositoryContext.Suppliers.FirstAsync(a => a.Name == name);
+        }
+
         public async Task<List<string>> GetSupplierNames()
         {
             var list =  await RepositoryContext.Suppliers.OrderBy(a=>a.Name).ToListAsync();
