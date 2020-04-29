@@ -36,6 +36,7 @@ namespace ManutationItemsApp.DAL
         public DbSet<ItemTemp> ItemTemps { get; set; }
         public DbSet<ToolTemp> ToolTemps { get; set; }
         public DbSet<MeasuringToolTemp> MeasuringToolTemps { get; set; }
+        public DbSet<UserRolesRules> UserRolesRules { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

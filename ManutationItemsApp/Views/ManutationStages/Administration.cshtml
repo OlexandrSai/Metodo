@@ -3,9 +3,12 @@
         <div id="spinner" class="spinner-border text-primary" role="status" style="display:none;">
             <span class="sr-only">Loading...</span>
         </div>
-        <a id="getAllPending" asp-action="GetAllPending" asp-controller="ManutationStages" data-ajax="true" data-ajax-method="GET"><i class="fas fa-exclamation-triangle fa-lg mr-4" data-toggle="tooltip" data-placement="bottom" title="In attesa di convalida"></i></a>
+        @*<a id="getAllPending" asp-action="GetAllPending" asp-controller="ManutationStages" data-ajax="true" data-ajax-method="GET"><i class="fas fa-exclamation-triangle fa-lg mr-4" data-toggle="tooltip" data-placement="bottom" title="In attesa di convalida"></i></a>
         <a id="getAll" asp-action="AllManutations" asp-controller="ManutationStages"><i class="fas fa-archive fa-lg mr-4" data-toggle="tooltip" data-placement="bottom" title="Tutti attivi"></i></a>
-        <a id="getAllH" asp-action="AllManutations" asp-controller="ManutationStages" asp-route-historical="true"><i class="fa fa-trash fa-lg" data-toggle="tooltip" data-placement="bottom" title="Storico"></i></a>
+        <a id="getAllH" asp-action="AllManutations" asp-controller="ManutationStages" asp-route-historical="true"><i class="fa fa-trash fa-lg" data-toggle="tooltip" data-placement="bottom" title="Storico"></i></a>*@
+        <a><i class="fas fa-exclamation-triangle fa-lg mr-4" data-toggle="tooltip" data-placement="bottom" title="In attesa di convalida"></i></a>
+        <a><i class="fas fa-archive fa-lg mr-4" data-toggle="tooltip" data-placement="bottom" title="Tutti attivi"></i></a>
+        <a><i class="fa fa-trash fa-lg" data-toggle="tooltip" data-placement="bottom" title="Storico"></i></a>
     </div>
 
 <div id="manutations">

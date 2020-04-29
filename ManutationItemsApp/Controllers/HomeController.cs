@@ -31,6 +31,7 @@ namespace ManutationItemsApp.Controllers
             _roleManager = roleManager;
             _unitOfWork = unitOfWork;
         }
+        
 
         public async Task<IActionResult> Index()
         {

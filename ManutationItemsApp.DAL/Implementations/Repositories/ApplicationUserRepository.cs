@@ -74,5 +74,10 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
         {
             return await _userManager.FindByNameAsync(username);
         }
+
+        public async Task<UserRolesRules> GetUserRulesAsync(string roleId)
+        {
+            return await RepositoryContext.UserRolesRules.FirstAsync(a => a.IdentityRole.Id == roleId);
+        }
     }
 }

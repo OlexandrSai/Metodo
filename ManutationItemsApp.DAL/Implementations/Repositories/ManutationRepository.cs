@@ -23,30 +23,7 @@ namespace ManutationItemsApp.DAL.Repositories
 
         public async Task<List<Manutation>> GetAllManutationsWithTimelines()
         {
-            return await RepositoryContext.Manutations.Where(a => a.NotToDiplay == false)
-                .Include(a => a.Asset)
-                    .Include(a => a.Creator)
-                    .Include(a => a.ErrorCode)
-                    .Include(a => a.TypeOfFault)
-                    .Include(a => a.ManutationStages)
-                    .ThenInclude(a => a.UserManutationStages).OrderByDescending(a => a.DateOfCreation)
-                    .Include(a => a.ManutationStages)
-                    .ThenInclude(a => a.Statuses).OrderByDescending(a => a.DateOfCreation)
-                    .Include(a => a.ManutationStages)
-                    .ThenInclude(a => a.Items)
-                    .Include(a => a.ManutationStages)
-                    .ThenInclude(a => a.Tools)
-                    .Include(a => a.ManutationStages)
-                    .ThenInclude(a => a.Consumables)
-                    .ToListAsync();
-        }
-
-        public List<Manutation> GetManutationsWithTimelinesById(string id)
-        {
-            var manutationStages = RepositoryContext.UserManutationStages.Where(ms => ms.ApplicationUserId == id).Select(ms => ms.ManutationStageId);
-            var manutations = RepositoryContext.ManutationStages.Where(m => manutationStages.Any(c => c == m.Id)).Select(a => a.Manutation.Id);
-
-            return RepositoryContext.Manutations.Where(m => manutations.Any(a => a == m.Id) && m.ManutationStages.Where(d => d.Active == true).Count() > 0 && m.NotToDiplay == false)
+            return await RepositoryContext.Manutations.Where(m=> m.ManutationStages.Where(d => d.Active == true).Count() > 0 && m.NotToDiplay == false)
                 .Include(a => a.Asset)
                 .Include(a => a.Creator)
                 .Include(a => a.ErrorCode)
@@ -61,7 +38,33 @@ namespace ManutationItemsApp.DAL.Repositories
                 .ThenInclude(a => a.Tools)
                 .Include(a => a.ManutationStages)
                 .ThenInclude(a => a.Consumables)
-                .ToList();
+                .ToListAsync();
+        }
+
+        public async Task<List<Manutation>> GetManutationsWithTimelinesById(string id)
+        {
+            var manutationStages = RepositoryContext.UserManutationStages.Where(ms => ms.ApplicationUserId == id).Select(ms => ms.ManutationStageId);
+            var manutations = RepositoryContext.ManutationStages.Where(m => manutationStages.Any(c => c == m.Id)).Select(a => a.Manutation.Id);
+            //var result = new List<Manutation>();
+            //result.AddRange(await FindAllNeededToAssign());
+
+            return await RepositoryContext.Manutations.Where(m=>manutations.Any(a => a == m.Id) && m.ManutationStages.Where(d => d.Active == true).Count() > 0 && m.NotToDiplay == false)
+                .Include(a => a.Asset)
+                .Include(a => a.Creator)
+                .Include(a => a.ErrorCode)
+                .Include(a => a.TypeOfFault)
+                .Include(a => a.ManutationStages)
+                .ThenInclude(a => a.UserManutationStages).OrderByDescending(a => a.DateOfCreation)
+                .Include(a => a.ManutationStages)
+                .ThenInclude(a => a.Statuses).OrderByDescending(a => a.DateOfCreation)
+                .Include(a => a.ManutationStages)
+                .ThenInclude(a => a.Items)
+                .Include(a => a.ManutationStages)
+                .ThenInclude(a => a.Tools)
+                .Include(a => a.ManutationStages)
+                .ThenInclude(a => a.Consumables)
+                .ToListAsync();
+
         }
 
         public List<Manutation> GetManutationsWithTimelinesByIdHistorical(string id)
@@ -129,7 +132,7 @@ namespace ManutationItemsApp.DAL.Repositories
                .Include(a => a.Asset)
                .Include(a => a.Creator)
                .Include(a => a.ErrorCode)
-               .Include(a => a.ManutationType)
+               .Include(a => a.TypeOfFault)
                .Include(a => a.ManutationStages)
                .ThenInclude(a => a.UserManutationStages)
                .ToListAsync();
@@ -176,6 +179,31 @@ namespace ManutationItemsApp.DAL.Repositories
                    .Include(a => a.ManutationStages)
                    .ThenInclude(a => a.Consumables)
                    .ToListAsync();
+        }
+
+        public async Task<List<Manutation>> GetManutationsWithTimelinesByIdOnPause(string id)
+        {
+            var manutationStages = RepositoryContext.UserManutationStages.Where(ms => ms.ApplicationUserId == id).Select(ms => ms.ManutationStageId);
+            var manutations = RepositoryContext.ManutationStages.Where(m => manutationStages.Any(c => c == m.Id)).Select(a => a.Manutation.Id);
+       
+
+            return await RepositoryContext.Manutations.Where(m => manutations.Any(a => a == m.Id) && m.ManutationStages.Where(d => d.Active == true).Count() > 0 && m.NotToDiplay == false
+            && m.ManutationStages.First(l=>l.Active).Statuses.First(g=>g.Active).Name=="Paused")
+                .Include(a => a.Asset)
+                .Include(a => a.Creator)
+                .Include(a => a.ErrorCode)
+                .Include(a => a.TypeOfFault)
+                .Include(a => a.ManutationStages)
+                .ThenInclude(a => a.UserManutationStages).OrderByDescending(a => a.DateOfCreation)
+                .Include(a => a.ManutationStages)
+                .ThenInclude(a => a.Statuses).OrderByDescending(a => a.DateOfCreation)
+                .Include(a => a.ManutationStages)
+                .ThenInclude(a => a.Items)
+                .Include(a => a.ManutationStages)
+                .ThenInclude(a => a.Tools)
+                .Include(a => a.ManutationStages)
+                .ThenInclude(a => a.Consumables)
+                .ToListAsync();
         }
     }
 }
