@@ -177,5 +177,10 @@ namespace ManutationItemsApp.DAL.Repositories
                    .ThenInclude(a => a.Consumables)
                    .ToListAsync();
         }
+
+        public void showButton(string uderId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

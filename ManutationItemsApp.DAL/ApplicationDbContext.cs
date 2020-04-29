@@ -36,6 +36,10 @@ namespace ManutationItemsApp.DAL
         public DbSet<ItemTemp> ItemTemps { get; set; }
         public DbSet<ToolTemp> ToolTemps { get; set; }
         public DbSet<MeasuringToolTemp> MeasuringToolTemps { get; set; }
+
+        public DbSet<UserRules> UserRules { get; set; }
+
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -149,6 +153,8 @@ namespace ManutationItemsApp.DAL
             //    .HasOne(pt => pt.Tool)
             //    .WithMany(p => p.ManutationStageTools)
             //    .HasForeignKey(pt => pt.ManutationStageId);
+
+            
         }
     }
 }
