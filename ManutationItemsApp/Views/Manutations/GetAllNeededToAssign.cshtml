@@ -17,52 +17,78 @@
                 Descrizione originale
             </th>
             <th>
-                Creatore
+                Richiedente
             </th>
             <th>
                 Asset
             </th>
-            <th></th>
+            <th>
+                Tipologia Guasto
+            </th>
+            <th>
+                Stato
+            </th>
+            <th>
+                Motivo Pausa
+            </th>
+            <th>
+                Dettagli
+            </th>
+            <th>
+                Executore
+            </th>
         </tr>
     </thead>
     <tbody>
+        <tr style="text-align:center">
+            <td colspan="13">Da Assegnare</td>
+        </tr>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @if (item.IsFailure)
-                    {
-                        <button type="button" class="btn btn-danger rounded-circle" />
-                    }
-                    else if (item.IsCartolinaRossa)
-                    {
+        <tr>
+            <td>
+                @if (item.IsFailure)
+                {
+                    <button type="button" class="btn btn-danger rounded-circle" />
+                }
+                else if (item.IsCartolinaRossa)
+                {
 
-                    }
-                    else
-                    {
-                        <button type="button" class="btn btn-warning rounded-circle" />
-                    }
-                    @item.Id
-                </td>
-                <td>
-                    @item.DateOfCreation
-                </td>
-                <td>
-                    @item.BaseDescription
-                </td>
-                <td>
-                    @item.Creator.UserName
-                </td>
-                <td>
-                    @item.Asset.FullName
-                </td>
-                @*<td>
-                        <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#initializeModal-@item.Id" asp-action="Edit" asp-route-id="@item.Id">Initialize</a>
-                    </td>*@
+                }
+                else
+                {
+                    <button type="button" class="btn btn-warning rounded-circle" />
+                }
+                @item.Id
+            </td>
+            <td>
+                @item.DateOfCreation
+            </td>
+            <td>
+                @item.BaseDescription
+            </td>
+            <td>
+                @item.Creator.UserName
+            </td>
+            <td>
+                @item.Asset.FullName
+            </td>
+            <td>
+                @item.TypeOfFault.Name
+            </td>
+            <td>
+                Creato
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
             <td>
                 <button class="btn btn-primary assignBtn" data-toggle="modal" data-target="#assignModal" value="@item.Id">Assegnare</button>
             </td>
-            </tr>
+        </tr>
         }
     </tbody>
 </table>

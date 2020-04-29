@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ManutationItemsApp.DAL.Contracts.Repositories
 {
-    public interface IManutationRepository:IRepositoryBase<Manutation>
+    public interface IManutationRepository : IRepositoryBase<Manutation>
     {
         public Task<Manutation> FindByIdAsync(int id);
 
@@ -16,7 +16,9 @@ namespace ManutationItemsApp.DAL.Contracts.Repositories
         public Task<List<Manutation>> GetAllManutationsWithTimelines();
 
         public Task<List<Manutation>> GetHistoricalManutationsWithTimelines();
-        public List<Manutation> GetManutationsWithTimelinesById(string id);
+        public Task<List<Manutation>> GetManutationsWithTimelinesById(string id);
+
+        public Task<List<Manutation>> GetManutationsWithTimelinesByIdOnPause(string id);
         public List<Manutation> GetManutationsWithTimelinesByIdHistorical(string id);
         public Task<Manutation> GetManutation(int id);
         public Task<List<Manutation>> FindAllNeededToAssign();

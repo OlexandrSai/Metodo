@@ -1,0 +1,7 @@
+﻿@model ManutationItemsApp.Models.Manutations.ManutationViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+@{await Html.PartialAsync("OnPause",Model.toBeResumed);}

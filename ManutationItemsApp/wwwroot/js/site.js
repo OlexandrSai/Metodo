@@ -512,7 +512,7 @@ $(document).on('click', '.assignBtn', function (e) {
 
 $(document).on('click', '#assignUtente', function (e) {
     e.preventDefault();
-    window.location.href = '/Manutations/Assign?manutationId=' + $('#assignUtente').val() + '&userName=' + $('#utenteName').val();
+    window.location.href = '/ManutationStages/AssignTo?manutationId=' + $('#assignUtente').val() + '&userName=' + $('#utenteName').val();
 });
 
 function renewDisabled() {
