@@ -12,6 +12,8 @@ namespace ManutationItemsApp.Models.Manutations
         public List<Manutation> toBeInitialized { get; set; }
         public List<Manutation> onGoing { get; set; }
         public List<Manutation> needToAssign { get; set; }
+
+        public UserRolesRules UserRules { get; set; }
        
     }
 }

@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Diagnostics.CodeAnalysis;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
+using ManutationItemsApp.Models.Manutations;
 
 namespace ManutationItemsApp.Controllers
 {
@@ -98,9 +99,21 @@ namespace ManutationItemsApp.Controllers
             try
             {
                 //model.Manutations = get all manutations
-                    //model.UserRules = get user rules
-                List<Manutation> model = await _unitOfWork.ManutationRepository.GetManutationsWithTimelinesById(_userManager.GetUserId(User));
-                ViewBag.needToAssign=await _unitOfWork.ManutationRepository.FindAllNeededToAssign();
+                //model.UserRules = get user rules
+                List<Manutation> data = await _unitOfWork.ManutationRepository.GetAllManutationsWithTimelines();
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                var roles = await _userManager.GetRolesAsync(user);
+                var role = await _roleManager.FindByNameAsync(roles.First());
+
+                ManutationViewModel model = new ManutationViewModel();
+                model.toBeResumed = data.Where(a => a.ManutationStages.First(b => b.Active).Statuses.First(c => c.Active).Name == "Paused").ToList();
+                model.toBeInitialized = data.Where(a => a.ManutationStages.First(b => b.Active).Name == "Request"
+        && a.ManutationStages.First(c => c.Active).Statuses.First(d => d.Active).Name == "Assigned").ToList();
+                model.needToAssign = await _unitOfWork.ManutationRepository.FindAllNeededToAssign();
+                model.onGoing = data.Except(model.toBeResumed).Except(model.toBeInitialized).ToList();
+                model.UserRules = await _unitOfWork.ApplicationUserRepository.GetUserRulesAsync(role.Id);
+
+                ViewBag.freeMastersNames = new SelectList(await _unitOfWork.ApplicationUserRepository.GetAllFreeUsersNamesAsync());
                 ViewBag.allUsers = await _unitOfWork.ApplicationUserRepository.GetAllUsersAsync();
                 ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames());
                 ViewBag.Stages = new string[] { "Richiesta", "Check In", "Attivita", "Check Out" };
@@ -130,34 +143,43 @@ namespace ManutationItemsApp.Controllers
                     statusFilterPrev = null;
                     statusFilter = null;
                 }
-                List<Manutation> model = await _unitOfWork.ManutationRepository.GetManutationsWithTimelinesById(_userManager.GetUserId(User));
+
+                List<Manutation> data = await _unitOfWork.ManutationRepository.GetAllManutationsWithTimelines();
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 var roles = await _userManager.GetRolesAsync(user);
                 var role = await _roleManager.FindByNameAsync(roles.First());
-                ViewBag.Rules = await _unitOfWork.ApplicationUserRepository.GetUserRulesAsync(role.Id);
-                ViewBag.needToAssign = await _unitOfWork.ManutationRepository.FindAllNeededToAssign();
+
+                ManutationViewModel model = new ManutationViewModel();
+                model.toBeResumed = data.Where(a => a.ManutationStages.First(b => b.Active).Statuses.First(c => c.Active).Name == "Paused").ToList();
+                model.toBeInitialized = data.Where(a => a.ManutationStages.First(b => b.Active).Name == "Request"
+        && a.ManutationStages.First(c => c.Active).Statuses.First(d => d.Active).Name == "Assigned").ToList();
+                model.needToAssign = await _unitOfWork.ManutationRepository.FindAllNeededToAssign();
+                model.onGoing = data.Except(model.toBeResumed).Except(model.toBeInitialized).ToList();
+                model.UserRules = await _unitOfWork.ApplicationUserRepository.GetUserRulesAsync(role.Id);
+
+                ViewBag.freeMastersNames = new SelectList(await _unitOfWork.ApplicationUserRepository.GetAllFreeUsersNamesAsync());
                 ViewBag.allUsers = await _unitOfWork.ApplicationUserRepository.GetAllUsersAsync();
                 ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames());
                 ViewBag.Stages = new string[] { "Check In", "Attivita", "Check Out" };
                 ViewBag.Statuses = new string[] { "Assigned", "Started", "Paused", "Finished" };
                 //ViewBag.mTypesNames = new SelectList(await _unitOfWork.ManutationTypeRepository.GetAllManutationTypesNames());
 
-                if (stageFilter != null && stageFilter != "null")
-                {
+                //if (stageFilter != null && stageFilter != "null")
+                //{
 
-                    var arr = stageFilter.Split(",").ToList();
-                    model = model.Where(a => arr.Any(b => b == a.ActiveStageName)).ToList();
+                //    var arr = stageFilter.Split(",").ToList();
+                //    model = model.Where(a => arr.Any(b => b == a.ActiveStageName)).ToList();
 
-                    ViewBag.stageFilter = arr.ToList();
-                }
-                if (statusFilter != null && statusFilter != "null")
-                {
+                //    ViewBag.stageFilter = arr.ToList();
+                //}
+                //if (statusFilter != null && statusFilter != "null")
+                //{
 
-                    var arr = statusFilter.Split(",").ToList();
-                    model = model.Where(a => arr.Any(b => b == a.ActiveStageStatus)).ToList();
+                //    var arr = statusFilter.Split(",").ToList();
+                //    model = model.Where(a => arr.Any(b => b == a.ActiveStageStatus)).ToList();
 
-                    ViewBag.statusFilter = arr.ToList();
-                }
+                //    ViewBag.statusFilter = arr.ToList();
+                //}
 
 
                 return PartialView(model);

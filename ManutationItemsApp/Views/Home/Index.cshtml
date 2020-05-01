@@ -57,12 +57,12 @@
                 <div class="float-left">
                     @if (ViewBag.ManutationsToValidateCount > 0)
                     {
-                        <a type="button" class="btn btn-warning" asp-action="Administration" asp-controller="ManutationStages">Le mie attività <span class="badge badge-danger">@ViewBag.ManutationsToValidateCount</span></a>
+                        <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">Le mie attività <span class="badge badge-danger">@ViewBag.ManutationsToValidateCount</span></a>
 
                     }
                     else
                     {
-                        <a type="button" class="btn btn-warning" asp-action="Administration" asp-controller="ManutationStages">Le mie attività</a>
+                        <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">Le mie attività</a>
 
                     }
                 </div>
