@@ -41,5 +41,7 @@ namespace ManutationItemsApp.Domain.Entities
         public virtual IEnumerable<ManutationStage> ManutationStages { get; set; }
         public virtual ErrorCode ErrorCode { get; set; }
         public TypeOfFault TypeOfFault { get; set; }
+
+       
     }
 }

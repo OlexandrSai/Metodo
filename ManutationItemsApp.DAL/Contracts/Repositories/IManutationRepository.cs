@@ -25,5 +25,7 @@ namespace ManutationItemsApp.DAL.Contracts.Repositories
         public Task<int> GetAllNeededToValidateCount();
         public Task<List<Manutation>> GetAllPending();
 
+  
+
     }
 }
