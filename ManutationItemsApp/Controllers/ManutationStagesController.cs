@@ -36,7 +36,7 @@ namespace ManutationItemsApp.Controllers
         public DateTime AttivitaStartDate { get; set; }
         public DateTime? AttivitaEndDate { get; set; }
 
-        
+
         public string CheckOutDescription { get; set; }
         public Dictionary<string, int> CheckOutTools { get; set; }
         public Dictionary<string, int> CheckOutMeasuringTools { get; set; }
@@ -58,7 +58,7 @@ namespace ManutationItemsApp.Controllers
     {
         public int ManutationId { get; set; }
         public string Description { get; set; }
-        public Dictionary<string,int> SpareParts { get; set; }
+        public Dictionary<string, int> SpareParts { get; set; }
         public Dictionary<string, int> Consumables { get; set; }
         public Dictionary<string, int> Tools { get; set; }
         public Dictionary<string, int> MeasuringTools { get; set; }
@@ -279,7 +279,7 @@ namespace ManutationItemsApp.Controllers
                 }
 
 
-                return PartialView("AllAssigned",model);
+                return PartialView("AllAssigned", model);
             }
             catch (Exception ex)
             {
@@ -326,7 +326,7 @@ namespace ManutationItemsApp.Controllers
                 }
 
 
-                return PartialView("AllMasterManutations",model);
+                return PartialView("AllMasterManutations", model);
             }
             catch (Exception ex)
             {
@@ -438,9 +438,20 @@ namespace ManutationItemsApp.Controllers
         {
             try
             {
+                ManutationAdministrationViewModel model = new ManutationAdministrationViewModel();
+                List<Manutation> data = await _unitOfWork.ManutationRepository.GetAllPending();
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                var roles = await _userManager.GetRolesAsync(user);
+                var role = await _roleManager.FindByNameAsync(roles.First());
+                model.UserRules = await _unitOfWork.ApplicationUserRepository.GetUserRulesAsync(role.Id);
+                model.Manutations = data;
+
                 ViewBag.freeMastersNames = new SelectList(await _unitOfWork.ApplicationUserRepository.GetAllFreeUsersNamesAsync());
-                List<Manutation> model = await _unitOfWork.ManutationRepository.GetAllManutationsWithTimelines();
-                ViewBag.needToAssign = await _unitOfWork.ManutationRepository.FindAllNeededToAssign();
+                ViewBag.allUsers = await _unitOfWork.ApplicationUserRepository.GetAllUsersAsync();
+                ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames());
+                ViewBag.Stages = new string[] { "Check In", "Attivita", "Check Out" };
+                ViewBag.Statuses = new string[] { "Assigned", "Started", "Paused", "Finished" };
+
                 return View(model);
             }
             catch (Exception ex)
@@ -450,7 +461,7 @@ namespace ManutationItemsApp.Controllers
             }
         }
 
-        public async Task<IActionResult> AllManutations(bool historical = false,string stageFilter = null, string statusFilter = null)
+        public async Task<IActionResult> AllManutations(bool historical = false, string stageFilter = null, string statusFilter = null)
         {
             try
             {
@@ -475,7 +486,7 @@ namespace ManutationItemsApp.Controllers
                 {
                     model = await _unitOfWork.ManutationRepository.GetAllManutationsWithTimelines();
                 }
-               
+
                 ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames());
                 ViewBag.Stages = new string[] { "Check In", "Attivita", "Check Out" };
                 ViewBag.Statuses = new string[] { "Assigned", "Started", "Paused", "Finished" };
@@ -504,7 +515,7 @@ namespace ManutationItemsApp.Controllers
             catch (Exception ex)
             {
 
-                throw ex; 
+                throw ex;
             }
         }
 
@@ -535,6 +546,32 @@ namespace ManutationItemsApp.Controllers
             }
         }
 
+        public async Task<IActionResult> DetailsReadOnly(int id)
+        {
+            try
+            {
+
+
+                var model = await _unitOfWork.ManutationRepository.GetManutation(id);
+                if (User.IsInRole("Master"))
+                {
+                    ViewBag.MasterView = true;
+                }
+                ViewBag.ItemsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllItemsNames(model.Asset.ModelName));
+                ViewBag.ToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllToolsNames());
+                ViewBag.ConsumablesNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllConsumablesNames());
+                ViewBag.MeasuringToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetMeasuringNames());
+                ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames(), model.ErrorCode.Name);
+                ViewBag.FaultTypeName = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllFaultTypes(), model.TypeOfFault.Name);
+
+                return View("DetailsReadOnly", model);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
         public async Task<IActionResult> DetailsP(int id)
         {
             try
@@ -608,7 +645,7 @@ namespace ManutationItemsApp.Controllers
                         Name = stageName,
                         Manutation = manutation,
                         Active = true,
-                        Id=Guid.NewGuid().ToString()
+                        Id = Guid.NewGuid().ToString()
                     };
 
                     await _unitOfWork.ManutationStageRepository.CreateNew(stage);
@@ -622,7 +659,7 @@ namespace ManutationItemsApp.Controllers
                         ManutationStage = stage
                     };
 
-                    
+
 
                     _unitOfWork.StatusRepository.Create(status);
                     await _unitOfWork.CommitAsync();
@@ -643,7 +680,7 @@ namespace ManutationItemsApp.Controllers
 
         #region CheckIn
         [HttpPost]
-        public async Task<IActionResult> PauseCheckIn(int manutationId,string stageName,[FromBody] CheckIn model)
+        public async Task<IActionResult> PauseCheckIn(int manutationId, string stageName, [FromBody] CheckIn model)
         {
             try
             {
@@ -656,7 +693,7 @@ namespace ManutationItemsApp.Controllers
                 var Fault = await _unitOfWork.ErrorCodeRepository.GetFaultByName(model.CheckInFaultType);
                 var stage = manutation.ManutationStages.First(a => a.Active);
                 stage.Description = model.CheckInDescription;
-                if (stage.StartDate!=model.CheckInStartDate)
+                if (stage.StartDate != model.CheckInStartDate)
                 {
                     stage.StartDate = model.CheckInStartDate;
                 }
@@ -681,7 +718,7 @@ namespace ManutationItemsApp.Controllers
                 _unitOfWork.StatusRepository.Create(status);
                 await _unitOfWork.CommitAsync();
 
-                return Json(new { success = true, Url = Url.Action("Details", manutation.Id)});
+                return Json(new { success = true, Url = Url.Action("Details", manutation.Id) });
 
 
             }
@@ -713,7 +750,7 @@ namespace ManutationItemsApp.Controllers
             {
                 stage.StartDate = model.CheckInStartDate;
             }
-            if (model.CheckInEndDate==null)
+            if (model.CheckInEndDate == null)
             {
                 stage.EndDate = now;
             }
@@ -742,9 +779,9 @@ namespace ManutationItemsApp.Controllers
 
             return Json(new { success = true, Url = Url.Action("Details", manutation.Id) });
         }
-       
 
-        
+
+
         public async Task<ActionResult> EditCheckIn(int id)
         {
             var model = await _unitOfWork.ManutationRepository.GetManutation(id);
@@ -764,7 +801,7 @@ namespace ManutationItemsApp.Controllers
 
             var errorCode = await _unitOfWork.ErrorCodeRepository.GetCodeByNameAsync(model.CheckInErrorCode);
             var Fault = await _unitOfWork.ErrorCodeRepository.GetFaultByName(model.CheckInFaultType);
-            var stage = manutation.ManutationStages.First(a => a.Name=="Check In");
+            var stage = manutation.ManutationStages.First(a => a.Name == "Check In");
             stage.Description = model.CheckInDescription;
             manutation.ErrorCode = errorCode;
             manutation.TypeOfFault = Fault;
@@ -834,7 +871,7 @@ namespace ManutationItemsApp.Controllers
                 {
                     foreach (var item in model.Consumables)
                     {
-                        if (stage.Consumables.Count(a=>a.Name==item.Key)>0)
+                        if (stage.Consumables.Count(a => a.Name == item.Key) > 0)
                         {
                             stage.Consumables.First(a => a.Name == item.Key).Count = item.Value.ToString();
                         }
@@ -1053,7 +1090,7 @@ namespace ManutationItemsApp.Controllers
                 ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames(), manutation.ErrorCode.Name);
                 ViewBag.FaultTypeName = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllFaultTypes(), manutation.TypeOfFault.Name);
 
-                var stage = manutation.ManutationStages.First(a => a.Name=="Attivita");
+                var stage = manutation.ManutationStages.First(a => a.Name == "Attivita");
                 stage.Description = model.Description;
                 DateTime now = DateTime.Now;
 
@@ -1406,7 +1443,7 @@ namespace ManutationItemsApp.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Validate([FromBody]ValidationModel model)
-        { 
+        {
             try
             {
                 var user = await _unitOfWork.ApplicationUserRepository.GetUserByNameAsync(User.Identity.Name);
@@ -1414,7 +1451,7 @@ namespace ManutationItemsApp.Controllers
 
                 var errorCode = await _unitOfWork.ErrorCodeRepository.GetCodeByNameAsync(model.CheckInErrorCode);
                 var Fault = await _unitOfWork.ErrorCodeRepository.GetFaultByName(model.CheckInFaultType);
-                var stage = manutation.ManutationStages.First(a => a.Name=="Check In");
+                var stage = manutation.ManutationStages.First(a => a.Name == "Check In");
                 stage.Description = model.CheckInDescription;
                 manutation.ErrorCode = errorCode;
                 manutation.TypeOfFault = Fault;
@@ -1442,7 +1479,7 @@ namespace ManutationItemsApp.Controllers
                 ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames(), manutation.ErrorCode.Name);
                 ViewBag.FaultTypeName = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllFaultTypes(), manutation.TypeOfFault.Name);
 
-                stage = manutation.ManutationStages.First(a => a.Name=="Attivita");
+                stage = manutation.ManutationStages.First(a => a.Name == "Attivita");
                 stage.Description = model.AttivitaDescription;
                 now = DateTime.Now;
 
@@ -1550,7 +1587,7 @@ namespace ManutationItemsApp.Controllers
                 stage = new ManutationStage()
                 {
                     StartDate = now,
-                    EndDate= now,
+                    EndDate = now,
                     Name = "Validation",
                     Manutation = manutation,
                     Active = true,
@@ -1565,7 +1602,7 @@ namespace ManutationItemsApp.Controllers
                     Active = true,
                     Name = "Finished",
                     StartDate = stage.StartDate.Value,
-                    EndDate=stage.StartDate.Value,
+                    EndDate = stage.StartDate.Value,
                     ManutationStage = stage
                 };
 

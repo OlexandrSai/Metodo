@@ -3,7 +3,8 @@
 @{
     List<ManutationItemsApp.Domain.Entities.ApplicationUser> allUsers = ViewBag.allUsers;
 }
-<div id="manutations">
+
+
     <table class="table">
         <thead>
             <tr>
@@ -105,7 +106,6 @@
             @{await Html.RenderPartialAsync("OnGoing", Model);}
         </tbody>
     </table>
-</div>
 
 <div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="assignModal" aria-hidden="true">
     <div class="modal-dialog" role="document">

@@ -1,0 +1,59 @@
+﻿@model ManutationItemsApp.Domain.Entities.Manutation
+@{
+    var stage = Model.ManutationStages.First(a => a.Name == "Request");
+    //ViewData["activeStageStatus"] = Model.ManutationStages.First(a => a.Active == true).Statuses.First(a=>a.Active==true).Name;
+}
+<div class="card mt-5 disabledcard">
+    <div class="card-header">
+        Richiesta
+        @if (Model.IsFailure)
+        {
+            <button type="button" class="btn btn-danger rounded-circle">#@Model.Id</button> <i class="fa fa-print fa-lg"></i>
+        }
+        else if (Model.IsCartolinaRossa)
+        {
+            <button type="button" class="btn" style="border: 3px solid 	#FF6347;">#@Model.Id</button> <i class="fa fa-print fa-lg"></i>
+        }
+        else
+        {
+            <button type="button" class="btn btn-warning rounded-circle">#@Model.Id</button> <i class="fa fa-print fa-lg"></i>
+        }
+        <div class="form-group">
+            <label class="control-label">
+                <i class="fa fa-calendar-check fa-lg"></i>  Date e Ora Richiesta Intervento
+            </label>
+            @Html.DisplayFor(m => m.DateOfCreation)
+        </div>
+    </div>
+    <div class="card-body">
+        <form asp-action="Start" asp-controller="ManutationStages">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.Id" />
+            <div class="form-group">
+                <label class="control-label">ASSET</label>
+                @Html.DisplayFor(modelItem => Model.Asset.FullName)
+            </div>
+            <div class="form-group">
+                <label class="control-label">Intervento richiesto da:</label>
+                @Html.DisplayFor(modelItem => Model.Creator.UserName)
+            </div>
+            <div class="form-group">
+                <label class="control-label">
+                    Descrizione del guasto o malfunzionamento:
+                </label>
+                @Html.DisplayFor(modelItem => Model.BaseDescription)
+            </div>
+            <div class="form-group">
+                <label class="control-label">
+                    Codice di Guasto:
+                </label>
+                @Html.DisplayFor(m => m.ErrorCode.Name)
+            </div>
+            <div class="form-group">
+                <label class="control-label">Tipologia Guasto / Malfunzionamento:</label>
+                @Html.DisplayFor(m => m.TypeOfFault.Name)
+            </div>
+        </form>
+    </div>
+</div>
+

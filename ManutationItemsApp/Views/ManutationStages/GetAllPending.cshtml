@@ -1,13 +1,5 @@
 ﻿@model IEnumerable<ManutationItemsApp.Domain.Entities.Manutation>
-@{
-    var toBeResumed = Model.Where(a => a.ManutationStages.First(b => b.Active).Statuses.First(c => c.Active).Name == "Paused");
-    var toBeInitialized = Model.Where(a => a.ManutationStages.First(b => b.Active).Name == "Request"
-            && a.ManutationStages.First(c => c.Active).Statuses.First(d => d.Active).Name == "Assigned");
-    var onGoing = Model.Except(toBeResumed).Except(toBeInitialized);
-    List<ManutationItemsApp.Domain.Entities.Manutation> neededToAssign = ViewBag.needToAssign;
-    List<ManutationItemsApp.Domain.Entities.ApplicationUser> allUsers = ViewBag.allUsers;
-}
-<div id="manutations">
+
     <table class="table">
         <thead>
             <tr>
@@ -29,40 +21,41 @@
                 <th>
                     Tipologia Guasto/M.:
                 </th>
-                @*<th>
-                        <div class="row">
-                            Fase
-                            <div class="dropdown">
-                                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-filter" aria-hidden="true"></i>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <th>
+                    Fase
+                    @*<div class="row">
+                        Fase
+                        <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-filter" aria-hidden="true"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-                                    @for (int i = 0; i < ViewBag.Stages.Length; i++)
-                                    {
-                                        <div class="form-check">
-                                            @if (ViewBag.stageFilter != null && ViewBag.stageFilter.Contains(ViewBag.Stages[i]))
-                                            {
-                                                <input class="form-check-input stagecheck" type="checkbox" value="@ViewBag.Stages[i]" checked="checked">
-                                            }
-                                            else
-                                            {
-                                                <input class="form-check-input stagecheck" type="checkbox" value="@ViewBag.Stages[i]">
-                                            }
-                                            <label class="form-check-label">
-                                                @ViewBag.Stages[i]
-                                            </label>
-                                        </div>
-                                    }
+                                @for (int i = 0; i < ViewBag.Stages.Length; i++)
+                                {
+                                    <div class="form-check">
+                                        @if (ViewBag.stageFilter != null && ViewBag.stageFilter.Contains(ViewBag.Stages[i]))
+                                        {
+                                            <input class="form-check-input stagecheck" type="checkbox" value="@ViewBag.Stages[i]" checked="checked">
+                                        }
+                                        else
+                                        {
+                                            <input class="form-check-input stagecheck" type="checkbox" value="@ViewBag.Stages[i]">
+                                        }
+                                        <label class="form-check-label">
+                                            @ViewBag.Stages[i]
+                                        </label>
+                                    </div>
+                                }
 
-                                    <button id="stageFilter" type="button" class="btn btn-info">Filtro</button>
-                                    <a type="button" class="btn btn-light" asp-action="NewView" asp-route-stageFilter="clear" data-ajax="true" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-update="#manutationsViewDiv">Rimuovi</a>
+                                <button id="stageFilter" type="button" class="btn btn-info">Filtro</button>
+                                <a type="button" class="btn btn-light" asp-action="NewView" asp-route-stageFilter="clear" data-ajax="true" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-update="#manutationsViewDiv">Rimuovi</a>
 
-                                </div>
                             </div>
-
                         </div>
-                    </th>*@
+
+                    </div>*@
+                </th>
                 <th>
                     Stato
                     @*<div class="row">
@@ -95,19 +88,16 @@
                             </div>
                         </div>*@
                 </th>
-                <th>
-                    Motivo Pausa
-                </th>
+                
                 <th>Dettagli</th>
-                <th>Executore/i</th>
+               
             </tr>
         </thead>
         <tbody>
-            <tr class="table-info" style="text-align:center">
-                <td colspan="13">Da Riprendere</td>
-            </tr>
-            @foreach (var item in toBeResumed)
-            {
+           @foreach (var item in Model)
+	{
+		 
+	
                 <tr>
                     <td>
                         @if (item.IsFailure)
@@ -137,171 +127,22 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.TypeOfFault.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ManutationStages.First(a => a.Active == true).Name)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.ManutationStages.First(a => a.Active == true).Statuses.First(a => a.Active == true).Name)
                     </td>
                     <td>
+                        <a type="button" class="btn btn-primary" asp-action="Validate" asp-route-id="@item.Id">Validate</a>
                     </td>
-                    <td>
-                        <a type="button" class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    </td>
-                    <td>
-                        <button class="btn btn-primary assignBtn" data-toggle="modal" data-target="#assignModal" value="@item.Id">Assegnare</button>
-                    </td>
+                    
                 </tr>
             }
 
-            <tr class="table-info" style="text-align:center">
-                <td colspan="13">Da Iniziare</td>
-            </tr>
-            @foreach (var item in toBeInitialized)
-            {
-                <tr>
-                    <td>
-                        @if (item.IsFailure)
-                        {
-                            <button type="button" class="btn btn-danger rounded-circle">@item.Id</button>
-                        }
-                        else if (item.IsCartolinaRossa)
-                        {
-                            <button type="button" class="btn" style="border: 3px solid #FF6347;">@item.Id</button>
-                        }
-                        else
-                        {
-                            <button type="button" class="btn btn-warning rounded-circle">@item.Id</button>
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DateOfCreation)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.BaseDescription)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Creator.UserName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Asset.FullName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TypeOfFault.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ManutationStages.First(a => a.Active == true).Statuses.First(a => a.Active == true).Name)
-                    </td>
-                    <td>
-                    </td>
-                    <td>
-                        <a type="button" class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    </td>
-                    <td>
-                        <button class="btn btn-primary assignBtn" data-toggle="modal" data-target="#assignModal" value="@item.Id">Assegnare</button>
-                    </td>
-                </tr>
-            }
-
-            <tr class="table-info" style="text-align:center">
-                <td colspan="13">Da Assegnare</td>
-            </tr>
-            @foreach (var item in neededToAssign)
-            {
-                <tr>
-                    <td>
-                        @if (item.IsFailure)
-                        {
-                            <button type="button" class="btn btn-danger rounded-circle">@item.Id</button>
-                        }
-                        else if (item.IsCartolinaRossa)
-                        {
-                            <button type="button" class="btn" style="border: 3px solid #FF6347;">@item.Id</button>
-                        }
-                        else
-                        {
-                            <button type="button" class="btn btn-warning rounded-circle">@item.Id</button>
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DateOfCreation)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.BaseDescription)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Creator.UserName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Asset.FullName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TypeOfFault.Name)
-                    </td>
-                    <td>
-                        Creato
-                    </td>
-                    <td>
-                    </td>
-                    <td>
-                        <a type="button" class="btn btn-primary">Details</a>
-                        @*<a type="button" class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>*@
-                    </td>
-                    <td>
-                        <button class="btn btn-primary assignBtn" data-toggle="modal" data-target="#assignModal" value="@item.Id">Assegnare</button>
-                    </td>
-                </tr>
-            }
-
-            <tr class="table-info" style="text-align:center">
-                <td colspan="13">on going</td>
-            </tr>
-            @foreach (var item in onGoing)
-            {
-                <tr>
-                    <td>
-                        @if (item.IsFailure)
-                        {
-                            <button type="button" class="btn btn-danger rounded-circle">@item.Id</button>
-                        }
-                        else if (item.IsCartolinaRossa)
-                        {
-                            <button type="button" class="btn" style="border: 3px solid #FF6347;">@item.Id</button>
-                        }
-                        else
-                        {
-                            <button type="button" class="btn btn-warning rounded-circle">@item.Id</button>
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DateOfCreation)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.BaseDescription)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Creator.UserName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Asset.FullName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TypeOfFault.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ManutationStages.First(a => a.Active == true).Statuses.First(a => a.Active == true).Name)
-                    </td>
-                    <td>
-                    </td>
-                    <td>
-                        <a type="button" class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    </td>
-                    <td>
-                        <button class="btn btn-primary assignBtn" data-toggle="modal" data-target="#assignModal" value="@item.Id">Assegnare</button>
-                    </td>
-                </tr>
-            }
-        </tbody>
+           
     </table>
-</div>
 
 <div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="assignModal" aria-hidden="true">
     <div class="modal-dialog" role="document">

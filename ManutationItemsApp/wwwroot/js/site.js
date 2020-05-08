@@ -899,17 +899,17 @@ $(document).on('click', '#getAllPending', function (e) {
     });
 });
 
-$(document).on('click', '#getAll', function (e) {
+$(document).on('click', '#getActive', function (e) {
     e.preventDefault();
-    $('#getAll').hide();
+    $('#getActive').hide();
     $('#spinner').show();
 
     $.ajax({
         type: "GET",
-        url: $('#getAll').attr('href'),
+        url: $('#getActive').attr('href'),
         success: function (data) {
             $('#manutations').html(data);
-            $('#getAll').show();
+            $('#getActive').show();
             $('#spinner').hide();
         },
     });
@@ -984,7 +984,7 @@ $(document).on('click', '#validate', function (e) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
-            window.location.href = '/ManutationStages/Administration';
+            window.location.href = '/ManutationStages/';
         },
     });
    

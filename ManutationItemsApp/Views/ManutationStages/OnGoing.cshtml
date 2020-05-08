@@ -42,9 +42,10 @@
         <td>
         </td>
         <td>
-            <a type="button" class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+            @await Component.InvokeAsync("DetailsButton", new { itemId = item.Id, userRules = Model.UserRules })
         </td>
         <td>
+            @await Component.InvokeAsync("AssignButton", new { itemId = item.Id, userRules = Model.UserRules, active = true })
         </td>
     </tr>
 }
