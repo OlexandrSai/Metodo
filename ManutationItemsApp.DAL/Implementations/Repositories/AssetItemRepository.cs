@@ -9,8 +9,10 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
 {
     public class AssetItemRepository:RepositoryBase<AssetItem>,IAssetItemRepository
     {
+        private readonly ApplicationDbContext context;
         public AssetItemRepository(ApplicationDbContext context):base(context)
         {
+            this.context = context;
         }
 
         public void CreateNewAsync(Asset asset, Item item)
