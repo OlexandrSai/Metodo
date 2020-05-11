@@ -47,7 +47,7 @@
             @await Component.InvokeAsync("DetailsButton", new { itemId = item.Id, userRules = Model.UserRules })
         </td>
         <td>
-            @await Component.InvokeAsync("AssignButton", new { itemId = item.Id, userRules = Model.UserRules })
+            @await Component.InvokeAsync("AssignButton", new { itemId = item.Id, userRules = Model.UserRules, active = true })
         </td>
     </tr>
 }

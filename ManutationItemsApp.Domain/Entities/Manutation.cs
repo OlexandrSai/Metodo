@@ -34,8 +34,9 @@ namespace ManutationItemsApp.Domain.Entities
 
         public DateTime DateOfCreation { get; set; }
         public string BaseDescription { get; set; }
+        public string PauseReason { get; set; }
 
-       public virtual ManutationTypess ManutationType { get; set; }
+        public virtual ManutationTypess ManutationType { get; set; }
         public virtual ApplicationUser Creator { get; set; }
         public virtual Asset Asset { get; set; }
         public virtual IEnumerable<ManutationStage> ManutationStages { get; set; }

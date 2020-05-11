@@ -1,8 +1,8 @@
 ﻿@model ManutationItemsApp.Domain.Entities.Manutation
 @{
-    var isNext = Model.ManutationStages.FirstOrDefault(a => a.Name == "Check In")==null;
+    var isNext = Model.ManutationStages.FirstOrDefault(a => a.Name == "Check In") == null;
     var stage = Model.ManutationStages.FirstOrDefault(a => a.Name == "Check In");
-    var finished = stage!=null&&stage.Statuses.FirstOrDefault(a=>a.Name=="Finished")!=null;
+    var finished = stage != null && stage.Statuses.FirstOrDefault(a => a.Name == "Finished") != null;
     //ViewData["activeStageStatus"] = Model.ManutationStages.First(a => a.Active == true).Statuses.First(a=>a.Active==true).Name;
 }
 
@@ -15,7 +15,7 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
                 </div>
-                <input asp-for="@stage.StartDate" name="CheckInStartDate" class="form-control" placeholder=""/>
+                <input asp-for="@stage.StartDate" name="CheckInStartDate" class="form-control" placeholder="" />
                 <span asp-validation-for="@stage.StartDate" class="text-danger"></span>
             </div>
             <div class="input-group mt-2 col-4">
@@ -64,7 +64,8 @@
                     </span>
                 </div>
                 <div class="form-group">
-                    <button id="pauseCheckIn" asp-action="PauseCheckIn" asp-controller="ManutationStages" asp-route-stageName="Check In" asp-route-manutationId="@Model.Id" class="btn btn-primary">Sospendi</button>
+                    <a class="btn btn-success mr-4" data-toggle="modal" data-target="#pauseReasonModal">Sospendi</a>
+                    @*<button id="pauseCheckIn" asp-action="PauseCheckIn" asp-controller="ManutationStages" asp-route-stageName="Check In" asp-route-manutationId="@Model.Id" class="btn btn-primary">Sospendi</button>*@
                     <button id="finishCheckIn" asp-action="FinishCheckIn" asp-controller="ManutationStages" asp-route-stageName="Check In" asp-route-manutationId="@Model.Id" class="btn btn-primary">Chiudi Check In e Passa all’ATTIVITA</button>
                 </div>
             </form>
@@ -73,95 +74,99 @@
 }
 else
 {
-<div class="card mt-5">
-    <div class="card-header">
-        @if (isNext || (stage.Statuses != null && stage.Statuses.Where(a => a.Active).Count() > 0 && stage.Statuses.First(a => a.Active).Name == "Paused"))
-        {
-            <a type="button" class="btn btn-success mr-4" asp-action="StartOrContinue" asp-route-manutationId="@Model.Id" asp-route-stageName="Check In" data-ajax="true" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-update="#details" data-ajax-success="renewDisabled">Check In  <i class="fas fa-play"></i></a>
-        }
-        else
-        {
-            <button type="button" class="btn btn-success mr-4" disabled>Check In</button>
-            if (finished&&ViewBag.MasterView==true)
+    <div class="card mt-5">
+        <div class="card-header">
+            @if (isNext || (stage.Statuses != null && stage.Statuses.Where(a => a.Active).Count() > 0 && stage.Statuses.First(a => a.Active).Name == "Paused"))
             {
-                <a asp-action="EditCheckIn" asp-route-id="@Model.Id" asp-controller="ManutationStages"><i class="fa fa-marker fa-lg"></i></a>
+               
+            <a type="button" class="btn btn-success mr-4" asp-action="StartOrContinue" asp-route-manutationId="@Model.Id" asp-route-stageName="Check In" data-ajax="true" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-update="#details" data-ajax-success="renewDisabled">Check In  <i class="fas fa-play"></i></a>
+               
             }
-        }
-        @if (stage != null && stage.StartDate != null)
-        {
-            <div class="input-group mt-2 disabled col-4">
-                <div class="input-group-prepend">
-                    <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
+            else
+            {
+                <button type="button" class="btn btn-success mr-4" disabled>Check In</button>
+                if (finished && ViewBag.MasterView == true)
+                {
+                    <a asp-action="EditCheckIn" asp-route-id="@Model.Id" asp-controller="ManutationStages"><i class="fa fa-marker fa-lg"></i></a>
+                }
+            }
+            @if (stage != null && stage.StartDate != null)
+            {
+                <div class="input-group mt-2 disabled col-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
+                    </div>
+                    <input disabled asp-for="@stage.StartDate" name="CheckInStartDate" class="form-control" />
                 </div>
-                <input disabled asp-for="@stage.StartDate" name="CheckInStartDate" class="form-control" />
-            </div>
-        }
-        else
-        {
-            <div class="input-group mt-2 disabled col-4">
-                <div class="input-group-prepend">
-                    <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
+            }
+            else
+            {
+                <div class="input-group mt-2 disabled col-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
+                    </div>
+                    <input disabled name="CheckInStartDate" class="form-control" />
                 </div>
-                <input disabled name="CheckInStartDate" class="form-control" />
-            </div>
-        }
+            }
 
-        @if (stage != null && stage.EndDate != null)
-        {
-            <div class="input-group mt-2 disabled col-4">
-                <div class="input-group-prepend">
-                    <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
+            @if (stage != null && stage.EndDate != null)
+            {
+                <div class="input-group mt-2 disabled col-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
+                    </div>
+                    <input disabled asp-for="@stage.EndDate" name="CheckInEndDate" class="form-control" />
                 </div>
-                <input disabled asp-for="@stage.EndDate" name="CheckInEndDate" class="form-control" />
-            </div>
-        }
-        else
-        {
-            <div class="input-group mt-2 disabled col-4">
-                <div class="input-group-prepend">
-                    <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
+            }
+            else
+            {
+                <div class="input-group mt-2 disabled col-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
+                    </div>
+                    <input disabled name="CheckInEndDate" class="form-control" />
                 </div>
-                <input disabled name="CheckInEndDate" class="form-control" />
-            </div>
-        }
+            }
 
+        </div>
+        <div class="card-body disabledcard">
+            <form asp-action="Continue" asp-controller="ManutationStages">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="@stage.Id" />
+                <div class="form-group">
+                    <label class="control-label">
+                        Inserisci Conta-Ore:
+                    </label>
+                    <input asp-for="@Model.Asset.WorkingHoursCount" name="CheckInWorkingHoursCount" class="form-control" />
+                    <span asp-validation-for="@Model.Asset.WorkingHoursCount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Diagnosi e localizzazione del guasto (Descrizione del Check In):
+                    </label>
+                    <textarea asp-for="@stage.Description" class="form-control"></textarea>
+                    <span asp-validation-for="@stage.Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Codice di Guasto:
+                    </label>
+                    @Html.DisplayFor(m => m.ErrorCode.Name)
+
+                    <span asp-validation-for=" @Model.ErrorCode.Name" class="text-danger">
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Approva Tipologia Guasto / Malf.:
+                    </label>
+                    @Html.DisplayFor(m => m.TypeOfFault.Name)
+                    <span asp-validation-for=" @Model.TypeOfFault.Name" class="text-danger">
+                    </span>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="card-body disabledcard">
-        <form asp-action="Continue" asp-controller="ManutationStages">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="@stage.Id" />
-            <div class="form-group">
-                <label class="control-label">
-                    Inserisci Conta-Ore:
-                </label>
-                <input asp-for="@Model.Asset.WorkingHoursCount" name="CheckInWorkingHoursCount" class="form-control" />
-                <span asp-validation-for="@Model.Asset.WorkingHoursCount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">
-                    Diagnosi e localizzazione del guasto (Descrizione del Check In):
-                </label>
-                <textarea asp-for="@stage.Description" class="form-control"></textarea>
-                <span asp-validation-for="@stage.Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">
-                    Codice di Guasto:
-                </label>
-                @Html.DisplayFor(m => m.ErrorCode.Name)
-
-                <span asp-validation-for=" @Model.ErrorCode.Name" class="text-danger">
-                </span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">
-                    Approva Tipologia Guasto / Malf.:
-                </label>
-                @Html.DisplayFor(m => m.TypeOfFault.Name)
-                <span asp-validation-for=" @Model.TypeOfFault.Name" class="text-danger">
-                </span>
-            </div>
-        </form>
-    </div>
-</div>
 }
+
+@await Component.InvokeAsync("PauseReason", new { action = "PauseCheckIn",controller="ManutationStages",stageName="Check In",manutationId=@Model.Id.ToString()})

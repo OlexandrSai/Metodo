@@ -521,6 +521,7 @@ function renewDisabled() {
 
 $(document).on('click', '#pauseCheckIn', function (e) {
     e.preventDefault();
+    $('#pauseReasonModal').modal('hide');
     var model = {};
     model.CheckInManutationId = $('input[name=CheckInManutationId]').val();
     model.CheckInDescription = $('textarea[name=CheckInDescription').val();
@@ -529,9 +530,11 @@ $(document).on('click', '#pauseCheckIn', function (e) {
     model.CheckInErrorCode = $('select[name = CheckInErrorCode]').children("option:selected").val();
     model.CheckInFaultType = $('select[name = CheckInFaultType]').children("option:selected").val();
 
+    var pauseReason ='&pauseReason='+ $('select[name = pauseReason]').children("option:selected").val();
+
     $.ajax({
         type: "POST",
-        url: $('#pauseCheckIn').attr('formaction'),
+        url: $('#pauseCheckIn').attr('formaction') + pauseReason,
         data: JSON.stringify(model),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -604,6 +607,7 @@ $(document).on('click', '#editCheckIn', function (e) {
 $(document).on('click', '#pauseAttivita', function (e) {
     e.preventDefault();
     var model = {};
+    $('#pauseAttivitaReasonModal').modal('hide');
     model.ManutationId = $('input[name=AttivitaManutationId]').val();
     model.Description = $('textarea[name=AttivitaDescription').val();
     model.AttivitaStartDate = $('input[name=AttivitaStartDate]').val();
@@ -611,6 +615,8 @@ $(document).on('click', '#pauseAttivita', function (e) {
     model.Consumables = {};
     model.Tools = {};
     model.MeasuringTools = {};
+
+    var pauseReason = '&pauseReason=' + $('select[name = pauseAttivitaReason]').children("option:selected").val();
 
     $(".attivitaConsumable").each(function () {
         var name = $(this).children('button').first().contents().get(0).nodeValue;
@@ -638,7 +644,7 @@ $(document).on('click', '#pauseAttivita', function (e) {
 
     $.ajax({
         type: "POST",
-        url: $('#pauseAttivita').attr('formaction'),
+        url: $('#pauseAttivita').attr('formaction') + pauseReason,
         data: JSON.stringify(model),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -761,11 +767,14 @@ $(document).on('click', '#editAttivita', function (e) {
 $(document).on('click', '#pauseCheckOut', function (e) {
     e.preventDefault();
     var model = {};
+    $('#pauseCheckOutReasonModal').modal('hide');
     model.ManutationId = $('input[name=CheckOutManutationId]').val();
     model.Description = $('textarea[name=CheckOutDescription').val();
     model.CheckOutStartDate = $('input[name=CheckOutStartDate]').val();
     model.Tools = {};
     model.MeasuringTools = {};
+
+    var pauseReason = '&pauseReason=' + $('select[name = pauseCheckOutReason]').children("option:selected").val();
 
     $(".checkOutMdc").each(function () {
         var name = $(this).children('button').first().contents().get(0).nodeValue;
@@ -781,7 +790,7 @@ $(document).on('click', '#pauseCheckOut', function (e) {
 
     $.ajax({
         type: "POST",
-        url: $('#pauseCheckOut').attr('formaction'),
+        url: $('#pauseCheckOut').attr('formaction') + pauseReason,
         data: JSON.stringify(model),
         contentType: "application/json; charset=utf-8",
         dataType: "json",

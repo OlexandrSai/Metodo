@@ -27,6 +27,8 @@ namespace ManutationItemsApp.DAL.Implementations
         public IAssetFileRepository AssetFileRepository { get; set; }
         public IItemFileRepository ItemFileRepository { get; set; }
         public IAssetItemRepository AssetItemRepository { get; set; }
+        public IPauseReasonRepository PauseReasonRepository { get; set; }
+
 
         public IMeasuringToolRepository MeasuringToolRepository { get; set; }
 
@@ -36,7 +38,8 @@ namespace ManutationItemsApp.DAL.Implementations
             IManutationStageRepository manutationStageRepository,IItemRepository itemRepository,IErrorCodeRepository errorCodeRepository,
             IToolRepository toolRepository, IConsumableRepository consumableRepository, IStatusRepository statusRepository,
             ISupplierRepository supplierRepository,IAssetFileRepository assetFileRepository,IItemFileRepository itemFileRepository,
-            IAssetItemRepository assetItemRepository, IMeasuringToolRepository measuringToolRepository)
+            IAssetItemRepository assetItemRepository, IMeasuringToolRepository measuringToolRepository,
+            IPauseReasonRepository pauseReasonRepository)
         {
             DataDbContext = context;
             ManutationRepository = manutationRepository;
@@ -55,6 +58,7 @@ namespace ManutationItemsApp.DAL.Implementations
             ItemFileRepository = itemFileRepository;
             AssetItemRepository = assetItemRepository;
             MeasuringToolRepository = measuringToolRepository;
+            PauseReasonRepository = pauseReasonRepository;
         }
 
         public async Task<int> CommitAsync()

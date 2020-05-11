@@ -5,7 +5,7 @@
         Model.ManutationStages.FirstOrDefault(a => a.Name == "Attivita") == null &&
         Model.ManutationStages.FirstOrDefault(a => a.Name == "Check In").Statuses.Where(a => a.Name == "Finished").Count() > 0;
     var stage = Model.ManutationStages.FirstOrDefault(a => a.Name == "Attivita");
-    var finished = stage!=null&&stage.Statuses.FirstOrDefault(a=>a.Name=="Finished")!=null;
+    var finished = stage != null && stage.Statuses.FirstOrDefault(a => a.Name == "Finished") != null;
     if (stage != null && stage.Tools != null && stage.Tools.Count() > 0)
     {
         ViewBag.Tools = stage.Tools;
@@ -68,7 +68,7 @@
                     </label>
                     <a><i class="fa fa-plus-square fa-lg"></i></a>
                     @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
-                <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                        <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
                 </div>
                 <div class="form-group">
                     <label class="control-label">
@@ -107,7 +107,7 @@
                     </div>
                     <a data-toggle="modal" data-target="#attivitaConsumableModal"><i class="fa fa-plus-square fa-lg"></i></a>
                     @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
-                <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                        <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
                 </div>
                 <div class="form-group">
                     <label class="control-label">
@@ -149,7 +149,8 @@
 
                 </div>
                 <div class="form-group">
-                    <button id="pauseAttivita" asp-action="PauseAttivita" asp-controller="ManutationStages" class="btn btn-primary">Sospendi</button>
+                    <a class="btn btn-success mr-4" data-toggle="modal" data-target="#pauseAttivitaReasonModal">Sospendi</a>
+                    @*<button id="pauseAttivita" asp-action="PauseAttivita" asp-controller="ManutationStages" class="btn btn-primary">Sospendi</button>*@
                     <button id="finishAttivita" asp-action="FinishAttivita" asp-controller="ManutationStages" asp-route-stageName="Check In" asp-route-manutationId="@Model.Id" class="btn btn-primary">Chiudi  ATTIVITA’ e Passa a CHECK OUT</button>
                 </div>
             </form>
@@ -289,9 +290,9 @@ else
             else
             {
                 <button type="button" class="btn btn-success mr-4" disabled>Attivita</button>
-                if (finished&&ViewBag.MasterView==true)
+                if (finished && ViewBag.MasterView == true)
                 {
-        <a asp-action="EditAttivita" asp-route-id="@Model.Id" asp-controller="ManutationStages"><i class="fa fa-marker fa-lg"></i></a>
+                    <a asp-action="EditAttivita" asp-route-id="@Model.Id" asp-controller="ManutationStages"><i class="fa fa-marker fa-lg"></i></a>
                 }
             }
 
@@ -441,3 +442,6 @@ else
         </div>
     </div>
 }
+
+
+@await Component.InvokeAsync("PauseReason", new { action = "PauseAttivita", controller = "ManutationStages", stageName = "Attivita", manutationId = @Model.Id.ToString() })

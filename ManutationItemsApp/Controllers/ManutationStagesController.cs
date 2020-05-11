@@ -680,7 +680,7 @@ namespace ManutationItemsApp.Controllers
 
         #region CheckIn
         [HttpPost]
-        public async Task<IActionResult> PauseCheckIn(int manutationId, string stageName, [FromBody] CheckIn model)
+        public async Task<IActionResult> PauseCheckIn(int manutationId, string stageName,string pauseReason, [FromBody] CheckIn model)
         {
             try
             {
@@ -697,6 +697,7 @@ namespace ManutationItemsApp.Controllers
                 {
                     stage.StartDate = model.CheckInStartDate;
                 }
+                manutation.PauseReason = pauseReason;
                 manutation.ErrorCode = errorCode;
                 manutation.TypeOfFault = Fault;
                 manutation.Asset.WorkingHoursCount = model.CheckInWorkingHoursCount;
@@ -830,7 +831,7 @@ namespace ManutationItemsApp.Controllers
         #region Ativita
 
         [HttpPost]
-        public async Task<IActionResult> PauseAttivita([FromBody]Attivita model)
+        public async Task<IActionResult> PauseAttivita(string pauseReason,[FromBody]Attivita model)
         {
             try
             {
@@ -842,6 +843,8 @@ namespace ManutationItemsApp.Controllers
                 ViewBag.MeasuringToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetMeasuringNames());
                 ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames(), manutation.ErrorCode.Name);
                 ViewBag.FaultTypeName = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllFaultTypes(), manutation.TypeOfFault.Name);
+
+                manutation.PauseReason = pauseReason;
 
                 var stage = manutation.ManutationStages.First(a => a.Active);
                 stage.Description = model.Description;
@@ -1187,7 +1190,7 @@ namespace ManutationItemsApp.Controllers
         #region CheckOut
 
         [HttpPost]
-        public async Task<IActionResult> PauseCheckOut([FromBody]CheckOut model)
+        public async Task<IActionResult> PauseCheckOut(string pauseReason,[FromBody]CheckOut model)
         {
             try
             {
@@ -1199,6 +1202,8 @@ namespace ManutationItemsApp.Controllers
                 ViewBag.MeasuringToolsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetMeasuringNames());
                 ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames(), manutation.ErrorCode.Name);
                 ViewBag.FaultTypeName = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllFaultTypes(), manutation.TypeOfFault.Name);
+
+                manutation.PauseReason = pauseReason;
 
                 var stage = manutation.ManutationStages.First(a => a.Active);
                 stage.Description = model.Description;

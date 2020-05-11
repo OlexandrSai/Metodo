@@ -27,6 +27,7 @@ namespace ManutationItemsApp.DAL.Contracts
         IAssetFileRepository AssetFileRepository { get; set; }
         IItemFileRepository ItemFileRepository { get; set; }
         IAssetItemRepository AssetItemRepository { get; set; }
+        IPauseReasonRepository PauseReasonRepository { get; set; } 
         Task<int> CommitAsync();
     }
 }
