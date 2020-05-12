@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ManutationItemsApp.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200416093908_Measuring tools")]
-    partial class Measuringtools
+    [Migration("20200512125419_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -581,6 +581,9 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.Property<bool>("NotToDiplay")
                         .HasColumnType("bit");
 
+                    b.Property<string>("PauseReason")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("TypeOfFaultId")
                         .HasColumnType("int");
 
@@ -645,6 +648,60 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ManutationTypes");
+                });
+
+            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.MeasuringTool", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MeasuringTools");
+                });
+
+            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.MeasuringToolTemp", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Count")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ManutationStageId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ManutationStageId");
+
+                    b.ToTable("MeasuringToolTemps");
+                });
+
+            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.PauseReason", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PauseReasons");
                 });
 
             modelBuilder.Entity("ManutationItemsApp.Domain.Entities.Status", b =>
@@ -797,6 +854,41 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.HasIndex("ManutationStageId");
 
                     b.ToTable("UserManutationStages");
+                });
+
+            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.UserRolesRules", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("CanAssign")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanAutoAssign")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanConsultateActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanConsultateHistorical")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanDoNewRequest")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanValidate")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("IdentityRoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdentityRoleId");
+
+                    b.ToTable("UserRolesRules");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -1064,6 +1156,13 @@ namespace ManutationItemsApp.DAL.Migrations
                         .HasForeignKey("ManutationId");
                 });
 
+            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.MeasuringToolTemp", b =>
+                {
+                    b.HasOne("ManutationItemsApp.Domain.Entities.ManutationStage", "ManutationStage")
+                        .WithMany("MeasuringTools")
+                        .HasForeignKey("ManutationStageId");
+                });
+
             modelBuilder.Entity("ManutationItemsApp.Domain.Entities.Status", b =>
                 {
                     b.HasOne("ManutationItemsApp.Domain.Entities.ManutationStage", "ManutationStage")
@@ -1091,6 +1190,13 @@ namespace ManutationItemsApp.DAL.Migrations
                         .HasForeignKey("ManutationStageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.UserRolesRules", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "IdentityRole")
+                        .WithMany()
+                        .HasForeignKey("IdentityRoleId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
