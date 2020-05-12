@@ -13,9 +13,11 @@ namespace ManutationItemsApp.Domain.Entities
         public int Id { get; set; }
         public bool IsFailure { get; set; }
         public bool IsCartolinaRossa { get; set; }
+        public bool IsOtherActivity { get; set; }
         public bool NeedToAssign { get; set; }
         public bool NotToDiplay { get; set; }
         public bool Historical { get; set; }
+        public string CheckOutNote { get; set; }
         [NotMapped]
         public string ActiveStageName { 
             get 

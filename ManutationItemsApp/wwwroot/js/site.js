@@ -808,6 +808,14 @@ $(document).on('click', '#pauseCheckOut', function (e) {
 });
 
 
+$(document).on('click', '#showCheckOutNote', function (e) {
+    e.preventDefault();
+    $("#checkOutNotediv").toggle();
+
+    
+});
+
+
 $(document).on('click', '#finishCheckOut', function (e) {
     e.preventDefault();
     var model = {};
@@ -817,6 +825,7 @@ $(document).on('click', '#finishCheckOut', function (e) {
     model.CheckOutEndDate = $('input[name=CheckOutEndDate]').val();
     model.Tools = {};
     model.MeasuringTools = {};
+    model.CheckOutNote = $('textarea[name=CheckOutNote').val();
 
     $(".checkOutMdc").each(function () {
         var name = $(this).children('button').first().contents().get(0).nodeValue;
@@ -961,6 +970,7 @@ $(document).on('click', '#validate', function (e) {
     model.CheckOutEndDate = $('input[name=CheckOutEndDate]').val();
     model.CheckOutTools = {};
     model.CheckOutMeasuringTools = {};
+    model.CheckOutNote = $('textarea[name=CheckOutNote').val();
 
     $(".attivitaConsumable").each(function () {
         var name = $(this).children('button').first().contents().get(0).nodeValue;

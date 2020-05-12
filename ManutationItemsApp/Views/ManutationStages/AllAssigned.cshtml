@@ -41,6 +41,10 @@
                 {
                     <tr>
                         <td>
+                            @if (item.IsOtherActivity)
+                            {
+                                <button type="button" class="btn" style="border: 3px solid #0000FF">@item.Id</button>
+                            }
                             @if (item.IsFailure)
                             {
                                 <button type="button" class="btn btn-danger rounded-circle">@item.Id</button>
@@ -51,7 +55,10 @@
                             }
                             else
                             {
-                                <button type="button" class="btn btn-warning rounded-circle">@item.Id</button>
+                                @if (!item.IsOtherActivity)
+                                {
+                                    <button type="button" class="btn btn-warning rounded-circle">@item.Id</button>
+                                }
                             }
                         </td>
                         <td>

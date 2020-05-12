@@ -6,6 +6,10 @@
 <div class="card mt-5 disabledcard">
     <div class="card-header">
         Richiesta
+        @if (Model.IsOtherActivity)
+        {
+            <button type="button" class="btn" style="border: 3px solid #0000FF">#@Model.Id</button> <i class="fa fa-print fa-lg"></i>
+        }
         @if (Model.IsFailure)
         {
             <button type="button" class="btn btn-danger rounded-circle">#@Model.Id</button> <i class="fa fa-print fa-lg"></i>
@@ -16,7 +20,10 @@
         }
         else
         {
-            <button type="button" class="btn btn-warning rounded-circle">#@Model.Id</button> <i class="fa fa-print fa-lg"></i>
+            @if (!Model.IsOtherActivity)
+            {
+                <button type="button" class="btn btn-warning rounded-circle">#@Model.Id</button> <i class="fa fa-print fa-lg"></i>
+            }
         }
         <div class="form-group">
             <label class="control-label">

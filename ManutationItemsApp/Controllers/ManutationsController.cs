@@ -123,6 +123,7 @@ namespace ManutationItemsApp.Controllers
                     Asset = asset,
                     IsFailure=manutation.IsFailure,
                     IsCartolinaRossa=manutation.IsCartolinaRossa,
+                    IsOtherActivity = manutation.IsOtherActivity,
                     DateOfCreation = manutation.DateOfCreation,
                     Creator = user,
                     BaseDescription=manutation.BaseDescription,
