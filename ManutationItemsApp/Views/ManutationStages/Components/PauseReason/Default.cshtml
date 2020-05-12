@@ -1,0 +1,31 @@
+﻿@model ManutationItemsApp.ViewComponents.PauseReasonViewComponentModel
+
+<div class="modal fade" id="pauseReasonModal" tabindex="-1" role="dialog" aria-labelledby="pauseReasonModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="assignModal">Scegli il motivo della pausa::</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <select name="pauseReason" class="form-control" asp-items="@Model.PauseReasons">
+                            <option disabled selected>Selezionare</option>
+                        </select>
+                        <span class="text-danger">
+                        </span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+               
+                    <button id="@Model.ButtonId" asp-action="@Model.Action" asp-controller="@Model.Controller" asp-route-stageName="@Model.StageName" asp-route-manutationId="@Model.ManutationId" class="btn btn-primary">Sospendi</button>
+                
+
+            </div>
+        </div>
+    </div>
+</div>

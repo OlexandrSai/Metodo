@@ -3,29 +3,32 @@
 @{
     List<ManutationItemsApp.Domain.Entities.ApplicationUser> allUsers = ViewBag.allUsers;
 }
-<div id="manutations">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    #
-                </th>
-                <th>
-                    Data di creazione
-                </th>
-                <th>
-                    Descrizione originale
-                </th>
-                <th>
-                    Richiedente
-                </th>
-                <th>
-                    Asset
-                </th>
-                <th>
-                    Tipologia Guasto/M.:
-                </th>
-                @*<th>
+
+   
+
+
+        <table class="table sticky">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        Data di creazione
+                    </th>
+                    <th>
+                        Descrizione originale
+                    </th>
+                    <th>
+                        Richiedente
+                    </th>
+                    <th>
+                        Asset
+                    </th>
+                    <th>
+                        Tipologia Guasto/M.:
+                    </th>
+                    @*<th>
                         <div class="row">
                             Fase
                             <div class="dropdown">
@@ -59,9 +62,9 @@
 
                         </div>
                     </th>*@
-                <th>
-                    Stato
-                    @*<div class="row">
+                    <th>
+                        Stato
+                        @*<div class="row">
                             Stato
                             <div class="dropdown">
                                 <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -90,22 +93,22 @@
                                 </div>
                             </div>
                         </div>*@
-                </th>
-                <th>
-                    Motivo Pausa
-                </th>
-                <th>Dettagli</th>
-                <th>Executore/i</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{await Html.RenderPartialAsync("OnPause", Model);}
-            @{await Html.RenderPartialAsync("ToBeInitialized", Model);}
-            @{await Html.RenderPartialAsync("ToBeAssigned", Model);}
-            @{await Html.RenderPartialAsync("OnGoing", Model);}
-        </tbody>
-    </table>
-</div>
+                    </th>
+                    <th>
+                        Motivo Pausa
+                    </th>
+                    <th>Dettagli</th>
+                    <th>Executore/i</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{await Html.RenderPartialAsync("OnPause", Model);}
+                @{await Html.RenderPartialAsync("ToBeInitialized", Model);}
+                @{await Html.RenderPartialAsync("ToBeAssigned", Model);}
+                @{await Html.RenderPartialAsync("OnGoing", Model);}
+            </tbody>
+        </table>
+    
 
 <div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="assignModal" aria-hidden="true">
     <div class="modal-dialog" role="document">

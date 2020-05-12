@@ -46,7 +46,7 @@
             @*<a type="button" class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>*@
         </td>
         <td>
-            @Html.GetAssignButtonHtml(Model.UserRules)
+            @await Component.InvokeAsync("AssignButton", new { itemId = item.Id, userRules = Model.UserRules })
         </td>
     </tr>
 }

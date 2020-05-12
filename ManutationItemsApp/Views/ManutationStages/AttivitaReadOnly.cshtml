@@ -1,0 +1,180 @@
+﻿@model ManutationItemsApp.Domain.Entities.Manutation
+@{
+    var isNext = Model.ManutationStages.FirstOrDefault(a => a.Name == "Check Out") == null &&
+        Model.ManutationStages.FirstOrDefault(a => a.Name == "Check In") != null &&
+        Model.ManutationStages.FirstOrDefault(a => a.Name == "Attivita") == null &&
+        Model.ManutationStages.FirstOrDefault(a => a.Name == "Check In").Statuses.Where(a => a.Name == "Finished").Count() > 0;
+    var stage = Model.ManutationStages.FirstOrDefault(a => a.Name == "Attivita");
+    var finished = stage != null && stage.Statuses.FirstOrDefault(a => a.Name == "Finished") != null;
+    if (stage != null && stage.Tools != null && stage.Tools.Count() > 0)
+    {
+        ViewBag.Tools = stage.Tools;
+    }
+    if (stage != null && stage.MeasuringTools != null && stage.MeasuringTools.Count() > 0)
+    {
+        ViewBag.MeasuringTools = stage.MeasuringTools;
+    }
+    if (stage != null && stage.Items != null && stage.Items.Count() > 0)
+    {
+        ViewBag.Items = stage.Items;
+    }
+    if (stage != null && stage.Consumables != null && stage.Consumables.Count() > 0)
+    {
+        ViewBag.Consumables = stage.Consumables;
+    }
+
+    //ViewData["activeStageStatus"] = Model.ManutationStages.First(a => a.Active == true).Statuses.First(a=>a.Active==true).Name;
+}
+
+
+    <div class="card mt-5">
+        <div class="card-header">
+          
+                <button type="button" class="btn btn-success mr-4" disabled>Attivita</button>
+           
+
+            @if (stage != null && stage.StartDate != null)
+            {
+                <div class="input-group mt-2 disabled col-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
+                    </div>
+                    <input disabled asp-for="@stage.StartDate" name="AttivitaStartDate" class="form-control" />
+                </div>
+            }
+            else
+            {
+                <div class="input-group mt-2 disabled col-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
+                    </div>
+                    <input disabled name="AttivitaStartDate" class="form-control" />
+                </div>
+            }
+
+            @if (stage != null && stage.EndDate != null)
+            {
+                <div class="input-group mt-2 disabled col-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
+                    </div>
+                    <input disabled asp-for="@stage.EndDate" name="AttivitaEndDate" class="form-control" />
+                </div>
+            }
+            else
+            {
+                <div class="input-group mt-2 disabled col-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
+                    </div>
+                    <input disabled name="AttivitaEndDate" class="form-control" />
+                </div>
+            }
+        </div>
+        <div class="card-body disabledcard">
+            <form>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="@stage.Id" />
+                <div class="form-group">
+                    <label class="control-label">
+                        Descrizione attività per la risoluzione del guasto o del malfunzionamento:
+                    </label>
+                    <textarea asp-for="@stage.Description" class="form-control"></textarea>
+                    <span asp-validation-for="@stage.Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Aggiungi Manutentore o Outsoucer:
+                    </label>
+                    <a><i class="fa fa-plus-square fa-lg"></i></a>
+                    @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
+                        <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Parte di ricambio:
+                    </label>
+                    <div id="attivitaItemsList">
+                        <div class="attivitaItem">
+                            @if (ViewBag.Items != null)
+                            {
+                                @foreach (var item in ViewBag.Items)
+                                {
+                                    <div class="attivitaItem">
+                                        <button type="button" class="btn btn-light">@item.Name<span class="badge badge-dark">@item.Count</span></button>
+                                        <button type="button" class="attivitaClose"><span aria-hidden="true">&times;</span></button>
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                        <a data-toggle="modal" data-target="#attivitaItemsModal"><i class="fa fa-plus-square fa-lg"></i></a>
+                        @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
+                            <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Materiale di consumo:
+                    </label>
+                    <div id="attivitaConsumableList">
+                        @if (ViewBag.Consumables != null)
+                        {
+                            @foreach (var item in ViewBag.Consumables)
+                            {
+                                <div class="attivitaConsumable">
+                                    <button type="button" class="btn btn-light">@item.Name<span class="badge badge-dark">@item.Count</span></button>
+                                    <button type="button" class="attivitaClose"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                            }
+                        }
+
+                    </div>
+                    <a data-toggle="modal" data-target="#attivitaConsumableModal"><i class="fa fa-plus-square fa-lg"></i></a>
+                    @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
+                        <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Attrezzatura:
+                    </label>
+                    <div id="attivitaMdcList">
+                        @if (ViewBag.Tools != null)
+                        {
+                            @foreach (var item in ViewBag.Tools)
+                            {
+                                <div class="attivitaMdc">
+                                    <button type="button" class="btn btn-light">@item.Name<span class="badge badge-dark">@item.Count</span></button>
+                                    <button type="button" class="attivitaClose"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                            }
+                        }
+
+
+                    </div>
+                    <a data-toggle="modal" data-target="#attivitaAttrezzaturaModal"><i class="fa fa-plus-square fa-lg"></i></a>
+                    @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
+                        <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Strumento Misura:
+                    </label>
+                    <a><i class="fa fa-plus-square fa-lg"></i></a>
+                    <div id="attivitaMeasuringList">
+                        @if (ViewBag.MeasuringTools != null)
+                        {
+                            @foreach (var item in ViewBag.MeasuringTools)
+                            {
+                                <div class="attivitaMeasuring">
+                                    <button type="button" class="btn btn-light">@item.Name<span class="badge badge-dark">@item.Count</span></button>
+                                    <button type="button" class="attivitaClose"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <a data-toggle="modal" data-target="#attivitaMeasuringModal"><i class="fa fa-plus-square fa-lg"></i></a>
+                </div>
+            </form>
+        </div>
+    </div>

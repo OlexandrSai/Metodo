@@ -57,7 +57,7 @@
                     </label>
                     <a><i class="fa fa-plus-square fa-lg"></i></a>
                     @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
-                <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                        <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
                 </div>
                 <div class="form-group">
                     <label class="control-label">
@@ -98,7 +98,8 @@
                     <a data-toggle="modal" data-target="#checkOutMeasuringModal"><i class="fa fa-plus-square fa-lg"></i></a>
                 </div>
                 <div class="form-group">
-                    <button id="pauseCheckOut" asp-action="PauseCheckOut" asp-controller="ManutationStages" class="btn btn-primary">Sospendi</button>
+                    <a class="btn btn-success mr-4" data-toggle="modal" data-target="#pauseCheckOutReasonModal">Sospendi</a>
+                    @*<button id="pauseCheckOut" asp-action="PauseCheckOut" asp-controller="ManutationStages" class="btn btn-primary">Sospendi</button>*@
                     <button id="finishCheckOut" asp-controller="ManutationStages" asp-action="FinishCheckOut" class="btn btn-primary">Chiudi  CHECK OUT E Passa alla  VALIDAZIONE</button>
                 </div>
             </form>
@@ -231,7 +232,7 @@ else
                     </label>
                     <a><i class="fa fa-plus-square fa-lg"></i></a>
                     @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
-            <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                        <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
                 </div>
                 <div class="form-group">
                     <label class="control-label">
@@ -275,3 +276,5 @@ else
         </div>
     </div>
 }
+
+@await Component.InvokeAsync("PauseReason", new { action = "PauseCheckOut", controller = "ManutationStages", stageName = "Check Out", manutationId = @Model.Id.ToString() })

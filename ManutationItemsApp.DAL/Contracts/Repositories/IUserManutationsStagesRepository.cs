@@ -9,5 +9,6 @@ namespace ManutationItemsApp.DAL.Contracts.Repositories
     public interface IUserManutationsStagesRepository:IRepositoryBase<UserManutationStage>
     {
         public void CreateNewAsync(ApplicationUser user, ManutationStage stage);
+        public Task<List<string>> GetAllPerformersOfManutation(int id);
     }
 }

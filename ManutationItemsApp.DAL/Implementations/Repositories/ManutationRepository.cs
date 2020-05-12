@@ -18,7 +18,9 @@ namespace ManutationItemsApp.DAL.Repositories
 
         public async Task<Manutation> FindByIdAsync(int id)
         {
-            return await RepositoryContext.Manutations.FirstAsync(a => a.Id == id);
+            return await RepositoryContext.Manutations.Where(a => a.Id == id)
+                .Include(a => a.Creator)
+                .FirstAsync();
         }
 
         public async Task<List<Manutation>> GetAllManutationsWithTimelines()
