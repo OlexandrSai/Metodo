@@ -11,6 +11,7 @@ namespace ManutationItemsApp.Service.Dto.Manutatons
         public string UserId { get; set; }
         public bool IsFailure { get; set; }
         public bool IsCartolinaRossa { get; set; }
+        public bool IsOtherActivity { get; set; }
         public DateTime DateOfCreation { get; set; }
         [Required]
         public string AssetName { get; set; }

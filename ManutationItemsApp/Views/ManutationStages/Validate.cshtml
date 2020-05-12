@@ -25,6 +25,10 @@
 <div class="card mt-5 disabledcard">
     <div class="card-header">
         Richiesta
+        @if (Model.IsOtherActivity)
+        {
+            <button type="button" class="btn" style="border: 3px solid #0000FF">#@Model.Id</button> <i class="fa fa-print fa-lg"></i>
+        }
         @if (Model.IsFailure)
         {
             <button type="button" class="btn btn-danger rounded-circle">#@Model.Id</button> <i class="fa fa-print fa-lg"></i>
@@ -35,15 +39,18 @@
         }
         else
         {
-            <button type="button" class="btn btn-warning rounded-circle">#@Model.Id</button> <i class="fa fa-print fa-lg"></i>
+            @if (!Model.IsOtherActivity)
+            {
+                <button type="button" class="btn btn-warning rounded-circle">#@Model.Id</button> <i class="fa fa-print fa-lg"></i>
+            }
         }
-    <div class="form-group">
-        <label class="control-label">
-            <i class="fa fa-calendar-check fa-lg"></i>  Date e Ora Richiesta Intervento
-        </label>
-        @Html.EditorFor(m => m.DateOfCreation)
-        <span asp-validation-for="@Model.DateOfCreation" class="text-danger"></span>
-    </div>
+        <div class="form-group">
+            <label class="control-label">
+                <i class="fa fa-calendar-check fa-lg"></i>  Date e Ora Richiesta Intervento
+            </label>
+            @Html.EditorFor(m => m.DateOfCreation)
+            <span asp-validation-for="@Model.DateOfCreation" class="text-danger"></span>
+        </div>
     </div>
     <div class="card-body">
         <form asp-action="Start" asp-controller="ManutationStages">
@@ -528,6 +535,15 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="form-group" id="checkOutNotediv">
+        <div>
+            <label class="control-label">
+                Note:
+            </label>
+            @Html.DisplayFor(m=>m.CheckOutNote)
         </div>
     </div>
 

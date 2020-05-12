@@ -34,15 +34,15 @@ namespace ManutationItemsApp.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(int itemId,UserRolesRules userRules, bool active)
         {
+            List<string> performers = await _unitOfWork.UserManutationsStagesRepository.GetAllPerformersOfManutation(itemId);
             AssignButtonViewComponentModel model = new AssignButtonViewComponentModel()
             {
                 ItemId = itemId,
                 UserRules = userRules,
                 Active=active
             };
-            if (model.Active)
+            if (model.Active||performers.Contains(User.Identity.Name))
             {
-                List<string> performers = await _unitOfWork.UserManutationsStagesRepository.GetAllPerformersOfManutation(itemId);
                 return View("PerformersList", performers);
             }
             return View(model);

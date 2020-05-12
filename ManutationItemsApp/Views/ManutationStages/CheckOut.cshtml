@@ -100,7 +100,7 @@
                 <div class="form-group">
                     <a class="btn btn-success mr-4" data-toggle="modal" data-target="#pauseCheckOutReasonModal">Sospendi</a>
                     @*<button id="pauseCheckOut" asp-action="PauseCheckOut" asp-controller="ManutationStages" class="btn btn-primary">Sospendi</button>*@
-                    <button id="finishCheckOut" asp-controller="ManutationStages" asp-action="FinishCheckOut" class="btn btn-primary">Chiudi  CHECK OUT E Passa alla  VALIDAZIONE</button>
+                    <button class="btn btn-primary" id="showCheckOutNote">Chiudi  CHECK OUT</button>
                 </div>
             </form>
             <div class="modal fade" id="checkOutAttrezzaturaModal" tabindex="-1" role="dialog" aria-labelledby="checkOutAttrezzaturaModal" aria-hidden="true">
@@ -276,5 +276,18 @@ else
         </div>
     </div>
 }
+
+<div class="form-group" id="checkOutNotediv" style="display:none">
+    <div>
+        <label class="control-label">
+            Note:
+        </label>
+        <textarea name="CheckOutNote" asp-for="@Model.CheckOutNote" class="form-control"></textarea>
+    </div>
+    <div class="mt-4">
+        <button id="finishCheckOut" asp-controller="ManutationStages" asp-action="FinishCheckOut" class="btn btn-primary">Passa alla  VALIDAZIONE</button>
+    </div>
+    
+</div>
 
 @await Component.InvokeAsync("PauseReason", new { action = "PauseCheckOut", controller = "ManutationStages", stageName = "Check Out", manutationId = @Model.Id.ToString() })

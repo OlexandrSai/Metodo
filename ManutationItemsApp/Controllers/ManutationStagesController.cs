@@ -42,6 +42,7 @@ namespace ManutationItemsApp.Controllers
         public Dictionary<string, int> CheckOutMeasuringTools { get; set; }
         public DateTime CheckOutStartDate { get; set; }
         public DateTime? CheckOutEndDate { get; set; }
+        public string CheckOutNote { get; set; }
     }
     public class CheckIn
     {
@@ -75,6 +76,7 @@ namespace ManutationItemsApp.Controllers
         public Dictionary<string, int> MeasuringTools { get; set; }
         public DateTime CheckOutStartDate { get; set; }
         public DateTime? CheckOutEndDate { get; set; }
+        public string CheckOutNote { get; set; }
 
     }
     public class ManutationStagesController : Controller
@@ -232,7 +234,7 @@ namespace ManutationItemsApp.Controllers
 
                 ViewBag.freeMastersNames = new SelectList(await _unitOfWork.ApplicationUserRepository.GetAllFreeUsersNamesAsync());
                 List<Manutation> model = await _unitOfWork.ManutationRepository.GetManutationsWithTimelinesById(_userManager.GetUserId(User));
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details),new { id = manutationId });
             }
             catch (Exception e)
             {
@@ -524,7 +526,7 @@ namespace ManutationItemsApp.Controllers
             try
             {
 
-
+                id = Convert.ToInt32(id);
                 var model = await _unitOfWork.ManutationRepository.GetManutation(id);
                 if (User.IsInRole("Master"))
                 {
@@ -1295,6 +1297,9 @@ namespace ManutationItemsApp.Controllers
                 //ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames(), manutation.ErrorCode.Name);
                 //ViewBag.FaultTypeName = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllFaultTypes(), manutation.ManutationType.Name);
 
+                manutation.CheckOutNote = model.CheckOutNote;
+                await _unitOfWork.CommitAsync();
+
                 var stage = manutation.ManutationStages.First(a => a.Active);
                 stage.Description = model.Description;
                 DateTime now = DateTime.Now;
@@ -1461,6 +1466,7 @@ namespace ManutationItemsApp.Controllers
                 manutation.ErrorCode = errorCode;
                 manutation.TypeOfFault = Fault;
                 manutation.Asset.WorkingHoursCount = model.CheckInWorkingHoursCount;
+                manutation.CheckOutNote = model.CheckOutNote;
                 DateTime now = DateTime.Now;
 
                 if (stage.StartDate != model.CheckInStartDate)
