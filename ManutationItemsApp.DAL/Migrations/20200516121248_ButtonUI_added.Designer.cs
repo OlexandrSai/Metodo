@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ManutationItemsApp.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200512125419_Initial")]
-    partial class Initial
+    [Migration("20200516121248_ButtonUI_added")]
+    partial class ButtonUI_added
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -252,6 +252,27 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.HasIndex("AssetId");
 
                     b.ToTable("AssetsItems");
+                });
+
+            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.ButtonUI", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RuleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ButtonUIs");
                 });
 
             modelBuilder.Entity("ManutationItemsApp.Domain.Entities.Consumable", b =>
@@ -554,6 +575,9 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.Property<string>("BaseDescription")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CheckOutNote")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CreatorId")
                         .HasColumnType("nvarchar(450)");
 
@@ -570,6 +594,9 @@ namespace ManutationItemsApp.DAL.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsFailure")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsOtherActivity")
                         .HasColumnType("bit");
 
                     b.Property<int?>("ManutationTypeId")

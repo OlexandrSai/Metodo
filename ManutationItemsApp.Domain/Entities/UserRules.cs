@@ -15,5 +15,6 @@ namespace ManutationItemsApp.Domain.Entities
         public bool CanConsultateActive { get; set; }
         public bool CanValidate { get; set; }
 
+        public bool CanDoActivity { get; set; }
     }
 }

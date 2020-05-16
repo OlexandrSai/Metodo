@@ -24,6 +24,21 @@
         @if (User.IsInRole("Simple User"))
         {
             <h2>Simple User View</h2>
+            @await Component.InvokeAsync("Button", new { buttonText = "Le mie attività", roleId = ViewBag.roleId })
+            @*<div class="row mt-4 ">
+                    <div class="float-left">
+                        @if (ViewBag.ManutationsToValidateCount > 0)
+                        {
+                            <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">Le mie attività <span class="badge badge-danger">@ViewBag.ManutationsToValidateCount</span></a>
+
+                        }
+                        else
+                        {
+                            <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">Le mie attività</a>
+
+                        }
+                    </div>
+                </div>*@
             <div class="row justify-content-center mt-4">
                 <a asp-action="Create" asp-controller="Manutations" asp-route-mType="CORRETTIVA" type="button" class="btn btn-danger btn-lg mr-5">NUOVA RICHIESTA</a>
                 <a type="button" class="btn btn-danger btn-lg mr-5">PREVENTIVA</a>
@@ -34,7 +49,7 @@
         @if (User.IsInRole("Master"))
         {
             <h2>Master View</h2>
-            
+
             <div id="stagesDiv"></div>
 
         }
@@ -48,20 +63,21 @@
         @if (User.IsInRole("Maintance Supervisor"))
         {
             <h2>Maintance Supervisor View</h2>
-            <div class="row mt-4 ">
-                <div class="float-left">
-                    @if (ViewBag.ManutationsToValidateCount > 0)
-                    {
-                        <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">Le mie attività <span class="badge badge-danger">@ViewBag.ManutationsToValidateCount</span></a>
+            @await Component.InvokeAsync("Button", new { buttonText = "Le mie attività", roleId = ViewBag.roleId })
+            @*<div class="row mt-4 ">
+                    <div class="float-left">
+                        @if (ViewBag.ManutationsToValidateCount > 0)
+                        {
+                            <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">Le mie attività <span class="badge badge-danger">@ViewBag.ManutationsToValidateCount</span></a>
 
-                    }
-                    else
-                    {
-                        <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">Le mie attività</a>
+                        }
+                        else
+                        {
+                            <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">Le mie attività</a>
 
-                    }
-                </div>
-            </div>
+                        }
+                    </div>
+                </div>*@
             <div class="row justify-content-center mt-4">
                 <a asp-action="Create" asp-controller="Manutations" asp-route-mType="CORRETTIVA" type="button" class="btn btn-danger btn-lg mr-5">NUOVA RICHIESTA</a>
                 <a type="button" class="btn btn-danger btn-lg mr-5">PREVENTIVA</a>
@@ -83,26 +99,27 @@
         {
             <h2>Admin View</h2>
 
-            <div class="row mt-4 ">
-                <div class="float-left">
-                    @if (ViewBag.ManutationsToAssignCount > 0)
-                    {
-                        <a type="button" class="btn btn-warning" asp-controller="Manutations" asp-action="GetAllNeededToAssign">Le mie attività <span class="badge badge-danger">@ViewBag.ManutationsToAssignCount</span></a>
+            @await Component.InvokeAsync("Button", new { buttonText = "Le mie attività", roleId = ViewBag.roleId })
+            @*<div class="row mt-4 ">
+                    <div class="float-left">
+                        @if (ViewBag.ManutationsToValidateCount > 0)
+                        {
+                            <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">Le mie attività <span class="badge badge-danger">@ViewBag.ManutationsToValidateCount</span></a>
 
-                    }
-                    else
-                    {
-                        <a type="button" class="btn btn-warning" asp-controller="Manutations" asp-action="GetAllNeededToAssign">Le mie attività</a>
+                        }
+                        else
+                        {
+                            <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">Le mie attività</a>
 
-                    }
+                        }
+                    </div>
+                </div>*@
+            <div class="float-right">
+                <button type="button" class="btn btn-light btn-lg mr-1 assetBtn">Asset</button>
+                <a type="button" class="btn btn-light btn-lg mr-1" asp-controller="Items" asp-action="Index">Items</a>
 
-                </div>
-                <div class="float-right">
-                    <button type="button" class="btn btn-light btn-lg mr-1 assetBtn">Asset</button>
-                    <a type="button" class="btn btn-light btn-lg mr-1" asp-controller="Items" asp-action="Index">Items</a>
-
-                </div>
             </div>
+
             <div class="row mt-4">
                 <button type="button" class="btn btn-primary btn-lg btn-block">CALENDARIO - PLANNING</button>
             </div>

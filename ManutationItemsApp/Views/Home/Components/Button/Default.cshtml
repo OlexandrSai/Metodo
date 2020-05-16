@@ -1,0 +1,15 @@
+﻿@model ManutationItemsApp.ViewComponents.ButtonViewComponentModel
+
+@if (Model.UserRules.CanDoActivity)
+{
+    <div class="row mt-4 ">
+        <div class="float-left">
+           
+            
+                <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">@Model.ButtonUI.Text</a>
+
+          
+        </div>
+    </div>
+
+}

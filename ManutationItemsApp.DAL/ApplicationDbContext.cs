@@ -38,6 +38,7 @@ namespace ManutationItemsApp.DAL
         public DbSet<MeasuringToolTemp> MeasuringToolTemps { get; set; }
         public DbSet<UserRolesRules> UserRolesRules { get; set; }
         public DbSet<PauseReason> PauseReasons { get; set; }
+        public DbSet<ButtonUI> ButtonUIs { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
