@@ -1,15 +1,19 @@
 ﻿@model ManutationItemsApp.ViewComponents.ButtonViewComponentModel
 
-@if (Model.UserRules.CanDoActivity)
+
+@switch (Model.ButtonUI.RuleName)
 {
-    <div class="row mt-4 ">
-        <div class="float-left">
-           
-            
-                <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">@Model.ButtonUI.Text</a>
+    case "CanDoActivity":
+        @if (Model.UserRules.CanDoActivity)
+        {
+            <div class="row mt-4 ">
+                <div class="float-left">
+                    <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">@Model.ButtonUI.Text</a>
+                </div>
+            </div>
 
-          
-        </div>
-    </div>
-
+        }
+        break;
+    default:
+        break;
 }

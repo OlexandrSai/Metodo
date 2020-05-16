@@ -499,7 +499,7 @@ namespace ManutationItemsApp.Controllers
                 //});
                 #endregion
 
-                if (User != null)
+                if (User.Identity.Name != null)
                 {
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);
                     var roles = await _userManager.GetRolesAsync(user);

@@ -22,6 +22,7 @@ namespace ManutationItemsApp.DAL.Contracts.Repositories
         Task<List<string>> GetAllFreeUsersNamesAsync();
 
         Task<UserRolesRules> GetUserRulesAsync(string roleId);
+        UserRolesRules GetUserRules(string roleId);
 
 
     }
