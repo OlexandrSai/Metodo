@@ -25,7 +25,7 @@ namespace ManutationItemsApp.Controllers
         public string CheckInErrorCode { get; set; }
         public string CheckInFaultType { get; set; }
         public DateTime CheckInStartDate { get; set; }
-        public DateTime? CheckInEndDate { get; set; }
+        //public DateTime? CheckInEndDate { get; set; }
 
 
         public string AttivitaDescription { get; set; }
@@ -33,14 +33,14 @@ namespace ManutationItemsApp.Controllers
         public Dictionary<string, int> AttivitaConsumables { get; set; }
         public Dictionary<string, int> AttivitaTools { get; set; }
         public Dictionary<string, int> AttivitaMeasuringTools { get; set; }
-        public DateTime AttivitaStartDate { get; set; }
-        public DateTime? AttivitaEndDate { get; set; }
+        //public DateTime AttivitaStartDate { get; set; }
+        //public DateTime? AttivitaEndDate { get; set; }
 
 
         public string CheckOutDescription { get; set; }
         public Dictionary<string, int> CheckOutTools { get; set; }
         public Dictionary<string, int> CheckOutMeasuringTools { get; set; }
-        public DateTime CheckOutStartDate { get; set; }
+        //public DateTime CheckOutStartDate { get; set; }
         public DateTime? CheckOutEndDate { get; set; }
         public string CheckOutNote { get; set; }
     }
@@ -52,7 +52,7 @@ namespace ManutationItemsApp.Controllers
         public string CheckInErrorCode { get; set; }
         public string CheckInFaultType { get; set; }
         public DateTime CheckInStartDate { get; set; }
-        public DateTime? CheckInEndDate { get; set; }
+        //public DateTime? CheckInEndDate { get; set; }
     }
 
     public class Attivita
@@ -63,8 +63,8 @@ namespace ManutationItemsApp.Controllers
         public Dictionary<string, int> Consumables { get; set; }
         public Dictionary<string, int> Tools { get; set; }
         public Dictionary<string, int> MeasuringTools { get; set; }
-        public DateTime AttivitaStartDate { get; set; }
-        public DateTime? AttivitaEndDate { get; set; }
+        //public DateTime AttivitaStartDate { get; set; }
+        //public DateTime? AttivitaEndDate { get; set; }
 
     }
 
@@ -74,7 +74,7 @@ namespace ManutationItemsApp.Controllers
         public string Description { get; set; }
         public Dictionary<string, int> Tools { get; set; }
         public Dictionary<string, int> MeasuringTools { get; set; }
-        public DateTime CheckOutStartDate { get; set; }
+        //public DateTime CheckOutStartDate { get; set; }
         public DateTime? CheckOutEndDate { get; set; }
         public string CheckOutNote { get; set; }
 
@@ -753,14 +753,17 @@ namespace ManutationItemsApp.Controllers
             {
                 stage.StartDate = model.CheckInStartDate;
             }
-            if (model.CheckInEndDate == null)
-            {
-                stage.EndDate = now;
-            }
-            else
-            {
-                stage.EndDate = model.CheckInEndDate;
-            }
+
+            stage.EndDate = now;
+            //if (model.CheckInEndDate == null)
+            //{
+            //    stage.EndDate = now;
+            //}
+            //else
+            //{
+            //    stage.EndDate = model.CheckInEndDate;
+            //}
+
             await _unitOfWork.CommitAsync();
 
             var prevStatus = stage.Statuses.First(a => a.Active);
@@ -815,14 +818,14 @@ namespace ManutationItemsApp.Controllers
             {
                 stage.StartDate = model.CheckInStartDate;
             }
-            if (model.CheckInEndDate == null)
-            {
-                stage.EndDate = now;
-            }
-            else
-            {
-                stage.EndDate = model.CheckInEndDate;
-            }
+            //if (model.CheckInEndDate == null)
+            //{
+            //    stage.EndDate = now;
+            //}
+            //else
+            //{
+            //    stage.EndDate = model.CheckInEndDate;
+            //}
             await _unitOfWork.CommitAsync();
 
 
@@ -830,7 +833,7 @@ namespace ManutationItemsApp.Controllers
         }
         #endregion
 
-        #region Ativita
+        #region Attivita
 
         [HttpPost]
         public async Task<IActionResult> PauseAttivita(string pauseReason,[FromBody]Attivita model)
@@ -850,10 +853,10 @@ namespace ManutationItemsApp.Controllers
 
                 var stage = manutation.ManutationStages.First(a => a.Active);
                 stage.Description = model.Description;
-                if (stage.StartDate != model.AttivitaStartDate)
-                {
-                    stage.StartDate = model.AttivitaStartDate;
-                }
+                //if (stage.StartDate != model.AttivitaStartDate)
+                //{
+                //    stage.StartDate = model.AttivitaStartDate;
+                //}
                 await _unitOfWork.CommitAsync();
 
                 var prevStatus = stage.Statuses.First(a => a.Active);
@@ -964,18 +967,21 @@ namespace ManutationItemsApp.Controllers
                 stage.Description = model.Description;
                 DateTime now = DateTime.Now;
 
-                if (stage.StartDate != model.AttivitaStartDate)
-                {
-                    stage.StartDate = model.AttivitaStartDate;
-                }
-                if (model.AttivitaEndDate == null)
-                {
-                    stage.EndDate = now;
-                }
-                else
-                {
-                    stage.EndDate = model.AttivitaEndDate;
-                }
+                stage.StartDate = now;
+                //if (stage.StartDate != model.AttivitaStartDate)
+                //{
+                //    stage.StartDate = model.AttivitaStartDate;
+                //}
+
+                stage.EndDate = now;
+                //if (model.CheckInEndDate == null)
+                //{
+                //    stage.EndDate = now;
+                //}
+                //else
+                //{
+                //    stage.EndDate = model.CheckInEndDate;
+                //}
                 await _unitOfWork.CommitAsync();
 
                 var prevStatus = stage.Statuses.First(a => a.Active);
@@ -1099,18 +1105,18 @@ namespace ManutationItemsApp.Controllers
                 stage.Description = model.Description;
                 DateTime now = DateTime.Now;
 
-                if (stage.StartDate != model.AttivitaStartDate)
-                {
-                    stage.StartDate = model.AttivitaStartDate;
-                }
-                if (model.AttivitaEndDate == null)
-                {
-                    stage.EndDate = now;
-                }
-                else
-                {
-                    stage.EndDate = model.AttivitaEndDate;
-                }
+                //if (stage.StartDate != model.AttivitaStartDate)
+                //{
+                //    stage.StartDate = model.AttivitaStartDate;
+                //}
+                //if (model.AttivitaEndDate == null)
+                //{
+                //    stage.EndDate = now;
+                //}
+                //else
+                //{
+                //    stage.EndDate = model.AttivitaEndDate;
+                //}
                 await _unitOfWork.CommitAsync();
 
                 if (model.Consumables.Count > 0)
@@ -1211,18 +1217,18 @@ namespace ManutationItemsApp.Controllers
                 stage.Description = model.Description;
                 DateTime now = DateTime.Now;
 
-                if (stage.StartDate != model.CheckOutStartDate)
-                {
-                    stage.StartDate = model.CheckOutStartDate;
-                }
-                if (model.CheckOutEndDate == null)
-                {
-                    stage.EndDate = now;
-                }
-                else
-                {
-                    stage.EndDate = model.CheckOutEndDate;
-                }
+                //if (stage.StartDate != model.CheckOutStartDate)
+                //{
+                //    stage.StartDate = model.CheckOutStartDate;
+                //}
+                //if (model.CheckOutEndDate == null)
+                //{
+                //    stage.EndDate = now;
+                //}
+                //else
+                //{
+                //    stage.EndDate = model.CheckOutEndDate;
+                //}
 
                 await _unitOfWork.CommitAsync();
 
@@ -1304,10 +1310,11 @@ namespace ManutationItemsApp.Controllers
                 stage.Description = model.Description;
                 DateTime now = DateTime.Now;
 
-                if (stage.StartDate != model.CheckOutStartDate)
-                {
-                    stage.StartDate = model.CheckOutStartDate;
-                }
+                stage.StartDate = now;
+                //if (stage.StartDate != model.CheckOutStartDate)
+                //{
+                //    stage.StartDate = model.CheckOutStartDate;
+                //}
                 if (model.CheckOutEndDate == null)
                 {
                     stage.EndDate = now;
@@ -1473,14 +1480,15 @@ namespace ManutationItemsApp.Controllers
                 {
                     stage.StartDate = model.CheckInStartDate;
                 }
-                if (model.CheckInEndDate == null)
-                {
-                    stage.EndDate = now;
-                }
-                else
-                {
-                    stage.EndDate = model.CheckInEndDate;
-                }
+                
+                //if (model.CheckInEndDate == null)
+                //{
+                //    stage.EndDate = now;
+                //}
+                //else
+                //{
+                //    stage.EndDate = model.CheckInEndDate;
+                //}
                 await _unitOfWork.CommitAsync();
 
                 ViewBag.ItemsNames = new SelectList(await _unitOfWork.ManutationStageRepository.GetAllItemsNames(manutation.Asset.ModelName));
@@ -1494,18 +1502,18 @@ namespace ManutationItemsApp.Controllers
                 stage.Description = model.AttivitaDescription;
                 now = DateTime.Now;
 
-                if (stage.StartDate != model.AttivitaStartDate)
-                {
-                    stage.StartDate = model.AttivitaStartDate;
-                }
-                if (model.AttivitaEndDate == null)
-                {
-                    stage.EndDate = now;
-                }
-                else
-                {
-                    stage.EndDate = model.AttivitaEndDate;
-                }
+                //if (stage.StartDate != model.AttivitaStartDate)
+                //{
+                //    stage.StartDate = model.AttivitaStartDate;
+                //}
+                //if (model.AttivitaEndDate == null)
+                //{
+                //    stage.EndDate = now;
+                //}
+                //else
+                //{
+                //    stage.EndDate = model.AttivitaEndDate;
+                //}
                 await _unitOfWork.CommitAsync();
 
                 if (model.AttivitaConsumables.Count > 0)
@@ -1575,17 +1583,57 @@ namespace ManutationItemsApp.Controllers
                 //}
                 await _unitOfWork.CommitAsync();
 
-                //CheckOut checkOut = new CheckOut()
-                //{
-                //    ManutationId = model.ManutationId,
-                //    Description = model.AttivitaDescription,
-                //    CheckOutStartDate = model.CheckOutStartDate,
-                //    CheckOutEndDate = model.CheckOutEndDate,
-                //    MeasuringTools = model.CheckOutMeasuringTools,
-                //    Tools = model.CheckOutTools
-                //};
-                //Task.Run(async () => await FinishCheckOut(checkOut));
+                stage = manutation.ManutationStages.First(a => a.Name == "Check Out");
+                stage.Description = model.CheckOutDescription;
+                now = DateTime.Now;
 
+                //if (stage.StartDate != model.AttivitaStartDate)
+                //{
+                //    stage.StartDate = model.AttivitaStartDate;
+                //}
+                if (model.CheckOutEndDate == null)
+                {
+                    stage.EndDate = now;
+                }
+                else
+                {
+                    stage.EndDate = model.CheckOutEndDate;
+                }
+                await _unitOfWork.CommitAsync();
+
+                if (model.CheckOutTools.Count > 0)
+                {
+                    foreach (var item in model.AttivitaTools)
+                    {
+                        if (stage.Tools.Count(a => a.Name == item.Key) > 0)
+                        {
+                            stage.Tools.First(a => a.Name == item.Key).Count = item.Value.ToString();
+                        }
+                        else
+                        {
+                            var tool = _unitOfWork.ToolRepository.FindByCondition(a => a.Name == item.Key).First();
+                            await _unitOfWork.ManutationStageRepository.AddTool(new ToolTemp() { Id = Guid.NewGuid().ToString(), ManutationStage = stage, Name = tool.Name, Count = item.Value.ToString() });
+                        }
+                    }
+                }
+
+                if (model.CheckOutMeasuringTools.Count > 0)
+                {
+                    foreach (var item in model.AttivitaMeasuringTools)
+                    {
+                        if (stage.MeasuringTools.Count(a => a.Name == item.Key) > 0)
+                        {
+                            stage.MeasuringTools.First(a => a.Name == item.Key).Count = item.Value.ToString();
+                        }
+                        else
+                        {
+                            var tool = _unitOfWork.MeasuringToolRepository.FindByCondition(a => a.Name == item.Key).First();
+                            await _unitOfWork.ManutationStageRepository.AddMeasuringTool(new MeasuringToolTemp() { Id = Guid.NewGuid().ToString(), ManutationStage = stage, Name = tool.Name, Count = item.Value.ToString() });
+                        }
+                    }
+                }
+
+                await _unitOfWork.CommitAsync();
 
                 var prevStage = manutation.ManutationStages.First(a => a.Active);
                 var prevStatus = prevStage.Statuses.First(a => a.Active);

@@ -18,13 +18,13 @@
                 <input asp-for="@stage.StartDate" name="CheckInStartDate" class="form-control" placeholder="" />
                 <span asp-validation-for="@stage.StartDate" class="text-danger"></span>
             </div>
-            <div class="input-group mt-2 col-4">
+            @*<div class="input-group mt-2 col-4">
                 <div class="input-group-prepend">
                     <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
                 </div>
                 <input asp-for="@stage.EndDate" name="CheckInEndDate" class="form-control" placeholder="" />
                 <span asp-validation-for="@stage.EndDate" class="text-danger"></span>
-            </div>
+            </div>*@
         </div>
         <div class="card-body">
             <form>
@@ -109,7 +109,7 @@ else
                 </div>
             }
 
-            @if (stage != null && stage.EndDate != null)
+            @*@if (stage != null && stage.EndDate != null)
             {
                 <div class="input-group mt-2 disabled col-4">
                     <div class="input-group-prepend">
@@ -126,7 +126,7 @@ else
                     </div>
                     <input disabled name="CheckInEndDate" class="form-control" />
                 </div>
-            }
+            }*@
 
         </div>
         <div class="card-body disabledcard">

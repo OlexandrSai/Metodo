@@ -6,56 +6,56 @@
 </tr>
 @foreach (var item in Model.toBeResumed)
 {
-    <tr>
-        <td>
-            @if (item.IsOtherActivity)
+<tr >
+    <td>
+        @if (item.IsOtherActivity)
+        {
+            <button type="button" class="btn" style="border: 3px solid #0000FF">@item.Id</button>
+        }
+        @if (item.IsFailure)
+        {
+            <button type="button" class="btn btn-danger rounded-circle">@item.Id</button>
+        }
+        else if (item.IsCartolinaRossa)
+        {
+            <button type="button" class="btn" style="border: 3px solid #FF6347;">@item.Id</button>
+        }
+        else
+        {
+            @if (!item.IsOtherActivity)
             {
-                <button type="button" class="btn" style="border: 3px solid #0000FF">@item.Id</button>
+                <button type="button" class="btn btn-warning rounded-circle">@item.Id</button>
             }
-            @if (item.IsFailure)
-            {
-                <button type="button" class="btn btn-danger rounded-circle">@item.Id</button>
-            }
-            else if (item.IsCartolinaRossa)
-            {
-                <button type="button" class="btn" style="border: 3px solid #FF6347;">@item.Id</button>
-            }
-            else
-            {
-                @if (!item.IsOtherActivity)
-                {
-                    <button type="button" class="btn btn-warning rounded-circle">@item.Id</button>
-                }
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateOfCreation)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BaseDescription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Creator.UserName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Asset.FullName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TypeOfFault.Name)
-        </td>
+        }
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DateOfCreation)
+    </td>
+    <td class="block">
+        <p> @Html.DisplayFor(modelItem => item.Asset.FullName)</p>
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.BaseDescription)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Creator.UserName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.TypeOfFault.Name)
+    </td>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.ManutationStages.First(a => a.Active == true).Statuses.First(a => a.Active == true).Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PauseReason)
-        </td>
-        <td>
-            @*<a type="button" class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>*@
-            @await Component.InvokeAsync("DetailsButton", new { itemId = item.Id, userRules = Model.UserRules })
-        </td>
-        <td>
-            @await  Component.InvokeAsync("AssignButton",new { itemId = item.Id,userRules=Model.UserRules})
-        </td>
-    </tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.ManutationStages.First(a => a.Active == true).Statuses.First(a => a.Active == true).Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.PauseReason)
+    </td>
+    <td>
+        @*<a type="button" class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>*@
+        @await Component.InvokeAsync("DetailsButton", new { itemId = item.Id, userRules = Model.UserRules })
+    </td>
+    <td>
+        @await Component.InvokeAsync("AssignButton", new { itemId = item.Id, userRules = Model.UserRules })
+    </td>
+</tr>
 }

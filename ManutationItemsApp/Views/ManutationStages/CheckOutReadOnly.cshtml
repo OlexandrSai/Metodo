@@ -18,7 +18,7 @@
         <div class="card-header">
                 <button type="button" class="btn btn-success mr-4" disabled>Check Out</button>
             
-            @if (stage != null && stage.StartDate != null)
+            @*@if (stage != null && stage.StartDate != null)
             {
                 <div class="input-group mt-2 disabled col-4">
                     <div class="input-group-prepend">
@@ -35,26 +35,9 @@
                     </div>
                     <input disabled name="CheckOutStartDate" class="form-control" />
                 </div>
-            }
+            }*@
 
-            @if (stage != null && stage.EndDate != null)
-            {
-                <div class="input-group mt-2 disabled col-4">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
-                    </div>
-                    <input disabled asp-for="@stage.EndDate" name="CheckOutEndDate" class="form-control" />
-                </div>
-            }
-            else
-            {
-                <div class="input-group mt-2 disabled col-4">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
-                    </div>
-                    <input disabled name="CheckOutEndDate" class="form-control" />
-                </div>
-            }
+           
         </div>
         <div class="card-body disabledcard">
             <form asp-action="Continue" asp-controller="ManutationStages">
@@ -72,7 +55,7 @@
                     </label>
                     <a><i class="fa fa-plus-square fa-lg"></i></a>
                     @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
-                        <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+            <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
                 </div>
                 <div class="form-group">
                     <label class="control-label">
@@ -112,6 +95,24 @@
                     </div>
                     <a data-toggle="modal" data-target="#checkOutMeasuringModal"><i class="fa fa-plus-square fa-lg"></i></a>
                 </div>
+                @if (stage != null && stage.EndDate != null)
+                {
+                    <div class="input-group mt-2 disabled col-4">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
+                        </div>
+                        <input disabled asp-for="@stage.EndDate" name="CheckOutEndDate" class="form-control" />
+                    </div>
+                }
+                else
+                {
+                    <div class="input-group mt-2 disabled col-4">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
+                        </div>
+                        <input disabled name="CheckOutEndDate" class="form-control" />
+                    </div>
+                }
             </form>
         </div>
     </div>

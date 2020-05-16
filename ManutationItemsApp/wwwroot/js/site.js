@@ -557,7 +557,7 @@ $(document).on('click', '#finishCheckIn', function (e) {
     model.CheckInManutationId = $('input[name=CheckInManutationId]').val();
     model.CheckInDescription = $('textarea[name=CheckInDescription').val();
     model.CheckInStartDate = $('input[name=CheckInStartDate]').val();
-    model.CheckInEndDate = $('input[name=CheckInEndDate]').val();
+    //model.CheckInEndDate = $('input[name=CheckInEndDate]').val();
     model.CheckInWorkingHoursCount = $('input[name=CheckInWorkingHoursCount]').val();
     model.CheckInErrorCode = $('select[name = CheckInErrorCode]').children("option:selected").val();
     model.CheckInFaultType = $('select[name = CheckInFaultType]').children("option:selected").val();
@@ -587,7 +587,7 @@ $(document).on('click', '#editCheckIn', function (e) {
     model.CheckInManutationId = $('input[name=CheckInManutationId]').val();
     model.CheckInDescription = $('textarea[name=CheckInDescription').val();
     model.CheckInStartDate = $('input[name=CheckInStartDate]').val();
-    model.CheckInEndDate = $('input[name=CheckInEndDate]').val();
+    //model.CheckInEndDate = $('input[name=CheckInEndDate]').val();
     model.CheckInWorkingHoursCount = $('input[name=CheckInWorkingHoursCount]').val();
     model.CheckInErrorCode = $('select[name = CheckInErrorCode]').children("option:selected").val();
     model.CheckInFaultType = $('select[name = CheckInFaultType]').children("option:selected").val();
@@ -666,8 +666,8 @@ $(document).on('click', '#finishAttivita', function (e) {
     var model = {};
     model.ManutationId = $('input[name=AttivitaManutationId]').val();
     model.Description = $('textarea[name=AttivitaDescription').val();
-    model.AttivitaStartDate = $('input[name=AttivitaStartDate]').val();
-    model.AttivitaEndDate = $('input[name=AttivitaEndDate]').val();
+    //model.AttivitaStartDate = $('input[name=AttivitaStartDate]').val();
+    //model.AttivitaEndDate = $('input[name=AttivitaEndDate]').val();
     model.SpareParts = {};
     model.Consumables = {};
     model.Tools = {};
@@ -721,8 +721,8 @@ $(document).on('click', '#editAttivita', function (e) {
     var model = {};
     model.ManutationId = $('input[name=AttivitaManutationId]').val();
     model.Description = $('textarea[name=AttivitaDescription').val();
-    model.AttivitaStartDate = $('input[name=AttivitaStartDate]').val();
-    model.AttivitaEndDate = $('input[name=AttivitaEndDate]').val();
+    //model.AttivitaStartDate = $('input[name=AttivitaStartDate]').val();
+    //model.AttivitaEndDate = $('input[name=AttivitaEndDate]').val();
     model.SpareParts = {};
     model.Consumables = {};
     model.Tools = {};
@@ -770,7 +770,7 @@ $(document).on('click', '#pauseCheckOut', function (e) {
     $('#pauseCheckOutReasonModal').modal('hide');
     model.ManutationId = $('input[name=CheckOutManutationId]').val();
     model.Description = $('textarea[name=CheckOutDescription').val();
-    model.CheckOutStartDate = $('input[name=CheckOutStartDate]').val();
+    //model.CheckOutStartDate = $('input[name=CheckOutStartDate]').val();
     model.Tools = {};
     model.MeasuringTools = {};
 
@@ -821,7 +821,7 @@ $(document).on('click', '#finishCheckOut', function (e) {
     var model = {};
     model.ManutationId = $('input[name=CheckOutManutationId]').val();
     model.Description = $('textarea[name=CheckOutDescription').val();
-    model.CheckOutStartDate = $('input[name=CheckOutStartDate]').val();
+    //model.CheckOutStartDate = $('input[name=CheckOutStartDate]').val();
     model.CheckOutEndDate = $('input[name=CheckOutEndDate]').val();
     model.Tools = {};
     model.MeasuringTools = {};
@@ -846,8 +846,9 @@ $(document).on('click', '#finishCheckOut', function (e) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
-            window.location.href = '/ManutationStages';
-        },
+            $('#details').html(data);
+            $('.disabledcard *').prop('disabled', true);
+        }
     });
 });
 

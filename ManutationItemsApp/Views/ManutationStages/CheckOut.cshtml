@@ -20,20 +20,13 @@
     <div class="card mt-5">
         <div class="card-header">
             <button type="button" class="btn btn-success mr-4">Check Out</button>
-            <div class="input-group mt-2 col-4">
-                <div class="input-group-prepend">
-                    <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
-                </div>
-                <input asp-for="@stage.StartDate" name="CheckOutStartDate" class="form-control" placeholder="" />
-                <span asp-validation-for="@stage.StartDate" class="text-danger"></span>
-            </div>
-            <div class="input-group mt-2 col-4">
-                <div class="input-group-prepend">
-                    <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
-                </div>
-                <input asp-for="@stage.EndDate" name="CheckOutEndDate" class="form-control" placeholder="" />
-                <span asp-validation-for="@stage.EndDate" class="text-danger"></span>
-            </div>
+            @*<div class="input-group mt-2 col-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
+                    </div>
+                    <input asp-for="@stage.StartDate" name="CheckOutStartDate" class="form-control" placeholder="" />
+                    <span asp-validation-for="@stage.StartDate" class="text-danger"></span>
+                </div>*@
         </div>
         <div class="card-body">
             <form>
@@ -100,7 +93,7 @@
                 <div class="form-group">
                     <a class="btn btn-success mr-4" data-toggle="modal" data-target="#pauseCheckOutReasonModal">Sospendi</a>
                     @*<button id="pauseCheckOut" asp-action="PauseCheckOut" asp-controller="ManutationStages" class="btn btn-primary">Sospendi</button>*@
-                    <button class="btn btn-primary" id="showCheckOutNote">Chiudi  CHECK OUT</button>
+                    @*<button class="btn btn-primary" id="showCheckOutNote">Chiudi  CHECK OUT</button>*@
                 </div>
             </form>
             <div class="modal fade" id="checkOutAttrezzaturaModal" tabindex="-1" role="dialog" aria-labelledby="checkOutAttrezzaturaModal" aria-hidden="true">
@@ -178,43 +171,24 @@ else
             {
                 <button type="button" class="btn btn-success mr-4" disabled>Check Out</button>
             }
-            @if (stage != null && stage.StartDate != null)
-            {
-                <div class="input-group mt-2 disabled col-4">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
+            @*@if (stage != null && stage.StartDate != null)
+                {
+                    <div class="input-group mt-2 disabled col-4">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
+                        </div>
+                        <input disabled asp-for="@stage.StartDate" name="CheckOutStartDate" class="form-control" />
                     </div>
-                    <input disabled asp-for="@stage.StartDate" name="CheckOutStartDate" class="form-control" />
-                </div>
-            }
-            else
-            {
-                <div class="input-group mt-2 disabled col-4">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
+                }
+                else
+                {
+                    <div class="input-group mt-2 disabled col-4">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
+                        </div>
+                        <input disabled name="CheckOutStartDate" class="form-control" />
                     </div>
-                    <input disabled name="CheckOutStartDate" class="form-control" />
-                </div>
-            }
-
-            @if (stage != null && stage.EndDate != null)
-            {
-                <div class="input-group mt-2 disabled col-4">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
-                    </div>
-                    <input disabled asp-for="@stage.EndDate" name="CheckOutEndDate" class="form-control" />
-                </div>
-            }
-            else
-            {
-                <div class="input-group mt-2 disabled col-4">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
-                    </div>
-                    <input disabled name="CheckOutEndDate" class="form-control" />
-                </div>
-            }
+                }*@
         </div>
         <div class="card-body disabledcard">
             <form asp-action="Continue" asp-controller="ManutationStages">
@@ -277,17 +251,50 @@ else
     </div>
 }
 
-<div class="form-group" id="checkOutNotediv" style="display:none">
+<div class="form-group" id="checkOutNotediv">
     <div>
         <label class="control-label">
             Note:
         </label>
         <textarea name="CheckOutNote" asp-for="@Model.CheckOutNote" class="form-control"></textarea>
     </div>
+    @if (stage != null && stage.Active && stage.Statuses.First(a => a.Active).Name != "Paused" && stage.Active && stage.Statuses.First(a => a.Active).Name != "Finished")
+    {
+        <div class="input-group mt-2 col-4">
+            <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
+            </div>
+            <input asp-for="@stage.EndDate" name="CheckOutEndDate" class="form-control" placeholder="" />
+            <span asp-validation-for="@stage.EndDate" class="text-danger"></span>
+        </div>
+    }
+    else
+    {
+        @if (stage != null && stage.EndDate != null)
+        {
+            <div class="input-group mt-2 disabled col-4">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
+                </div>
+                <input disabled asp-for="@stage.EndDate" name="CheckOutEndDate" class="form-control" />
+            </div>
+        }
+        else
+        {
+            <div class="input-group mt-2 disabled col-4">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
+                </div>
+                <input disabled name="CheckOutEndDate" class="form-control" />
+            </div>
+        }
+    }
     <div class="mt-4">
         <button id="finishCheckOut" asp-controller="ManutationStages" asp-action="FinishCheckOut" class="btn btn-primary">Passa alla  VALIDAZIONE</button>
     </div>
-    
+
 </div>
+
+
 
 @await Component.InvokeAsync("PauseReason", new { action = "PauseCheckOut", controller = "ManutationStages", stageName = "Check Out", manutationId = @Model.Id.ToString() })

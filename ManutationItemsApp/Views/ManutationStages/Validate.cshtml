@@ -105,13 +105,13 @@
             <input asp-for="@checkIn.StartDate" name="CheckInStartDate" class="form-control" placeholder="" />
             <span asp-validation-for="@checkIn.StartDate" class="text-danger"></span>
         </div>
-        <div class="input-group mt-2 col-4">
-            <div class="input-group-prepend">
-                <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
-            </div>
-            <input asp-for="@checkIn.EndDate" name="CheckInEndDate" class="form-control" placeholder="" />
-            <span asp-validation-for="@checkIn.EndDate" class="text-danger"></span>
-        </div>
+        @*<div class="input-group mt-2 col-4">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
+                </div>
+                <input asp-for="@checkIn.EndDate" name="CheckInEndDate" class="form-control" placeholder="" />
+                <span asp-validation-for="@checkIn.EndDate" class="text-danger"></span>
+            </div>*@
     </div>
     <div class="card-body">
         <form>
@@ -157,20 +157,20 @@
 <div class="card mt-5 ">
     <div class="card-header">
         <button type="button" class="btn btn-success mr-4">Attivita</button>
-        <div class="input-group mt-2 col-4">
-            <div class="input-group-prepend">
-                <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
+        @*<div class="input-group mt-2 col-4">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
+                </div>
+                <input asp-for="@attivita.StartDate" name="AttivitaStartDate" class="form-control" />
+                <span asp-validation-for="@attivita.StartDate" class="text-danger"></span>
             </div>
-            <input asp-for="@attivita.StartDate" name="AttivitaStartDate" class="form-control" />
-            <span asp-validation-for="@attivita.StartDate" class="text-danger"></span>
-        </div>
-        <div class="input-group mt-2 col-4">
-            <div class="input-group-prepend">
-                <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
-            </div>
-            <input asp-for="@attivita.EndDate" name="AttivitaEndDate" class="form-control" />
-            <span asp-validation-for="@attivita.EndDate" class="text-danger"></span>
-        </div>
+            <div class="input-group mt-2 col-4">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
+                </div>
+                <input asp-for="@attivita.EndDate" name="AttivitaEndDate" class="form-control" />
+                <span asp-validation-for="@attivita.EndDate" class="text-danger"></span>
+            </div>*@
     </div>
     <div class="card-body">
         <form>
@@ -229,7 +229,7 @@
                 </div>
                 <a data-toggle="modal" data-target="#attivitaConsumableModal"><i class="fa fa-plus-square fa-lg"></i></a>
                 @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
-                <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                    <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
             </div>
             <div class="form-group">
                 <label class="control-label">
@@ -393,160 +393,154 @@
     </div>
 </div>
 
-    <div class="card mt-5">
-        <div class="card-header">
-            <button type="button" class="btn btn-success mr-4">Check Out</button>
-            <div class="input-group mt-2 col-4">
+<div class="card mt-5">
+    <div class="card-header">
+        <button type="button" class="btn btn-success mr-4">Check Out</button>
+        @*<div class="input-group mt-2 col-4">
                 <div class="input-group-prepend">
                     <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
                 </div>
                 <input asp-for="@checkOut.StartDate" name="AttivitaStartDate" class="form-control" />
                 <span asp-validation-for="@checkOut.StartDate" class="text-danger"></span>
+            </div>*@
+    </div>
+    <div class="card-body">
+        <form>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" value="@Model.Id" name="CheckOutManutationId" />
+            <div class="form-group">
+                <label class="control-label">
+                    Descrizione attività di Check Out:
+                </label>
+                <div class="form-group">
+                    <i class="fa fa-file-alt fa-2x"></i>
+                    <i class="fa fa-file-video fa-2x"></i>
+                    <i class="fa fa-file-audio fa-2x"></i>
+                </div>
+                <textarea asp-for="@checkOut.Description" class="form-control" name="CheckOutDescription"></textarea>
+                <span asp-validation-for="@checkOut.Description" class="text-danger"></span>
             </div>
-            <div class="input-group mt-2 col-4">
-                <div class="input-group-prepend">
-                    <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
-                </div>
-                <input asp-for="@checkOut.EndDate" name="AttivitaEndDate" class="form-control" />
-                <span asp-validation-for="@checkOut.EndDate" class="text-danger"></span>
+            <div class="form-group">
+                <label class="control-label">
+                    Aggiungi Manutentore o Outsoucer:
+                </label>
+                <a><i class="fa fa-plus-square fa-lg"></i></a>
+                @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
+                    <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
             </div>
-        </div>
-        <div class="card-body">
-            <form>
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" value="@Model.Id" name="CheckOutManutationId" />
-                <div class="form-group">
-                    <label class="control-label">
-                        Descrizione attività di Check Out:
-                    </label>
-                    <div class="form-group">
-                        <i class="fa fa-file-alt fa-2x"></i>
-                        <i class="fa fa-file-video fa-2x"></i>
-                        <i class="fa fa-file-audio fa-2x"></i>
-                    </div>
-                    <textarea asp-for="@checkOut.Description" class="form-control" name="CheckOutDescription"></textarea>
-                    <span asp-validation-for="@checkOut.Description" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">
-                        Aggiungi Manutentore o Outsoucer:
-                    </label>
-                    <a><i class="fa fa-plus-square fa-lg"></i></a>
-                    @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
-                <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
-                </div>
-                <div class="form-group">
-                    <label class="control-label">
-                        Attrezzatura:
-                    </label>
-                    <div id="checkOutMdcList">
-                        @if (ViewBag.Tools != null)
+            <div class="form-group">
+                <label class="control-label">
+                    Attrezzatura:
+                </label>
+                <div id="checkOutMdcList">
+                    @if (ViewBag.Tools != null)
+                    {
+                        @foreach (var item in ViewBag.Tools)
                         {
-                            @foreach (var item in ViewBag.Tools)
-                            {
-                                <div class="checkOutMdc">
-                                    <button type="button" class="btn btn-light">@item.Name<span class="badge badge-dark">@item.Count</span></button>
-                                    <button type="button" class="checkOutClose"><span aria-hidden="true">&times;</span></button>
-                                </div>
-                            }
+                            <div class="checkOutMdc">
+                                <button type="button" class="btn btn-light">@item.Name<span class="badge badge-dark">@item.Count</span></button>
+                                <button type="button" class="checkOutClose"><span aria-hidden="true">&times;</span></button>
+                            </div>
                         }
+                    }
 
-                    </div>
-                    <a data-toggle="modal" data-target="#checkOutAttrezzaturaModal"><i class="fa fa-plus-square fa-lg"></i></a>
                 </div>
-                <div class="form-group">
-                    <label class="control-label">
-                        Strumento Misura:
-                    </label>
-                    <div id="checkOutMeasuringList">
-                        @if (ViewBag.MeasuringTools != null)
+                <a data-toggle="modal" data-target="#checkOutAttrezzaturaModal"><i class="fa fa-plus-square fa-lg"></i></a>
+            </div>
+            <div class="form-group">
+                <label class="control-label">
+                    Strumento Misura:
+                </label>
+                <div id="checkOutMeasuringList">
+                    @if (ViewBag.MeasuringTools != null)
+                    {
+                        @foreach (var item in ViewBag.MeasuringTools)
                         {
-                            @foreach (var item in ViewBag.MeasuringTools)
-                            {
-                                <div class="checkOutMeasuring">
-                                    <button type="button" class="btn btn-light">@item.Name<span class="badge badge-dark">@item.Count</span></button>
-                                    <button type="button" class="checkOutClose"><span aria-hidden="true">&times;</span></button>
-                                </div>
-                            }
+                            <div class="checkOutMeasuring">
+                                <button type="button" class="btn btn-light">@item.Name<span class="badge badge-dark">@item.Count</span></button>
+                                <button type="button" class="checkOutClose"><span aria-hidden="true">&times;</span></button>
+                            </div>
                         }
+                    }
 
-                    </div>
-                    <a data-toggle="modal" data-target="#checkOutMeasuringModal"><i class="fa fa-plus-square fa-lg"></i></a>
                 </div>
-            </form>
-            <div class="modal fade" id="checkOutAttrezzaturaModal" tabindex="-1" role="dialog" aria-labelledby="checkOutAttrezzaturaModal" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Attrezzatura:</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="form-group">
-                                    <label class="control-label">Name:</label>
-                                    <select id="checkOutMdcName" class="form-control" asp-items="@ViewBag.ToolsNames">
-                                    </select>
-                                    <span class="text-danger">
-                                    </span>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-form-label">Count:</label>
-                                    <input id="checkOutMdcCount" class="form-control" />
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" id="AddCheckOutMdc" class="btn btn-primary">Add</button>
-                        </div>
+                <a data-toggle="modal" data-target="#checkOutMeasuringModal"><i class="fa fa-plus-square fa-lg"></i></a>
+            </div>
+        </form>
+        <div class="modal fade" id="checkOutAttrezzaturaModal" tabindex="-1" role="dialog" aria-labelledby="checkOutAttrezzaturaModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Attrezzatura:</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label class="control-label">Name:</label>
+                                <select id="checkOutMdcName" class="form-control" asp-items="@ViewBag.ToolsNames">
+                                </select>
+                                <span class="text-danger">
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Count:</label>
+                                <input id="checkOutMdcCount" class="form-control" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="AddCheckOutMdc" class="btn btn-primary">Add</button>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="modal fade" id="checkOutMeasuringModal" tabindex="-1" role="dialog" aria-labelledby="checkOutMeasuringModal" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Strumento Misura:</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="form-group">
-                                    <label class="control-label">Name:</label>
-                                    <select id="checkOutMeasuringName" class="form-control" asp-items="@ViewBag.MeasuringToolsNames">
-                                    </select>
-                                    <span class="text-danger">
-                                    </span>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-form-label">Count:</label>
-                                    <input id="checkOutMeasuringCount" class="form-control" />
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" id="AddCheckOutMeasuring" class="btn btn-primary">Add</button>
-                        </div>
+        <div class="modal fade" id="checkOutMeasuringModal" tabindex="-1" role="dialog" aria-labelledby="checkOutMeasuringModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Strumento Misura:</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label class="control-label">Name:</label>
+                                <select id="checkOutMeasuringName" class="form-control" asp-items="@ViewBag.MeasuringToolsNames">
+                                </select>
+                                <span class="text-danger">
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Count:</label>
+                                <input id="checkOutMeasuringCount" class="form-control" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="AddCheckOutMeasuring" class="btn btn-primary">Add</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="form-group" id="checkOutNotediv">
-        <div>
-            <label class="control-label">
-                Note:
-            </label>
-            @Html.DisplayFor(m=>m.CheckOutNote)
-        </div>
-    </div>
 
-    <div class="row justify-content-center">
-        <button id="validate" asp-action="Validate" class="btn btn-success mt-4">Valida</button>
-    </div>
+
+<div class="input-group mt-2 col-4">
+    <label class="control-label">
+        Note:
+    </label>
+    <textarea name="CheckOutNote" asp-for="@Model.CheckOutNote" class="form-control"></textarea>
+    <span asp-validation-for="@checkOut.EndDate" class="text-danger"></span>
+</div>
+
+<div class="row justify-content-center">
+    <button id="validate" asp-action="Validate" class="btn btn-success mt-4">Valida</button>
+</div>
