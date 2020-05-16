@@ -15,7 +15,7 @@ namespace ManutationItemsApp.DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.1")
+                .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -250,6 +250,36 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.HasIndex("AssetId");
 
                     b.ToTable("AssetsItems");
+                });
+
+            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.ButtonUI", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Hight")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Lenght")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RuleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ButtonUIs");
                 });
 
             modelBuilder.Entity("ManutationItemsApp.Domain.Entities.Consumable", b =>
@@ -877,6 +907,9 @@ namespace ManutationItemsApp.DAL.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("CanConsultateHistorical")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanDoActivity")
                         .HasColumnType("bit");
 
                     b.Property<bool>("CanDoNewRequest")

@@ -22,14 +22,17 @@ namespace ManutationItemsApp.Controllers
         private readonly ApplicationDbContext _context;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly UserManager<ApplicationUser> _userManager;
+        
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context,RoleManager<IdentityRole> roleManager,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
             _context = context;
             _roleManager = roleManager;
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
         }
         
 
@@ -495,6 +498,16 @@ namespace ManutationItemsApp.Controllers
                 //    Name = "Competenze Esterne"
                 //});
                 #endregion
+
+                if (User != null)
+                {
+                    var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                    var roles = await _userManager.GetRolesAsync(user);
+                    var role = await _roleManager.FindByNameAsync(roles.First());
+                    ViewBag.roleId = role.Id;
+
+                }
+              
 
                 if (User.IsInRole("Master"))
                 {

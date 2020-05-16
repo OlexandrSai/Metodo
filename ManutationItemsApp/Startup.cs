@@ -87,7 +87,9 @@ namespace ManutationItemsApp
             services.AddScoped<IAssetItemRepository, AssetItemRepository>();
             services.AddScoped<IMeasuringToolRepository, MeasuringToolRepository>();
             services.AddScoped<IPauseReasonRepository, PauseReasonRepository>();
+            services.AddScoped<IButtonUIRepository, ButtonUIRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
