@@ -14,6 +14,8 @@ namespace ManutationItemsApp.ViewComponents
     {
         public ButtonUI ButtonUI { get; set; }
         public UserRolesRules UserRules { get; set; }
+
+  
     }
     public class ButtonViewComponent:ViewComponent
     {
@@ -37,9 +39,27 @@ namespace ManutationItemsApp.ViewComponents
 
             model.ButtonUI = _unitOfWork.ButtonUIRepository.FindByCondition(m => m.Text == buttonText).First();
             model.UserRules =  _unitOfWork.ApplicationUserRepository.GetUserRules(roleId);
+            switch (model.ButtonUI.RuleName)
+            {
+                case "CanDoActivity":
+                    if (model.UserRules.CanDoActivity)
+                    {
+                        return View(model);
+                    }
+                    else
+                    {
+                        return View("noAccess",model);
+                    }
+                   break;
 
-            
-           
+
+
+
+                default:
+                    break;
+            }
+
+
             return View(model);
         }
 

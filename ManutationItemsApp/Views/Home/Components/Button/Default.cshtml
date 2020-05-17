@@ -1,19 +1,6 @@
 ﻿@model ManutationItemsApp.ViewComponents.ButtonViewComponentModel
 
+    @*<a asp-action="@Model.ButtonUI.ActionName" asp-controller="@Model.ButtonUI.ControllerName" asp-route-mType="CORRETTIVA" type="button" class="btn btn-danger btn-lg mr-0"><img src='@Url.Content(@Model.ButtonUI.ImageUrl)' height="80" width="80" /></a>*@
+    <a asp-action="@Model.ButtonUI.ActionName" asp-controller="@Model.ButtonUI.ControllerName" asp-route-mType="@Model.ButtonUI.Type" type="button" class="@Model.ButtonUI.Class" >@Model.ButtonUI.Text</a>
 
-@switch (Model.ButtonUI.RuleName)
-{
-    case "CanDoActivity":
-        @if (Model.UserRules.CanDoActivity)
-        {
-            <div class="row mt-4 ">
-                <div class="float-left">
-                    <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">@Model.ButtonUI.Text</a>
-                </div>
-            </div>
 
-        }
-        break;
-    default:
-        break;
-}

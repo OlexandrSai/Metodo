@@ -114,25 +114,28 @@
                         }
                     </div>
                 </div>*@
-            <div class="float-right">
-                <button type="button" class="btn btn-light btn-lg mr-1 assetBtn">Asset</button>
-                <a type="button" class="btn btn-light btn-lg mr-1" asp-controller="Items" asp-action="Index">Items</a>
+<div class="float-right">
+    @*<button type="button" class="btn btn-light btn-lg mr-1 assetBtn">Asset</button>*@
+    @*<a type="button" class="btn btn-light btn-lg mr-1" asp-controller="Items" asp-action="Index">Items</a>*@
+    @await Component.InvokeAsync("Button", new { buttonText = "Asset", roleId = ViewBag.roleId })
+    @await Component.InvokeAsync("Button", new { buttonText = "Items", roleId = ViewBag.roleId })
 
-            </div>
+</div>
 
             <div class="row mt-4">
                 <button type="button" class="btn btn-primary btn-lg btn-block">CALENDARIO - PLANNING</button>
             </div>
             <div class="row justify-content-center mt-4">
-                <a asp-action="Create" asp-controller="Manutations" asp-route-mType="CORRETTIVA" type="button" class="btn btn-danger btn-lg mr-5">NUOVA RICHIESTA</a>
+                @*<a asp-action="Create" asp-controller="Manutations" asp-route-mType="CORRETTIVA" type="button" class="btn btn-danger btn-lg mr-5">NUOVA RICHIESTA</a>*@
+                @await Component.InvokeAsync("Button", new { buttonText = "Nuova Richiesta", roleId = ViewBag.roleId })
                 <a type="button" class="btn btn-danger btn-lg mr-5">PREVENTIVA</a>
                 <a type="button" class="btn btn-danger btn-lg mr-5">PULIZIE</a>
                 <a type="button" class="btn btn-danger btn-lg mr-5">PREDITTIVA</a>
 
                 @*<a asp-action="Create" asp-controller="Manutations" asp-route-mType="PREVENTIVA" type="button" class="btn btn-danger btn-lg mr-5">PREVENTIVA</a>
-                    <a asp-action="Create" asp-controller="Manutations" asp-route-mType="CARTOLINA ROSSA" type="button" class="btn btn-danger btn-lg mr-5">CARTOLINA ROSSA</a>
-                    <a asp-action="Create" asp-controller="Manutations" asp-route-mType="PULIZIE" type="button" class="btn btn-danger btn-lg mr-5">PULIZIE</a>
-                    <a asp-action="Create" asp-controller="Manutations" asp-route-mType="PREDITTIVA" type="button" class="btn btn-danger btn-lg mr-5">PREDITTIVA</a>*@
+        <a asp-action="Create" asp-controller="Manutations" asp-route-mType="CARTOLINA ROSSA" type="button" class="btn btn-danger btn-lg mr-5">CARTOLINA ROSSA</a>
+        <a asp-action="Create" asp-controller="Manutations" asp-route-mType="PULIZIE" type="button" class="btn btn-danger btn-lg mr-5">PULIZIE</a>
+        <a asp-action="Create" asp-controller="Manutations" asp-route-mType="PREDITTIVA" type="button" class="btn btn-danger btn-lg mr-5">PREDITTIVA</a>*@
             </div>
             <div class="row justify-content-center mt-4">
                 <button type="button" class="btn btn-outline-danger btn-lg mr-2 userBtn">UTENTI</button>

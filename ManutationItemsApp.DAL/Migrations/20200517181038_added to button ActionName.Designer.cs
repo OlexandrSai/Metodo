@@ -4,14 +4,16 @@ using ManutationItemsApp.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ManutationItemsApp.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200517181038_added to button ActionName")]
+    partial class addedtobuttonActionName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -262,9 +264,6 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.Property<string>("ActionName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Class")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ControllerName")
                         .HasColumnType("nvarchar(max)");
 
@@ -275,9 +274,6 @@ namespace ManutationItemsApp.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
