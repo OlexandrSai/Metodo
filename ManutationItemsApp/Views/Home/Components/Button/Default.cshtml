@@ -1,6 +1,6 @@
 ﻿@model ManutationItemsApp.ViewComponents.ButtonViewComponentModel
 
     @*<a asp-action="@Model.ButtonUI.ActionName" asp-controller="@Model.ButtonUI.ControllerName" asp-route-mType="CORRETTIVA" type="button" class="btn btn-danger btn-lg mr-0"><img src='@Url.Content(@Model.ButtonUI.ImageUrl)' height="80" width="80" /></a>*@
-    <a asp-action="@Model.ButtonUI.ActionName" asp-controller="@Model.ButtonUI.ControllerName" asp-route-mType="@Model.ButtonUI.Type" type="button" class="@Model.ButtonUI.Class" >@Model.ButtonUI.Text</a>
+    <a asp-action="@Model.ButtonUI.ActionName" asp-controller="@Model.ButtonUI.ControllerName" asp-route-mType="@Model.ButtonUI.Type" type="button" class="@Model.ButtonUI.Class align-items-center" >@Model.ButtonUI.Text</a>
 
 
