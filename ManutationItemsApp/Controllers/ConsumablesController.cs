@@ -87,7 +87,7 @@ namespace ManutationItemsApp.Controllers
                     return NotFound();
                 }
 
-                var consumable = await _unitOfWork.ConsumableRepository.FindByCondition(i => i.Id == id.Value).FirstAsync();
+                var consumable =  _unitOfWork.ConsumableRepository.FindByCondition(i => i.Id == id.Value).First();
                 if (consumable == null)
                 {
                     return NotFound();
@@ -143,7 +143,7 @@ namespace ManutationItemsApp.Controllers
                 return NotFound();
             }
 
-            var consumable = await _unitOfWork.ConsumableRepository.FindByCondition(t => t.Id == id.Value).FirstAsync();
+            var consumable =  _unitOfWork.ConsumableRepository.FindByCondition(t => t.Id == id.Value).First();
             if (consumable == null)
             {
                 return NotFound();

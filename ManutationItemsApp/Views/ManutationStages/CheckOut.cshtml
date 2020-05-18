@@ -93,8 +93,8 @@
                 <div class="form-group">
                     <a class="btn btn-success mr-4" data-toggle="modal" data-target="#pauseCheckOutReasonModal">Sospendi</a>
                     @*<button id="pauseCheckOut" asp-action="PauseCheckOut" asp-controller="ManutationStages" class="btn btn-primary">Sospendi</button>*@
-                    @*<button class="btn btn-primary" id="showCheckOutNote">Chiudi  CHECK OUT</button>*@
-                </div>
+                <button id="finishCheckOut" asp-controller="ManutationStages" asp-action="FinishCheckOut" class="btn btn-primary">Chiudi CHECK OUT</button>
+</div>
             </form>
             <div class="modal fade" id="checkOutAttrezzaturaModal" tabindex="-1" role="dialog" aria-labelledby="checkOutAttrezzaturaModal" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -290,7 +290,7 @@ else
         }
     }
     <div class="mt-4">
-        <button id="finishCheckOut" asp-controller="ManutationStages" asp-action="FinishCheckOut" class="btn btn-primary">Passa alla  VALIDAZIONE</button>
+        <button id="passOnValidation" asp-controller="ManutationStages" asp-action="FinishCheckOut" class="btn btn-primary">Passa alla  VALIDAZIONE</button>
     </div>
 
 </div>
