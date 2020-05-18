@@ -21,141 +21,60 @@
 <div id="partialViewDiv">
     @if (SignInManager.IsSignedIn(User))
     {
-        @if (User.IsInRole("Simple User"))
-        {
-            <h2>Simple User View</h2>
-            @await Component.InvokeAsync("Button", new { buttonText = "Le mie attività", roleId = ViewBag.roleId })
-            @*<div class="row mt-4 ">
-                    <div class="float-left">
-                        @if (ViewBag.ManutationsToValidateCount > 0)
-                        {
-                            <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">Le mie attività <span class="badge badge-danger">@ViewBag.ManutationsToValidateCount</span></a>
 
-                        }
-                        else
-                        {
-                            <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">Le mie attività</a>
+        @await Component.InvokeAsync("Button", new { buttonText = "Le mie attività", roleId = ViewBag.roleId })
+        @*<div class="row mt-4 ">
+                <div class="float-left">
+                    @if (ViewBag.ManutationsToValidateCount > 0)
+                    {
+                        <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">Le mie attività <span class="badge badge-danger">@ViewBag.ManutationsToValidateCount</span></a>
 
-                        }
-                    </div>
-                </div>*@
-            <div class="row justify-content-center mt-4">
-                <a asp-action="Create" asp-controller="Manutations" asp-route-mType="CORRETTIVA" type="button" class="btn btn-danger btn-lg mr-5">NUOVA RICHIESTA</a>
-                <a type="button" class="btn btn-danger btn-lg mr-5">PREVENTIVA</a>
-                <a type="button" class="btn btn-danger btn-lg mr-5">PULIZIE</a>
-                <a type="button" class="btn btn-danger btn-lg mr-5">PREDITTIVA</a>
-            </div>
-        }
-        @if (User.IsInRole("Master"))
-        {
-            <h2>Master View</h2>
+                    }
+                    else
+                    {
+                        <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">Le mie attività</a>
 
-            <div id="stagesDiv"></div>
+                    }
+                </div>
+            </div>*@
+        <div class="float-right">
 
-        }
-        @if (User.IsInRole("Order Guy"))
-        {
-            <h2>Order Guy View</h2>
-            <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-secondary">Orders</button>
-            </div>
-        }
-        @if (User.IsInRole("Maintance Supervisor"))
-        {
-            <h2>Maintance Supervisor View</h2>
-            @await Component.InvokeAsync("Button", new { buttonText = "Le mie attività", roleId = ViewBag.roleId })
-            @*<div class="row mt-4 ">
-                    <div class="float-left">
-                        @if (ViewBag.ManutationsToValidateCount > 0)
-                        {
-                            <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">Le mie attività <span class="badge badge-danger">@ViewBag.ManutationsToValidateCount</span></a>
+            @await Component.InvokeAsync("Button", new { buttonText = "Asset", roleId = ViewBag.roleId })
+            @await Component.InvokeAsync("Button", new { buttonText = "Items", roleId = ViewBag.roleId })
 
-                        }
-                        else
-                        {
-                            <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">Le mie attività</a>
+        </div>
 
-                        }
-                    </div>
-                </div>*@
-            <div class="row justify-content-center mt-4">
-                <a asp-action="Create" asp-controller="Manutations" asp-route-mType="CORRETTIVA" type="button" class="btn btn-danger btn-lg mr-5">NUOVA RICHIESTA</a>
-                <a type="button" class="btn btn-danger btn-lg mr-5">PREVENTIVA</a>
-                <a type="button" class="btn btn-danger btn-lg mr-5">PULIZIE</a>
-                <a type="button" class="btn btn-danger btn-lg mr-5">PREDITTIVA</a>
-            </div>
-            <div class="row justify-content-center mt-4">
-                <button type="button" class="btn btn-outline-danger btn-lg mr-2">UTENTI</button>
-                <button type="button" class="btn btn-outline-danger btn-lg mr-2">FORNITORI</button>
-                <button type="button" class="btn btn-outline-danger btn-lg mr-2">PARTI RICAMBIO</button>
-                <button type="button" class="btn btn-outline-danger btn-lg mr-2">MATERIALI DI CONSUMO</button>
-                <button type="button" class="btn btn-outline-danger btn-lg mr-2">ATTREZZATURE</button>
-                <button type="button" class="btn btn-outline-danger btn-lg mr-2">STRUMENTI</button>
-                <button type="button" class="btn btn-outline-danger btn-lg mr-2">OUTSOURCER</button>
-            </div>
+        <div class="row mt-4">
 
-        }
-        @if (User.IsInRole("Admin"))
-        {
-            <h2>Admin View</h2>
+            @await Component.InvokeAsync("Button", new { buttonText = "Calendario", roleId = ViewBag.roleId })
+        </div>
+        <div class="row justify-content-center mt-4">
+            @await Component.InvokeAsync("Button", new { buttonText = "Nuova Richiesta", roleId = ViewBag.roleId })
+            @await Component.InvokeAsync("Button", new { buttonText = "Preventiva", roleId = ViewBag.roleId })
+            @await Component.InvokeAsync("Button", new { buttonText = "Pulizie", roleId = ViewBag.roleId })
+            @await Component.InvokeAsync("Button", new { buttonText = "Predittiva", roleId = ViewBag.roleId })
+        </div>
+        <div class="row justify-content-center mt-4">
+            @await Component.InvokeAsync("Button", new { buttonText = "Utenti", roleId = ViewBag.roleId })
+            @await Component.InvokeAsync("Button", new { buttonText = "Fornitori", roleId = ViewBag.roleId })
+            @await Component.InvokeAsync("Button", new { buttonText = "Outsourcer", roleId = ViewBag.roleId })
+            @await Component.InvokeAsync("Button", new { buttonText = "Attrezzature", roleId = ViewBag.roleId })
+        </div>
+        <div class="row justify-content-center mt-4">
+            
+            @await Component.InvokeAsync("Button", new { buttonText = "Strumenti", roleId = ViewBag.roleId })
+            @await Component.InvokeAsync("Button", new { buttonText = "Parti di ricambio - Materiali di consumo", roleId = ViewBag.roleId })
 
-            @await Component.InvokeAsync("Button", new { buttonText = "Le mie attività", roleId = ViewBag.roleId })
-            @*<div class="row mt-4 ">
-                    <div class="float-left">
-                        @if (ViewBag.ManutationsToValidateCount > 0)
-                        {
-                            <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">Le mie attività <span class="badge badge-danger">@ViewBag.ManutationsToValidateCount</span></a>
+        </div>
+        <div class="row justify-content-center mt-4">
+            @await Component.InvokeAsync("Button", new { buttonText = "Kpi", roleId = ViewBag.roleId })
+            @await Component.InvokeAsync("Button", new { buttonText = "Audit", roleId = ViewBag.roleId })
+            @await Component.InvokeAsync("Button", new { buttonText = "Management Review", roleId = ViewBag.roleId })
+        </div>
+        <div class="row mt-4">
 
-                        }
-                        else
-                        {
-                            <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">Le mie attività</a>
-
-                        }
-                    </div>
-                </div>*@
-<div class="float-right">
-    @*<button type="button" class="btn btn-light btn-lg mr-1 assetBtn">Asset</button>*@
-    @*<a type="button" class="btn btn-light btn-lg mr-1" asp-controller="Items" asp-action="Index">Items</a>*@
-    @await Component.InvokeAsync("Button", new { buttonText = "Asset", roleId = ViewBag.roleId })
-    @await Component.InvokeAsync("Button", new { buttonText = "Items", roleId = ViewBag.roleId })
-
-</div>
-
-            <div class="row mt-4">
-                <button type="button" class="btn btn-primary btn-lg btn-block">CALENDARIO - PLANNING</button>
-            </div>
-            <div class="row justify-content-center mt-4">
-                @*<a asp-action="Create" asp-controller="Manutations" asp-route-mType="CORRETTIVA" type="button" class="btn btn-danger btn-lg mr-5">NUOVA RICHIESTA</a>*@
-                @await Component.InvokeAsync("Button", new { buttonText = "Nuova Richiesta", roleId = ViewBag.roleId })
-                <a type="button" class="btn btn-danger btn-lg mr-5">PREVENTIVA</a>
-                <a type="button" class="btn btn-danger btn-lg mr-5">PULIZIE</a>
-                <a type="button" class="btn btn-danger btn-lg mr-5">PREDITTIVA</a>
-
-                @*<a asp-action="Create" asp-controller="Manutations" asp-route-mType="PREVENTIVA" type="button" class="btn btn-danger btn-lg mr-5">PREVENTIVA</a>
-        <a asp-action="Create" asp-controller="Manutations" asp-route-mType="CARTOLINA ROSSA" type="button" class="btn btn-danger btn-lg mr-5">CARTOLINA ROSSA</a>
-        <a asp-action="Create" asp-controller="Manutations" asp-route-mType="PULIZIE" type="button" class="btn btn-danger btn-lg mr-5">PULIZIE</a>
-        <a asp-action="Create" asp-controller="Manutations" asp-route-mType="PREDITTIVA" type="button" class="btn btn-danger btn-lg mr-5">PREDITTIVA</a>*@
-            </div>
-            <div class="row justify-content-center mt-4">
-                <button type="button" class="btn btn-outline-danger btn-lg mr-2 userBtn">UTENTI</button>
-                <a type="button" class="btn btn-outline-danger btn-lg mr-2" asp-controller="Suppliers" asp-action="Index">FORNITORI</a>
-                <button class="btn btn-outline-danger btn-lg mr-2">PARTI RICAMBIO</button>
-                <a type="button" class="btn btn-outline-danger btn-lg mr-2" asp-controller="Consumables" asp-action="Index">MATERIALI DI CONSUMO</a>
-                <button type="button" class="btn btn-outline-danger btn-lg mr-2">ATTREZZATURE</button>
-                <a type="button" class="btn btn-outline-danger btn-lg mr-2" asp-controller="Tools" asp-action="Index">STRUMENTI</a>
-                <button type="button" class="btn btn-outline-danger btn-lg mr-2">OUTSOURCER</button>
-            </div>
-            <div class="row justify-content-center mt-4">
-                <button type="button" class="btn btn-success btn-lg mr-5">KPI</button>
-                <button type="button" class="btn btn-success btn-lg mr-5">AUDIT</button>
-                <button type="button" class="btn btn-success btn-lg mr-5">MANAGEMENT REVIEW</button>
-            </div>
-            <div class="row mt-4">
-                <button type="button" class="btn btn-info btn-lg btn-block">MASTER ACTION PLAN</button>
-            </div>
-        }
-
+            @await Component.InvokeAsync("Button", new { buttonText = "Master Action Plan", roleId = ViewBag.roleId })
+        </div>
 
     }
 </div>
