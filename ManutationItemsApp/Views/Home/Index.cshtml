@@ -26,21 +26,13 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-lg-2">
-                @await Component.InvokeAsync("Button", new { buttonText = "Le mie attività", roleId = ViewBag.roleId, data=Model})
-                @*<div class="row mt-4 ">
-                    <div class="float-left">
-                        @if (ViewBag.ManutationsToValidateCount > 0)
-                        {
-                            <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">Le mie attività <span class="badge badge-danger">@ViewBag.ManutationsToValidateCount</span></a>
 
-                        }
-                        else
-                        {
-                            <a type="button" class="btn btn-warning" asp-action="Index" asp-controller="ManutationStages">Le mie attività</a>
+                    @await Component.InvokeAsync("Button", new { buttonText = "Le mie attività", roleId = ViewBag.roleId, data = Model }) @await Component.InvokeAsync("NotificationsCounter")
 
-                        }
-                    </div>
-                </div>*@
+               
+
+               
+
             </div>
             <div class="col-lg-2">
                 @await Component.InvokeAsync("Button", new { buttonText = "Asset", roleId = ViewBag.roleId, data = Model })
@@ -89,7 +81,7 @@
         </div>
 
         <div class="row justify-content-around mt-4">
-            <div class="col-lg-6">
+            <div class="col-6">
                
                     @await Component.InvokeAsync("Button", new { buttonText = "Parti di ricambio - Materiali di consumo", roleId = ViewBag.roleId, data = Model })
                 
@@ -104,10 +96,10 @@
    
 
                 <div class="row justify-content-around mt-4">
-                    <div class="col-4">
+                    <div class="col-2 offset-2">
                         @await Component.InvokeAsync("Button", new { buttonText = "Kpi", roleId = ViewBag.roleId, data = Model })
                     </div>
-                    <div class="col-4">
+                    <div class="col-3 offset-1">
                         @await Component.InvokeAsync("Button", new { buttonText = "Audit", roleId = ViewBag.roleId, data = Model })
                     </div>
                     <div class="col-4">
