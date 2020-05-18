@@ -145,5 +145,17 @@ namespace ManutationItemsApp.Controllers
         //{
         //    return _context.Suppliers.Any(e => e.Id == id);
         //}
+
+        #region API CALLS
+
+        [HttpGet]
+        public IActionResult GetAllJson()
+        {
+            var allObj = _unitOfWork.SupplierRepository.GetAll();
+            return Json(new { data = allObj });
+        }
+
+
+        #endregion
     }
 }
