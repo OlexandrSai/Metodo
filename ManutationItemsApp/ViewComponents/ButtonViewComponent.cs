@@ -37,7 +37,7 @@ namespace ManutationItemsApp.ViewComponents
 
             ButtonViewComponentModel model = new ButtonViewComponentModel();
 
-            model.ButtonUI = _unitOfWork.ButtonUIRepository.FindByCondition(m => m.Text == buttonText).First();
+            model.ButtonUI = await _unitOfWork.ButtonUIRepository.FindByTextAsync(buttonText);
             model.UserRules =  _unitOfWork.ApplicationUserRepository.GetUserRules(roleId);
             switch (model.ButtonUI.RuleName)
             {

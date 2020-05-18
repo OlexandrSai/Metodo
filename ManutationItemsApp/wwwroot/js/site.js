@@ -846,8 +846,49 @@ $(document).on('click', '#finishCheckOut', function (e) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
-            $('#details').html(data);
-            $('.disabledcard *').prop('disabled', true);
+            $.ajax({
+                type: "GET",
+                url: '/ManutationStages/DetailsP/' + model.ManutationId,
+                success: function (data) {
+                    $('#details').html(data);
+                    $('.disabledcard *').prop('disabled', true);
+                }
+            });
+        }
+    });
+});
+
+$(document).on('click', '#passOnValidation', function (e) {
+    e.preventDefault();
+    var model = {};
+    model.ManutationId = $('input[name=CheckOutManutationId]').val();
+    model.Description = $('textarea[name=CheckOutDescription').val();
+    //model.CheckOutStartDate = $('input[name=CheckOutStartDate]').val();
+    model.CheckOutEndDate = $('input[name=CheckOutEndDate]').val();
+    model.Tools = {};
+    model.MeasuringTools = {};
+    model.CheckOutNote = $('textarea[name=CheckOutNote').val();
+
+    $(".checkOutMdc").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.Tools[name] = count;
+    });
+
+    $(".checkOutMeasuring").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.MeasuringTools[name] = count;
+    });
+
+    $.ajax({
+        type: "POST",
+        url: $('#passOnValidation').attr('formaction'),
+        data: JSON.stringify(model),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+           window.location.href = "/ManutationStages";
         }
     });
 });

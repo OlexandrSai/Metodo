@@ -72,7 +72,7 @@ namespace ManutationItemsApp.Controllers
                     return NotFound();
                 }
 
-                var supplier = await _unitOfWork.SupplierRepository.FindByCondition(i => i.Id == id.Value).FirstAsync();
+                var supplier =  _unitOfWork.SupplierRepository.FindByCondition(i => i.Id == id.Value).First();
                 if (supplier == null)
                 {
                     return NotFound();
@@ -129,7 +129,7 @@ namespace ManutationItemsApp.Controllers
                 return NotFound();
             }
 
-            var supplier = await _unitOfWork.SupplierRepository.FindByCondition(t => t.Id == id.Value).FirstAsync();
+            var supplier =  _unitOfWork.SupplierRepository.FindByCondition(t => t.Id == id.Value).First();
 
             if (supplier == null)
             {

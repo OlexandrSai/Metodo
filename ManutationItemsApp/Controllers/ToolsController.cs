@@ -89,7 +89,7 @@ namespace ManutationItemsApp.Controllers
                     return NotFound();
                 }
 
-                var tool =await  _unitOfWork.ToolRepository.FindByCondition(i => i.Id == id.Value).FirstAsync();
+                var tool = _unitOfWork.ToolRepository.FindByCondition(i => i.Id == id.Value).First();
                 if (tool == null)
                 {
                     return NotFound();
@@ -145,7 +145,7 @@ namespace ManutationItemsApp.Controllers
                 return NotFound();
             }
 
-            var tool = await _unitOfWork.ToolRepository.FindByCondition(t=>t.Id==id.Value).FirstAsync();
+            var tool = _unitOfWork.ToolRepository.FindByCondition(t=>t.Id==id.Value).First();
             if (tool == null)
             {
                 return NotFound();

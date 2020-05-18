@@ -34,9 +34,9 @@ namespace ManutationItemsApp.DAL.Repositories
             return RepositoryContext.Set<T>().AsNoTracking();
         }
 
-        public IQueryable<T> FindByCondition(System.Linq.Expressions.Expression<Func<T, bool>> expression)
+        public IEnumerable<T> FindByCondition(System.Linq.Expressions.Expression<Func<T, bool>> expression)
         {
-            return RepositoryContext.Set<T>().Where(expression).AsNoTracking();
+            return RepositoryContext.Set<T>().Where(expression).AsNoTracking().ToList();
         }
 
         public void Update(T entity)
