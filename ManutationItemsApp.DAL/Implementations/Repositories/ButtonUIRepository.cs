@@ -4,6 +4,7 @@ using ManutationItemsApp.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,9 +17,9 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
 
         }
 
-        public Task<ButtonUI> FindByTextAsync(string id)
+        public ButtonUI FindByTextAsync(string id)
         {
-            return RepositoryContext.ButtonUIs.FirstAsync(a => a.Text == id);
+            return RepositoryContext.ButtonUIs.First(a => a.Text == id);
         }
     }
 }

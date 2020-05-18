@@ -16,6 +16,11 @@ using ManutationItemsApp.DAL.Contracts;
 
 namespace ManutationItemsApp.Controllers
 {
+    public class HomeViewModel
+    {
+        public IEnumerable<ButtonUI> buttonUIs { get; set; }
+        public UserRolesRules userRolesRules { get; set; }
+    }
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -499,13 +504,15 @@ namespace ManutationItemsApp.Controllers
                 //});
                 #endregion
 
+                HomeViewModel m = new HomeViewModel();
+
                 if (User.Identity.Name != null)
                 {
                     var user = await _userManager.FindByNameAsync(User.Identity.Name);
                     var roles = await _userManager.GetRolesAsync(user);
                     var role = await _roleManager.FindByNameAsync(roles.First());
                     ViewBag.roleId = role.Id;
-
+                    m.userRolesRules = _unitOfWork.ApplicationUserRepository.GetUserRules(role.Id);
                 }
               
 
@@ -524,8 +531,9 @@ namespace ManutationItemsApp.Controllers
                     var model = await _unitOfWork.ManutationRepository.FindAllNeededToAssign();
                     ViewBag.ManutationsToAssignCount = model.Count();
                 }
-
-                return View();
+                m.buttonUIs = _unitOfWork.ButtonUIRepository.GetAll();
+         
+                return View(m);
             }
             catch (Exception ex)
             {

@@ -8,6 +8,6 @@ namespace ManutationItemsApp.DAL.Contracts.Repositories
 {
    public interface IButtonUIRepository: IRepositoryBase<ButtonUI>
     {
-        public Task<ButtonUI> FindByTextAsync(string id);
+        public ButtonUI FindByTextAsync(string id);
     }
 }

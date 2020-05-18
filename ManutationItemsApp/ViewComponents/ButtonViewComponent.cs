@@ -1,4 +1,5 @@
-﻿using ManutationItemsApp.DAL.Contracts;
+﻿using ManutationItemsApp.Controllers;
+using ManutationItemsApp.DAL.Contracts;
 using ManutationItemsApp.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -32,13 +33,13 @@ namespace ManutationItemsApp.ViewComponents
             _userManager = userManager;
             _roleManager = roleManager;
         }
-        public async Task<IViewComponentResult> InvokeAsync(string buttonText, string roleId)
+        public async Task<IViewComponentResult> InvokeAsync(string buttonText, string roleId,HomeViewModel data)
         {
 
             ButtonViewComponentModel model = new ButtonViewComponentModel();
 
-            model.ButtonUI = await _unitOfWork.ButtonUIRepository.FindByTextAsync(buttonText);
-            model.UserRules =  _unitOfWork.ApplicationUserRepository.GetUserRules(roleId);
+            model.ButtonUI = data.buttonUIs.First(a=>a.Text==buttonText);
+            model.UserRules =  data.userRolesRules;
             switch (model.ButtonUI.RuleName)
             {
                 case "CanDoActivity":
