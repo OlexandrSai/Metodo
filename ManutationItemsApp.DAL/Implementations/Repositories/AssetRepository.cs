@@ -14,13 +14,14 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
 {
     public class AssetRepository : RepositoryBase<Asset>, IAssetRepository
     {
+        private readonly ApplicationDbContext _context;
         public AssetRepository(ApplicationDbContext context) : base(context)
         {
         }
 
         public async Task<bool> AssetExists(int id)
         {
-            return await RepositoryContext.Assets.AnyAsync(a=>a.Id==id);
+            return await _context.Assets.AnyAsync(a=>a.Id==id);
         }
 
         //public  void Delete(Asset asset)
@@ -32,7 +33,7 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
         public async Task<Asset> FindByFullName(string fullName)
         {
             //var s = RepositoryContext.Assets.Where(a => a.ModelName == "HUSKY").Select(a => a.FullName);
-            return await RepositoryContext.Assets.FirstAsync(a => a.FullName == fullName);
+            return await _context.Assets.FirstAsync(a => a.FullName == fullName);
             //string[] names = fullName.Split(" ");
             //if (!names[0].Any(char.IsDigit) && !names[1].Any(char.IsDigit))
             //{
@@ -70,7 +71,7 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
 
         public async Task<Asset> FindByIdAsync(int id)
         {
-            return await RepositoryContext.Assets
+            return await _context.Assets
                 .Include(a => a.Files)
                 .Include(a=>a.Supplier)
                 //.Include(a=>a.InstructionsForUse)
@@ -85,7 +86,7 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
 
         public async Task<Asset> FindByNameAsync(string name)
         {
-            return await RepositoryContext.Assets.FirstOrDefaultAsync(a => a.Name == name);
+            return await _context.Assets.FirstOrDefaultAsync(a => a.Name == name);
 
         }
 
@@ -97,7 +98,7 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
             //{
             //    result.Add(item.ModelName + " " + item.Version  + " " + item.ManufacturerNumber);
             //}
-            var result = await RepositoryContext.Assets.Select(a=>a.FullName).ToListAsync();
+            var result = await _context.Assets.Select(a=>a.FullName).ToListAsync();
             result.Sort();
             return result;
 
@@ -106,19 +107,19 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
         //public void AddFiles()
              public async Task AddErrorCodes(List<AssetErrorCode> assetErrorCodes)
         {
-            RepositoryContext.AssetErrorCodes.RemoveRange(RepositoryContext.AssetErrorCodes.Where(a => a.AssetId == assetErrorCodes[0].AssetId));
-            await RepositoryContext.AssetErrorCodes.AddRangeAsync(assetErrorCodes);
+            _context.AssetErrorCodes.RemoveRange(_context.AssetErrorCodes.Where(a => a.AssetId == assetErrorCodes[0].AssetId));
+            await _context.AssetErrorCodes.AddRangeAsync(assetErrorCodes);
         }
 
         public async Task ChangeErrorCodes(List<AssetErrorCode> newAssets, int id)
         {
-            RepositoryContext.AssetErrorCodes.RemoveRange(RepositoryContext.AssetErrorCodes.Where(a => a.AssetId == id));
-            await RepositoryContext.AssetErrorCodes.AddRangeAsync(newAssets);
+            _context.AssetErrorCodes.RemoveRange(_context.AssetErrorCodes.Where(a => a.AssetId == id));
+            await _context.AssetErrorCodes.AddRangeAsync(newAssets);
         }
 
         public async Task<List<string>> GetAssetErrorCodes(int id)
         {
-            return await  RepositoryContext.AssetErrorCodes.Where(a => a.AssetId == id).Select(a => a.ErrorCode.Name).ToListAsync();
+            return await _context.AssetErrorCodes.Where(a => a.AssetId == id).Select(a => a.ErrorCode.Name).ToListAsync();
         }
     }
 }

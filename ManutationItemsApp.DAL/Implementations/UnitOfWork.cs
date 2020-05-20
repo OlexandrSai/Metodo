@@ -68,5 +68,10 @@ namespace ManutationItemsApp.DAL.Implementations
         {
             return await DataDbContext.SaveChangesAsync();
         }
+
+        public void Save()
+        {
+            DataDbContext.SaveChanges();
+        }
     }
 }

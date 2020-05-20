@@ -24,7 +24,7 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
                 //ItemId = item.Id,
                 Item = item
             };
-            RepositoryContext.AssetsItems.AddAsync(value);
+            context.AssetsItems.AddAsync(value);
         }
     }
 }

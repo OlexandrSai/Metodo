@@ -30,5 +30,7 @@ namespace ManutationItemsApp.DAL.Contracts
         IPauseReasonRepository PauseReasonRepository { get; set; } 
         IButtonUIRepository ButtonUIRepository { get; set; }
         Task<int> CommitAsync();
+
+        void Save();
     }
 }

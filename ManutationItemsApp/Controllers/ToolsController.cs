@@ -23,13 +23,13 @@ namespace ManutationItemsApp.Controllers
         // GET: Tools
         public async Task<IActionResult> Index()
         {
-            return View( _unitOfWork.ToolRepository.FindAll());
+            return View( _unitOfWork.ToolRepository.GetAll());
         }
 
         // GET: Tools
         public async Task<IActionResult> GetAll()
         {
-            return PartialView(_unitOfWork.ToolRepository.FindAll());
+            return PartialView(_unitOfWork.ToolRepository.GetAll());
         }
 
         // GET: Tools/Details/5
@@ -40,8 +40,7 @@ namespace ManutationItemsApp.Controllers
                 return NotFound();
             }
 
-            var tool = _unitOfWork.ToolRepository
-                .FindByCondition(m => m.Id == id);
+            var tool = _unitOfWork.ToolRepository.GetFirstOrDefault(m => m.Id == id);
             if (tool == null)
             {
                 return NotFound();
@@ -69,7 +68,7 @@ namespace ManutationItemsApp.Controllers
             }
             try
             {
-                _unitOfWork.ToolRepository.Create(tool);
+                _unitOfWork.ToolRepository.Add(tool);
                 await _unitOfWork.CommitAsync();
                 return Created(nameof(Create), tool);
             }
@@ -89,7 +88,7 @@ namespace ManutationItemsApp.Controllers
                     return NotFound();
                 }
 
-                var tool = _unitOfWork.ToolRepository.FindByCondition(i => i.Id == id.Value).First();
+                var tool = _unitOfWork.ToolRepository.GetFirstOrDefault(i => i.Id == id.Value);
                 if (tool == null)
                 {
                     return NotFound();
@@ -145,12 +144,12 @@ namespace ManutationItemsApp.Controllers
                 return NotFound();
             }
 
-            var tool = _unitOfWork.ToolRepository.FindByCondition(t=>t.Id==id.Value).First();
+            var tool = _unitOfWork.ToolRepository.GetFirstOrDefault(t=>t.Id==id.Value);
             if (tool == null)
             {
                 return NotFound();
             }
-            _unitOfWork.ToolRepository.Delete(tool);
+            _unitOfWork.ToolRepository.Remove(tool);
             await _unitOfWork.CommitAsync();
             return Ok();
         }

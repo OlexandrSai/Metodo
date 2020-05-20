@@ -11,13 +11,14 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
 {
     public class MeasuringToolRepository:RepositoryBase<MeasuringTool>,IMeasuringToolRepository
     {
+        private readonly ApplicationDbContext _context;
         public MeasuringToolRepository(ApplicationDbContext context) : base(context)
         {
         }
 
         public async Task<bool> Exists(int id)
         {
-            return await RepositoryContext.MeasuringTools.AnyAsync(t => t.Id == id);
+            return await _context.MeasuringTools.AnyAsync(t => t.Id == id);
         }
     }
 }

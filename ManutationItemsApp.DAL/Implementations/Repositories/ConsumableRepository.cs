@@ -11,13 +11,15 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
 {
     public class ConsumableRepository:RepositoryBase<Consumable>,IConsumableRepository
     {
+        private readonly ApplicationDbContext _context;
         public ConsumableRepository(ApplicationDbContext context):base(context)
         {
+            _context = context;
         }
 
         public async Task<bool> Exists(int id)
         {
-            return await RepositoryContext.Consumables.AnyAsync(c => c.Id == id);
+            return await _context.Consumables.AnyAsync(c => c.Id == id);
         }
     }
 }

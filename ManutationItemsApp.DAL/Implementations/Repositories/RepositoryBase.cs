@@ -11,8 +11,8 @@ namespace ManutationItemsApp.DAL.Repositories
 {
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
-        protected ApplicationDbContext RepositoryContext { get; set; }
-        //private readonly ApplicationDbContext RepositoryContext;
+        //protected ApplicationDbContext RepositoryContext { get; set; }
+        private readonly ApplicationDbContext RepositoryContext;
         internal DbSet<T> dbSet;
         public RepositoryBase(ApplicationDbContext db)
         {
@@ -39,7 +39,7 @@ namespace ManutationItemsApp.DAL.Repositories
             return RepositoryContext.Set<T>().Where(expression).AsNoTracking().ToList();
         }
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
             RepositoryContext.Set<T>().Update(entity);
         }
@@ -65,6 +65,7 @@ namespace ManutationItemsApp.DAL.Repositories
             return dbSet.Find(id);
         }
 
+       
         public IEnumerable<T> GetAll(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null)
         {
             IQueryable<T> query = dbSet;
@@ -89,6 +90,7 @@ namespace ManutationItemsApp.DAL.Repositories
             return query.ToList();
         }
 
+       
         public T GetFirstOrDefault(Expression<Func<T, bool>> filter = null, string includeProperties = null)
         {
             IQueryable<T> query = dbSet;

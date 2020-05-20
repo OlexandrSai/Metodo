@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ManutationItemsApp.Domain.Entities.Asset>
+
+    <button type="button" class="btn-primary addAssetBtn">Crea nuovo +</button>
+    <i class="fa fa-file-excel fa-lg"></i>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">
+                Attiva
+            </th>
+            <th scope="col">
+                Modello
+            </th>
+            <th scope="col">
+                Versione
+            </th>
+            <th scope="col">
+                N. Fabbricazione
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModelName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Version)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManufacturerNumber)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" asp-controller="Assets" data-ajax="true" data-ajax-method="GET" data-ajax-success="GetAssetEditForm"><i class="fa fa-marker fa-lg"></i></a>
+                <a asp-action="Delete" asp-route-id="@item.Id" asp-controller="Assets" data-ajax="true" data-ajax-method="GET" data-ajax-success="AssetCreateOnComplete"><i class="fa fa-trash-alt fa-lg"></i></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<div>
+    <a type="button" class="btn btn-primary" asp-controller="Home" asp-action="Index">Tornare a casa</a>
+</div>
+
+<div>
+    <ejs-calendar id="calendar"></ejs-calendar>
+</div>
+<div>
+    <ejs-grid id="Grid" dataSource="@Model" allowPaging="true">
+        <e-grid-pagesettings pageSize="5"></e-grid-pagesettings>
+        <e-grid-columns>
+            <e-grid-column field="ModelName" headerText="ModelName" textAlign="Right" width="120"></e-grid-column>
+            <e-grid-column field="Version" headerText="Version" width="150"></e-grid-column>
+            <e-grid-column field="ManufacturerNumber" headerText="ManufacturerNumber" width="130" textAlign="Right" format="yMd"></e-grid-column>
+            <e-grid-column field="Active" headerText="Active" width="120"></e-grid-column>
+        </e-grid-columns>
+    </ejs-grid>
+</div>

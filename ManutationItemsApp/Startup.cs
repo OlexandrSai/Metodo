@@ -29,6 +29,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Microsoft.Net.Http.Headers;
 using System.Buffers;
+using Syncfusion.EJ2;
 
 namespace ManutationItemsApp
 {
@@ -95,6 +96,7 @@ namespace ManutationItemsApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjU5MjkxQDMxMzgyZTMxMmUzMGhlaUJsbHVPd1F3WmJ6VERIbzJ6Q3htRitoN2N2bGFIN2FWdzgrcUJTamc9");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
