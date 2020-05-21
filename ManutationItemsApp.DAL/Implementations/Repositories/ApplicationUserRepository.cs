@@ -15,9 +15,10 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
     public class ApplicationUserRepository : RepositoryBase<ApplicationUser>, IApplicationUserRepository
     {
         private readonly ApplicationDbContext _context;
-        //private readonly UserManager<ApplicationUser> _userManager;
-        public ApplicationUserRepository(ApplicationDbContext context):base(context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public ApplicationUserRepository(ApplicationDbContext context, UserManager<ApplicationUser> userManager):base(context)
         {
+            _userManager = userManager;
            _context = context;
         }
 

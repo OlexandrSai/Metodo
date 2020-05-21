@@ -16,9 +16,11 @@ namespace ManutationItemsApp.DAL.Implementations
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public UnitOfWork(ApplicationDbContext context)
+        public UnitOfWork(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
+
             _context = context;
+            _userManager = userManager;
             ApplicationUserRepository = new ApplicationUserRepository(_context, _userManager);
             ManutationRepository = new ManutationRepository(_context);
             ErrorCodeRepository = new ErrorCodeRepository(_context);
