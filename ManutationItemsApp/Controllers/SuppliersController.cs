@@ -146,6 +146,11 @@ namespace ManutationItemsApp.Controllers
         //    return _unitOfWork.SupplierRepository.Any(e => e.Id);
         //}
 
+        public IActionResult SyncF()
+        {
+            return View(_unitOfWork.SupplierRepository.GetAll());
+        }
+
 
         public IActionResult Upsert(int? id)
         {

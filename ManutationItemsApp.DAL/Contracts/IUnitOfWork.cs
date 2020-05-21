@@ -11,8 +11,8 @@ namespace ManutationItemsApp.DAL.Contracts
         IManutationRepository ManutationRepository { get; }
         IApplicationUserRepository ApplicationUserRepository { get; }
         IErrorCodeRepository ErrorCodeRepository { get; }
-        public IUserManutationsStagesRepository UserManutationsStagesRepository { get;  }
-        public IItemRepository ItemRepository { get; }
+        IUserManutationsStagesRepository UserManutationsStagesRepository { get;  }
+        IItemRepository ItemRepository { get; }
 
         IAssetRepository AssetRepository { get; }
 
@@ -23,12 +23,12 @@ namespace ManutationItemsApp.DAL.Contracts
         IMeasuringToolRepository MeasuringToolRepository { get; }
         IConsumableRepository ConsumableRepository { get; }
         IStatusRepository StatusRepository { get; }
-        ISupplierRepository SupplierRepository { get; set; }
-        IAssetFileRepository AssetFileRepository { get; set; }
-        IItemFileRepository ItemFileRepository { get; set; }
-        IAssetItemRepository AssetItemRepository { get; set; }
-        IPauseReasonRepository PauseReasonRepository { get; set; } 
-        IButtonUIRepository ButtonUIRepository { get; set; }
+        ISupplierRepository SupplierRepository { get;}
+        IAssetFileRepository AssetFileRepository { get; }
+        IItemFileRepository ItemFileRepository { get;  }
+        IAssetItemRepository AssetItemRepository { get;  }
+        IPauseReasonRepository PauseReasonRepository { get; } 
+        IButtonUIRepository ButtonUIRepository { get;  }
         Task<int> CommitAsync();
 
         void Save();

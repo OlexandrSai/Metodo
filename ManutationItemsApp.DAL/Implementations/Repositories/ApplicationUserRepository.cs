@@ -15,11 +15,10 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
     public class ApplicationUserRepository : RepositoryBase<ApplicationUser>, IApplicationUserRepository
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
-        public ApplicationUserRepository(UserManager<ApplicationUser> userManager,ApplicationDbContext context):base(context)
+        //private readonly UserManager<ApplicationUser> _userManager;
+        public ApplicationUserRepository(ApplicationDbContext context):base(context)
         {
-            _userManager = userManager;
-            _context = context;
+           _context = context;
         }
 
         public async Task CreateAsync(ApplicationUser user, string password)

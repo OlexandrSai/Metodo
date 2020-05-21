@@ -15,6 +15,7 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
         private readonly ApplicationDbContext _context;
         public ManutationTypeRepository(ApplicationDbContext context):base(context)
         {
+            _context = context;
         }
 
         public async Task<List<string>> GetAllManutationTypesNames()

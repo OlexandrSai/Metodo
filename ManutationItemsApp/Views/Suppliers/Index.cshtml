@@ -7,6 +7,7 @@
     </div>
     <div class="col-6 text-right">
         <a class="btn btn-primary" asp-action="Upsert"><i class="fas fa-plus"></i>&nbsp; Crea Nuovo Fornitore</a>
+        <a class="btn btn-dark" asp-action="SyncF"><i class="fad fa-analytics"></i>&nbsp; SyncF</a>
     </div>
 </div>
 
@@ -35,6 +36,11 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+
+    <script src="~/js/fornitori.js"></script>
+}
 
 
 

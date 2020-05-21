@@ -70,25 +70,26 @@ namespace ManutationItemsApp
             services.AddKendo();
 
             //services.AddScoped<IManutationService, ManutationService>();
-            services.AddScoped<IAssetService, AssetService>();
-            services.AddScoped<IManutationRepository, ManutationRepository>();
-            services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
-            services.AddScoped<IAssetRepository, AssetRepository>();
-            services.AddScoped<IItemRepository, ItemRepository>();
-            services.AddScoped<IManutationTypeRepository, ManutationTypeRepository>();
-            services.AddScoped<IUserManutationsStagesRepository, UserManutationStagesRepository>();
-            services.AddScoped<IManutationStageRepository, ManutationStageRepository>();
-            services.AddScoped<IErrorCodeRepository, ErrorCodeRepository>();
-            services.AddScoped<IToolRepository, ToolRepository>();
-            services.AddScoped<IConsumableRepository, ConsumableRepository>();
-            services.AddScoped<IStatusRepository, StatusRepository>();
-            services.AddScoped<ISupplierRepository, SupplierRepository>();
-            services.AddScoped<IAssetFileRepository, AssetFileRepository>();
-            services.AddScoped<IItemFileRepository, ItemFileRepository>();
-            services.AddScoped<IAssetItemRepository, AssetItemRepository>();
-            services.AddScoped<IMeasuringToolRepository, MeasuringToolRepository>();
-            services.AddScoped<IPauseReasonRepository, PauseReasonRepository>();
-            services.AddScoped<IButtonUIRepository, ButtonUIRepository>();
+            //services.AddScoped<IAssetService, AssetService>();
+            //services.AddScoped<IManutationRepository, ManutationRepository>();
+            //services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+            //services.AddScoped<IAssetRepository, AssetRepository>();
+            //services.AddScoped<IItemRepository, ItemRepository>();
+            //services.AddScoped<IManutationTypeRepository, ManutationTypeRepository>();
+            //services.AddScoped<IUserManutationsStagesRepository, UserManutationStagesRepository>();
+            //services.AddScoped<IManutationStageRepository, ManutationStageRepository>();
+            //services.AddScoped<IErrorCodeRepository, ErrorCodeRepository>();
+            //services.AddScoped<IToolRepository, ToolRepository>();
+            //services.AddScoped<IConsumableRepository, ConsumableRepository>();
+            //services.AddScoped<IStatusRepository, StatusRepository>();
+            //services.AddScoped<ISupplierRepository, SupplierRepository>();
+            //services.AddScoped<IAssetFileRepository, AssetFileRepository>();
+            //services.AddScoped<IItemFileRepository, ItemFileRepository>();
+            //services.AddScoped<IAssetItemRepository, AssetItemRepository>();
+            //services.AddScoped<IMeasuringToolRepository, MeasuringToolRepository>();
+            //services.AddScoped<IPauseReasonRepository, PauseReasonRepository>();
+            //services.AddScoped<IButtonUIRepository, ButtonUIRepository>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         }

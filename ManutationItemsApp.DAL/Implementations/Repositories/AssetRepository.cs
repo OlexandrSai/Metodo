@@ -17,6 +17,7 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
         private readonly ApplicationDbContext _context;
         public AssetRepository(ApplicationDbContext context) : base(context)
         {
+            _context = context;
         }
 
         public async Task<bool> AssetExists(int id)
