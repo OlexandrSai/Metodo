@@ -29,6 +29,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Microsoft.Net.Http.Headers;
 using System.Buffers;
+using Syncfusion.EJ2;
 
 namespace ManutationItemsApp
 {
@@ -69,25 +70,26 @@ namespace ManutationItemsApp
             services.AddKendo();
 
             //services.AddScoped<IManutationService, ManutationService>();
-            services.AddScoped<IAssetService, AssetService>();
-            services.AddScoped<IManutationRepository, ManutationRepository>();
-            services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
-            services.AddScoped<IAssetRepository, AssetRepository>();
-            services.AddScoped<IItemRepository, ItemRepository>();
-            services.AddScoped<IManutationTypeRepository, ManutationTypeRepository>();
-            services.AddScoped<IUserManutationsStagesRepository, UserManutationStagesRepository>();
-            services.AddScoped<IManutationStageRepository, ManutationStageRepository>();
-            services.AddScoped<IErrorCodeRepository, ErrorCodeRepository>();
-            services.AddScoped<IToolRepository, ToolRepository>();
-            services.AddScoped<IConsumableRepository, ConsumableRepository>();
-            services.AddScoped<IStatusRepository, StatusRepository>();
-            services.AddScoped<ISupplierRepository, SupplierRepository>();
-            services.AddScoped<IAssetFileRepository, AssetFileRepository>();
-            services.AddScoped<IItemFileRepository, ItemFileRepository>();
-            services.AddScoped<IAssetItemRepository, AssetItemRepository>();
-            services.AddScoped<IMeasuringToolRepository, MeasuringToolRepository>();
-            services.AddScoped<IPauseReasonRepository, PauseReasonRepository>();
-            services.AddScoped<IButtonUIRepository, ButtonUIRepository>();
+            //services.AddScoped<IAssetService, AssetService>();
+            //services.AddScoped<IManutationRepository, ManutationRepository>();
+            //services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+            //services.AddScoped<IAssetRepository, AssetRepository>();
+            //services.AddScoped<IItemRepository, ItemRepository>();
+            //services.AddScoped<IManutationTypeRepository, ManutationTypeRepository>();
+            //services.AddScoped<IUserManutationsStagesRepository, UserManutationStagesRepository>();
+            //services.AddScoped<IManutationStageRepository, ManutationStageRepository>();
+            //services.AddScoped<IErrorCodeRepository, ErrorCodeRepository>();
+            //services.AddScoped<IToolRepository, ToolRepository>();
+            //services.AddScoped<IConsumableRepository, ConsumableRepository>();
+            //services.AddScoped<IStatusRepository, StatusRepository>();
+            //services.AddScoped<ISupplierRepository, SupplierRepository>();
+            //services.AddScoped<IAssetFileRepository, AssetFileRepository>();
+            //services.AddScoped<IItemFileRepository, ItemFileRepository>();
+            //services.AddScoped<IAssetItemRepository, AssetItemRepository>();
+            //services.AddScoped<IMeasuringToolRepository, MeasuringToolRepository>();
+            //services.AddScoped<IPauseReasonRepository, PauseReasonRepository>();
+            //services.AddScoped<IButtonUIRepository, ButtonUIRepository>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         }
@@ -95,6 +97,7 @@ namespace ManutationItemsApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjU5MjkxQDMxMzgyZTMxMmUzMGhlaUJsbHVPd1F3WmJ6VERIbzJ6Q3htRitoN2N2bGFIN2FWdzgrcUJTamc9");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -96,7 +96,7 @@ namespace ManutationItemsApp.Controllers
         }
 
         // GET: ManutationStages
-        public async Task<IActionResult> Index(string stageName)
+        public async Task<IActionResult> Index()
         {
             try
             {

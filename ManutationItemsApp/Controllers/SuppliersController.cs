@@ -20,8 +20,8 @@ namespace ManutationItemsApp.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        // GET: Suppliers
-        public  IActionResult Index()
+        //GET: Suppliers
+        public IActionResult Index()
         {
             return View(_unitOfWork.SupplierRepository.FindAll());
         }
@@ -44,7 +44,7 @@ namespace ManutationItemsApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create (Supplier fornitore)
+        public async Task<IActionResult> Create(Supplier fornitore)
         {
             if (!ModelState.IsValid)
             {
@@ -72,7 +72,7 @@ namespace ManutationItemsApp.Controllers
                     return NotFound();
                 }
 
-                var supplier =  _unitOfWork.SupplierRepository.FindByCondition(i => i.Id == id.Value).First();
+                var supplier = _unitOfWork.SupplierRepository.FindByCondition(i => i.Id == id.Value).First();
                 if (supplier == null)
                 {
                     return NotFound();
@@ -129,7 +129,7 @@ namespace ManutationItemsApp.Controllers
                 return NotFound();
             }
 
-            var supplier =  _unitOfWork.SupplierRepository.FindByCondition(t => t.Id == id.Value).First();
+            var supplier = _unitOfWork.SupplierRepository.FindByCondition(t => t.Id == id.Value).First();
 
             if (supplier == null)
             {
@@ -143,7 +143,79 @@ namespace ManutationItemsApp.Controllers
 
         //private bool SupplierExists(int id)
         //{
-        //    return _context.Suppliers.Any(e => e.Id == id);
+        //    return _unitOfWork.SupplierRepository.Any(e => e.Id);
         //}
+
+        public IActionResult SyncF()
+        {
+            return View(_unitOfWork.SupplierRepository.GetAll());
+        }
+
+
+        public IActionResult Upsert(int? id)
+        {
+            Supplier supplier = new Supplier();
+            if (id == null)
+            {
+                //create
+                return View(supplier);
+            }
+            //edit
+            supplier = _unitOfWork.SupplierRepository.Get(id.GetValueOrDefault());
+            if (supplier == null)
+            {
+                return NotFound();
+            }
+            return View(supplier);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Upsert(Supplier supplier)
+        {
+            if (ModelState.IsValid)
+            {
+                if (supplier.Id==0)
+                {
+                    _unitOfWork.SupplierRepository.Add(supplier);
+                    
+                }
+                else
+                {
+                    _unitOfWork.SupplierRepository.Update(supplier);
+                }
+                _unitOfWork.Save();
+                return RedirectToAction(nameof(Index));
+                
+
+            }
+            return View(supplier);
+        }
+
+        #region API CALLS
+
+        [HttpGet]
+        public IActionResult GetAllJson()
+        {
+            var allObj = _unitOfWork.SupplierRepository.GetAll();
+            return Json(new { data = allObj });
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            var ObjFromDb = _unitOfWork.SupplierRepository.Get(id);
+            if (ObjFromDb==null)
+            {
+                return Json(new { success = false, message = "Errore durante la cancellazione" });
+            }
+            _unitOfWork.SupplierRepository.Remove(ObjFromDb);
+            _unitOfWork.Save();
+            return Json(new { success = true, message = "Cancellazione effettuata con successo" });
+
+        }
+
+
+        #endregion
     }
 }

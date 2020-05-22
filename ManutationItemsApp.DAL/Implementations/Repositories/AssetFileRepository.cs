@@ -9,8 +9,10 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
 {
     public class AssetFileRepository:RepositoryBase<AssetFile>,IAssetFileRepository
     {
+        private readonly ApplicationDbContext _context;
         public AssetFileRepository(ApplicationDbContext context):base(context)
         {
+            _context = context;
         }
     }
 }

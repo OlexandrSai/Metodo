@@ -11,21 +11,26 @@ namespace ManutationItemsApp.DAL.Repositories
 {
     public class ManutationRepository : RepositoryBase<Manutation>, IManutationRepository
     {
+        private readonly ApplicationDbContext context;
         public ManutationRepository(ApplicationDbContext context) :
             base(context)
         {
+            this.context = context;
         }
 
         public async Task<Manutation> FindByIdAsync(int id)
         {
-            return await RepositoryContext.Manutations.Where(a => a.Id == id)
+
+
+
+            return await context.Manutations.Where(a => a.Id == id)
                 .Include(a => a.Creator)
                 .FirstAsync();
         }
 
         public async Task<List<Manutation>> GetAllManutationsWithTimelines()
         {
-            return await RepositoryContext.Manutations.Where(m=> m.ManutationStages.Where(d => d.Active == true).Count() > 0 && m.NotToDiplay == false)
+            return await context.Manutations.Where(m=> m.ManutationStages.Where(d => d.Active == true).Count() > 0 && m.NotToDiplay == false)
                 .Include(a => a.Asset)
                 .Include(a => a.Creator)
                 .Include(a => a.ErrorCode)
@@ -45,12 +50,12 @@ namespace ManutationItemsApp.DAL.Repositories
 
         public async Task<List<Manutation>> GetManutationsWithTimelinesById(string id)
         {
-            var manutationStages = RepositoryContext.UserManutationStages.Where(ms => ms.ApplicationUserId == id).Select(ms => ms.ManutationStageId);
-            var manutations = RepositoryContext.ManutationStages.Where(m => manutationStages.Any(c => c == m.Id)).Select(a => a.Manutation.Id);
+            var manutationStages = context.UserManutationStages.Where(ms => ms.ApplicationUserId == id).Select(ms => ms.ManutationStageId);
+            var manutations = context.ManutationStages.Where(m => manutationStages.Any(c => c == m.Id)).Select(a => a.Manutation.Id);
             //var result = new List<Manutation>();
             //result.AddRange(await FindAllNeededToAssign());
 
-            return await RepositoryContext.Manutations.Where(m=>manutations.Any(a => a == m.Id) && m.ManutationStages.Where(d => d.Active == true).Count() > 0 && m.NotToDiplay == false)
+            return await context.Manutations.Where(m=>manutations.Any(a => a == m.Id) && m.ManutationStages.Where(d => d.Active == true).Count() > 0 && m.NotToDiplay == false)
                 .Include(a => a.Asset)
                 .Include(a => a.Creator)
                 .Include(a => a.ErrorCode)
@@ -71,10 +76,10 @@ namespace ManutationItemsApp.DAL.Repositories
 
         public List<Manutation> GetManutationsWithTimelinesByIdHistorical(string id)
         {
-            var manutationStages = RepositoryContext.UserManutationStages.Where(ms => ms.ApplicationUserId == id).Select(ms => ms.ManutationStageId);
-            var manutations = RepositoryContext.ManutationStages.Where(m => manutationStages.Any(c => c == m.Id)).Select(a => a.Manutation.Id);
+            var manutationStages = context.UserManutationStages.Where(ms => ms.ApplicationUserId == id).Select(ms => ms.ManutationStageId);
+            var manutations = context.ManutationStages.Where(m => manutationStages.Any(c => c == m.Id)).Select(a => a.Manutation.Id);
 
-            return RepositoryContext.Manutations.Where(m => manutations.Any(a => a == m.Id) && m.NotToDiplay == false)
+            return context.Manutations.Where(m => manutations.Any(a => a == m.Id) && m.NotToDiplay == false)
                 .Include(a => a.Asset)
                 .Include(a => a.Creator)
                 .Include(a => a.ErrorCode)
@@ -96,7 +101,7 @@ namespace ManutationItemsApp.DAL.Repositories
         {
             try
             {
-                var collection = await RepositoryContext.Manutations.Where(m => m.Id == id)
+                var collection = await context.Manutations.Where(m => m.Id == id)
                .Include(a => a.Asset)
                .Include(a => a.Creator)
                .Include(a => a.ErrorCode)
@@ -125,12 +130,12 @@ namespace ManutationItemsApp.DAL.Repositories
 
         public async Task<bool> ManutationExists(int id)
         {
-            return await RepositoryContext.Manutations.AnyAsync(a => a.Id == id);
+            return await context.Manutations.AnyAsync(a => a.Id == id);
         }
 
         public async Task<List<Manutation>> FindAllNeededToAssign()
         {
-            var collection = await RepositoryContext.Manutations.Where(m => m.NeedToAssign)
+            var collection = await context.Manutations.Where(m => m.NeedToAssign)
                .Include(a => a.Asset)
                .Include(a => a.Creator)
                .Include(a => a.ErrorCode)
@@ -145,13 +150,13 @@ namespace ManutationItemsApp.DAL.Repositories
         public async Task<int> GetAllNeededToValidateCount()
         {
             //
-            return await RepositoryContext.ManutationStages.Where(m => m.Name == "Check Out" && m.Statuses.First(a => a.Active).Name == "Finished").CountAsync();
+            return await context.ManutationStages.Where(m => m.Name == "Check Out" && m.Statuses.First(a => a.Active).Name == "Finished").CountAsync();
         }
 
 
         public async Task<List<Manutation>> GetAllPending()
         {
-            return await RepositoryContext.Manutations.Where(a => a.ManutationStages.First(b => b.Active).Name == "Check Out"
+            return await context.Manutations.Where(a => a.ManutationStages.First(b => b.Active).Name == "Check Out"
             && a.ManutationStages.First(c => c.Active).Statuses.First(d => d.Active).Name == "Finished")
                 .Include(a => a.Asset)
                 .Include(a => a.Creator)
@@ -165,7 +170,7 @@ namespace ManutationItemsApp.DAL.Repositories
 
         public async Task<List<Manutation>> GetHistoricalManutationsWithTimelines()
         {
-            return await RepositoryContext.Manutations.Where(a => a.Historical)
+            return await context.Manutations.Where(a => a.Historical)
                .Include(a => a.Asset)
                    .Include(a => a.Creator)
                    .Include(a => a.ErrorCode)
@@ -185,11 +190,13 @@ namespace ManutationItemsApp.DAL.Repositories
 
         public async Task<List<Manutation>> GetManutationsWithTimelinesByIdOnPause(string id)
         {
-            var manutationStages = RepositoryContext.UserManutationStages.Where(ms => ms.ApplicationUserId == id).Select(ms => ms.ManutationStageId);
-            var manutations = RepositoryContext.ManutationStages.Where(m => manutationStages.Any(c => c == m.Id)).Select(a => a.Manutation.Id);
+            
+
+            var manutationStages = context.UserManutationStages.Where(ms => ms.ApplicationUserId == id).Select(ms => ms.ManutationStageId);
+            var manutations = context.ManutationStages.Where(m => manutationStages.Any(c => c == m.Id)).Select(a => a.Manutation.Id);
        
 
-            return await RepositoryContext.Manutations.Where(m => manutations.Any(a => a == m.Id) && m.ManutationStages.Where(d => d.Active == true).Count() > 0 && m.NotToDiplay == false
+            return await context.Manutations.Where(m => manutations.Any(a => a == m.Id) && m.ManutationStages.Where(d => d.Active == true).Count() > 0 && m.NotToDiplay == false
             && m.ManutationStages.First(l=>l.Active).Statuses.First(g=>g.Active).Name=="Paused")
                 .Include(a => a.Asset)
                 .Include(a => a.Creator)

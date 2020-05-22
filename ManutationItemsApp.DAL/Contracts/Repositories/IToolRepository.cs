@@ -9,5 +9,6 @@ namespace ManutationItemsApp.DAL.Contracts.Repositories
     public interface IToolRepository:IRepositoryBase<Tool>
     {
         public Task<bool> Exists(int id);
+        void Update(Tool tool);
     }
 }

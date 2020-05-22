@@ -14,10 +14,12 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
 {
     public class ApplicationUserRepository : RepositoryBase<ApplicationUser>, IApplicationUserRepository
     {
+        private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        public ApplicationUserRepository(UserManager<ApplicationUser> userManager,ApplicationDbContext context):base(context)
+        public ApplicationUserRepository(ApplicationDbContext context, UserManager<ApplicationUser> userManager):base(context)
         {
             _userManager = userManager;
+           _context = context;
         }
 
         public async Task CreateAsync(ApplicationUser user, string password)
@@ -37,20 +39,20 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
 
         public async Task<List<ApplicationUser>> GetAllFreeUsersAsync()
         {
-            List<string> userIds = await RepositoryContext.UserRoles.Where(a => a.RoleId == "21c13c40-fb65-4ed3-9d42-677990233d86")
+            List<string> userIds = await _context.UserRoles.Where(a => a.RoleId == "21c13c40-fb65-4ed3-9d42-677990233d86")
                 .Select(b=>b.UserId)
                 .ToListAsync();
-            List<ApplicationUser> listUsers = RepositoryContext.Users.Where(a => userIds.Any(c => c == a.Id)).ToList();
+            List<ApplicationUser> listUsers = _context.Users.Where(a => userIds.Any(c => c == a.Id)).ToList();
             return listUsers;//.Where(u => u.ManutationStages.Count(m => m.ManutationStage.Name != "Started"||
             //m.ManutationStage.Name != "Suspended"|| m.ManutationStage.Name != "Resumed") == 0).ToList();
         }
 
         public async Task<List<string>> GetAllFreeUsersNamesAsync()
         {
-            List<string> userIds = await RepositoryContext.UserRoles.Where(a => a.RoleId == "21c13c40-fb65-4ed3-9d42-677990233d86")
+            List<string> userIds = await _context.UserRoles.Where(a => a.RoleId == "21c13c40-fb65-4ed3-9d42-677990233d86")
                 .Select(b => b.UserId)
                 .ToListAsync();
-            List<string> listUsers = RepositoryContext.Users.Where(a => userIds.Any(c => c == a.Id)).Select(a=>a.UserName).ToList();
+            List<string> listUsers = _context.Users.Where(a => userIds.Any(c => c == a.Id)).Select(a=>a.UserName).ToList();
             return listUsers;//.Where(u => u.ManutationStages.Count(m => m.ManutationStage.Name != "Started"||
             //m.ManutationStage.Name != "Suspended"|| m.ManutationStage.Name != "Resumed") == 0).ToList();
         }
@@ -77,12 +79,13 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
 
         public UserRolesRules GetUserRules(string roleId)
         {
-            return RepositoryContext.UserRolesRules.First(a => a.IdentityRole.Id == roleId);
+            return _context.UserRolesRules.First(a => a.IdentityRole.Id == roleId);
         }
 
         public async Task<UserRolesRules> GetUserRulesAsync(string roleId)
         {
-            return await RepositoryContext.UserRolesRules.FirstAsync(a => a.IdentityRole.Id == roleId);
+            return await _context.UserRolesRules.FirstAsync(a => a.IdentityRole.Id == roleId);
+            
         }
     }
 }

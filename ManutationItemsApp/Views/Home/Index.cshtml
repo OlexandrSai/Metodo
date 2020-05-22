@@ -24,95 +24,99 @@
     @if (SignInManager.IsSignedIn(User))
     {
     <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-lg-2">
+        <div class="d-flex   bg-secondary text-white flex-wrap-reverse">
 
-                    @await Component.InvokeAsync("Button", new { buttonText = "Le mie attività", roleId = ViewBag.roleId, data = Model }) @await Component.InvokeAsync("NotificationsCounter")
 
-               
+            <div class="p-4 bg-warning">
 
-               
-
+                @await Component.InvokeAsync("Button", new { buttonText = "Le mie attività", roleId = ViewBag.roleId, data = Model }) @await Component.InvokeAsync("NotificationsCounter")
             </div>
-            <div class="col-lg-2">
+
+            <div class="p-4 bg-success">
+
                 @await Component.InvokeAsync("Button", new { buttonText = "Asset", roleId = ViewBag.roleId, data = Model })
             </div>
-                <div class="col-lg-2">
-                    @await Component.InvokeAsync("Button", new { buttonText = "Items", roleId = ViewBag.roleId, data = Model })
-                </div>
+            <div class="p-4 bg-primary">
 
+                @await Component.InvokeAsync("Button", new { buttonText = "Items", roleId = ViewBag.roleId, data = Model })
+            </div>
+        </div>
+            <div class="d-flex p-2 flex-row bg-secondary justify-content-end flex-wrap-reverse">
+                <div class="p-4 bg-success">
 
-
-
-                <div class="col-lg-2">
                     @await Component.InvokeAsync("Button", new { buttonText = "Utenti", roleId = ViewBag.roleId, data = Model })
                 </div>
-                <div class="col-lg-2">
+                <div class="p-4 bg-info">
+
                     @await Component.InvokeAsync("Button", new { buttonText = "Fornitori", roleId = ViewBag.roleId, data = Model })
                 </div>
-                        <div class="col-lg-2">
-                            @await Component.InvokeAsync("Button", new { buttonText = "Outsourcer", roleId = ViewBag.roleId, data = Model })
-                        </div>
+                <div class="p-4 bg-gray">
 
-                    </div>
-        <div class="row mt-4">
-            <div class="col-lg-12">
-
-                @await Component.InvokeAsync("Button", new { buttonText = "Calendario", roleId = ViewBag.roleId, data = Model })
-            </div>
-        </div>
-        <div class="row justify-content-between mt-4">
-            <div class="col-3">
-
-                @await Component.InvokeAsync("Button", new { buttonText = "Nuova Richiesta", roleId = ViewBag.roleId, data = Model })
-            </div>
-            <div class="col-3">
-                @await Component.InvokeAsync("Button", new { buttonText = "Preventiva", roleId = ViewBag.roleId, data = Model })
-
-            </div>
-            <div class="col-3">
-                @await Component.InvokeAsync("Button", new { buttonText = "Pulizie", roleId = ViewBag.roleId, data = Model })
-            </div>
-            <div class="col-3">
-                @await Component.InvokeAsync("Button", new { buttonText = "Predittiva", roleId = ViewBag.roleId, data = Model })
-
-            </div>
-
-        </div>
-
-        <div class="row justify-content-around mt-4">
-            <div class="col-6">
-               
-                    @await Component.InvokeAsync("Button", new { buttonText = "Parti di ricambio - Materiali di consumo", roleId = ViewBag.roleId, data = Model })
-                
+                    @await Component.InvokeAsync("Button", new { buttonText = "Outsourcer", roleId = ViewBag.roleId, data = Model })
                 </div>
-                <div class="col-3">
+            </div>
+        
+
+            <div class="d-flex p-4 bg-gray text-white">
+                <div class="p-2 bg-danger">
+
+                    @await Component.InvokeAsync("Button", new { buttonText = "Nuova Richiesta", roleId = ViewBag.roleId, data = Model })
+                </div>
+                <div class="p-2 bg-success">
+
+                    @await Component.InvokeAsync("Button", new { buttonText = "Preventiva", roleId = ViewBag.roleId, data = Model })
+
+                </div>
+                <div class="p-2 bg-light">
+                    @await Component.InvokeAsync("Button", new { buttonText = "Pulizie", roleId = ViewBag.roleId, data = Model })
+                </div>
+                <div class="p-2 bg-primary">
+                    @await Component.InvokeAsync("Button", new { buttonText = "Predittiva", roleId = ViewBag.roleId, data = Model })
+                </div>
+            </div>
+
+            <div class="d-flex  flex bg-gray justify-content-end">
+                <div class="p-4 bg-warning">
+
+                    @await Component.InvokeAsync("Button", new { buttonText = "Parti di ricambio - Materiali di consumo", roleId = ViewBag.roleId, data = Model })
+
+                </div>
+                <div class="p-4 bg-info">
                     @await Component.InvokeAsync("Button", new { buttonText = "Attrezzature", roleId = ViewBag.roleId, data = Model })
                 </div>
-                <div class="col-3">
+                <div class="p-4 bg-primary">
                     @await Component.InvokeAsync("Button", new { buttonText = "Strumenti", roleId = ViewBag.roleId, data = Model })
                 </div>
             </div>
-   
 
-                <div class="row justify-content-around mt-4">
-                    <div class="col-2 offset-2">
-                        @await Component.InvokeAsync("Button", new { buttonText = "Kpi", roleId = ViewBag.roleId, data = Model })
-                    </div>
-                    <div class="col-3 offset-1">
-                        @await Component.InvokeAsync("Button", new { buttonText = "Audit", roleId = ViewBag.roleId, data = Model })
-                    </div>
-                    <div class="col-4">
-                        @await Component.InvokeAsync("Button", new { buttonText = "Management Review", roleId = ViewBag.roleId, data = Model })
-                    </div>
+            <div class="d-flex p-4 flex-row bg-secondary justify-content-start flex-wrap-reverse">
+
+                <div class="p-3 bg-primary">
+                    @await Component.InvokeAsync("Button", new { buttonText = "Kpi", roleId = ViewBag.roleId, data = Model })
                 </div>
-                <div class="row mt-4">
-                    <div class="col-12">
-                        @await Component.InvokeAsync("Button", new { buttonText = "Master Action Plan", roleId = ViewBag.roleId, data = Model })
-                    </div>
+
+                <div class="p-3 bg-success">
+                    @await Component.InvokeAsync("Button", new { buttonText = "Audit", roleId = ViewBag.roleId, data = Model })
                 </div>
+                <div class="p-3 bg-warning">
+                    @await Component.InvokeAsync("Button", new { buttonText = "Management Review", roleId = ViewBag.roleId, data = Model })
+                </div>
+
             </div>
-            }
-     </div>
+
+            <div class="d-flex  flex-row-reverse bg-secondary">
+                <div class="p-5 bg-primary">
+                    @await Component.InvokeAsync("Button", new { buttonText = "Master Action Plan", roleId = ViewBag.roleId, data = Model })
+                </div>
+                <div class="p-5 bg-success">
+
+                    @await Component.InvokeAsync("Button", new { buttonText = "Calendario", roleId = ViewBag.roleId, data = Model })
+                </div>
+
+            </div>
+        </div>
+
+        }
+    </div>
 
 

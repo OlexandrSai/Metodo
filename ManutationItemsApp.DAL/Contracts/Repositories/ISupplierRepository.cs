@@ -10,5 +10,8 @@ namespace ManutationItemsApp.DAL.Contracts.Repositories
     {
         public Task<List<string>> GetSupplierNames();
         public Task<Supplier> FindByName(string name);
+
+        public void Update(Supplier supplier);
+        public bool Any(Func<object, bool> p);
     }
 }

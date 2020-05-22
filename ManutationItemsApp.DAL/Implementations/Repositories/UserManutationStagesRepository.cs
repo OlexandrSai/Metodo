@@ -12,8 +12,10 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
 {
     public class UserManutationStagesRepository:RepositoryBase<UserManutationStage>,IUserManutationsStagesRepository
     {
+        private readonly ApplicationDbContext _context;
         public UserManutationStagesRepository(ApplicationDbContext context):base(context)
         {
+            _context = context;
         }
 
         public void CreateNewAsync(ApplicationUser user, ManutationStage stage)
@@ -25,14 +27,14 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
                 ManutationStageId = stage.Id,
                 ManutationStage = stage
             };
-           RepositoryContext.AddAsync(value);
+            _context.AddAsync(value);
         }
 
         public async Task<List<string>> GetAllPerformersOfManutation(int id)
         {
-            List<string> allManutationStages = await RepositoryContext.ManutationStages.Where(a => a.Manutation.Id==id).
+            List<string> allManutationStages = await _context.ManutationStages.Where(a => a.Manutation.Id==id).
                 Select(a=>a.Id).ToListAsync();
-            List<string> performers =await  RepositoryContext.UserManutationStages.Where(a => allManutationStages.Any(b => b == a.ManutationStageId)).Select(a => a.ApplicationUser.UserName).ToListAsync();
+            List<string> performers =await _context.UserManutationStages.Where(a => allManutationStages.Any(b => b == a.ManutationStageId)).Select(a => a.ApplicationUser.UserName).ToListAsync();
             return performers.Distinct().ToList();
         }
     }

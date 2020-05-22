@@ -1,20 +1,47 @@
-﻿@model IEnumerable<ManutationItemsApp.Domain.Entities.Supplier>;
-@using ManutationItemsApp.Domain.Entities;
+﻿
+<br />
 
+<div class="form-group row">
+    <div class="col-6">
+        <h2 class="text-primary">Fornitori</h2>
+    </div>
+    <div class="col-6 text-right">
+        <a class="btn btn-primary" asp-action="Upsert"><i class="fas fa-plus"></i>&nbsp; Crea Nuovo Fornitore</a>
+        <a class="btn btn-dark" asp-action="SyncF"><i class="fad fa-analytics"></i>&nbsp; SyncF</a>
+    </div>
+</div>
 
-@{
-    ViewData["Title"] = "Index";
+<br />
+<div class="form-group row">
+    <div class="col-12">
+        <div class="border rounded">
+            <table id="tblData" class="table table-striped table-bordered" style="width:100%">
+                <thead class="thead-dark">
+                    <tr class="table-info">
+                        <th>Nome</th>
+                        <th>Nazione</th>
+                        <th>Indirizzo</th>
+                        <th>Rif Comm</th>
+                        <th>Tel Comm</th>
+                        <th>Email Comm</th>
+                        <th>Rif Tec</th>
+                        <th>Tel Tec</th>
+                        <th>Email Tec</th>
+                        <th>Appr Temp</th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script src="~/js/fornitori.js"></script>
 }
 
-<a type="button" class="btn btn-primary" data-toggle="modal" data-target="#createNewSupplier">Create New+</a>
-<i class="fa fa-file-excel fa-lg"></i>
-<div id="suppliersViewDiv">
-    @{ await Html.RenderPartialAsync("GetAll", Model);}
-</div>
-<div>
-    <a type="button" class="btn btn-primary" asp-controller="Home" asp-action="Index">Back to Home</a>
-</div>
 
-@{ await Html.RenderPartialAsync("Create", new Supplier()); }
-<div id="editForm"></div>
+
 

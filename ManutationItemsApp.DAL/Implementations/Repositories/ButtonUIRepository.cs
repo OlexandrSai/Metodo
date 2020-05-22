@@ -12,14 +12,15 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
 {
     public class ButtonUIRepository:RepositoryBase<ButtonUI>,IButtonUIRepository
     {
+        private readonly ApplicationDbContext _context;
         public ButtonUIRepository(ApplicationDbContext context):base(context)
         {
-
+            _context = context;
         }
 
         public ButtonUI FindByTextAsync(string id)
         {
-            return RepositoryContext.ButtonUIs.First(a => a.Text == id);
+            return _context.ButtonUIs.First(a => a.Text == id);
         }
     }
 }
