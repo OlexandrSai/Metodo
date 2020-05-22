@@ -111,7 +111,7 @@ namespace ManutationItemsApp.Controllers
                 model.toBeResumed = data.Where(a => a.ManutationStages.First(b => b.Active).Statuses.First(c => c.Active).Name == "Paused").ToList();
                 model.toBeInitialized = data.Where(a => a.ManutationStages.First(b => b.Active).Name == "Request"
         && a.ManutationStages.First(c => c.Active).Statuses.First(d => d.Active).Name == "Assigned").ToList();
-                model.needToAssign = await _unitOfWork.ManutationRepository.FindAllNeededToAssign();
+                model.needToAssign =  _unitOfWork.ManutationRepository.FindAllNeededToAssign();
                 model.onGoing = data.Except(model.toBeResumed).Except(model.toBeInitialized).ToList();
                 model.UserRules = await _unitOfWork.ApplicationUserRepository.GetUserRulesAsync(role.Id);
 
@@ -155,7 +155,7 @@ namespace ManutationItemsApp.Controllers
                 model.toBeResumed = data.Where(a => a.ManutationStages.First(b => b.Active).Statuses.First(c => c.Active).Name == "Paused").ToList();
                 model.toBeInitialized = data.Where(a => a.ManutationStages.First(b => b.Active).Name == "Request"
         && a.ManutationStages.First(c => c.Active).Statuses.First(d => d.Active).Name == "Assigned").ToList();
-                model.needToAssign = await _unitOfWork.ManutationRepository.FindAllNeededToAssign();
+                model.needToAssign = _unitOfWork.ManutationRepository.FindAllNeededToAssign();
                 model.onGoing = data.Except(model.toBeResumed).Except(model.toBeInitialized).ToList();
                 model.UserRules = await _unitOfWork.ApplicationUserRepository.GetUserRulesAsync(role.Id);
 
@@ -257,7 +257,7 @@ namespace ManutationItemsApp.Controllers
                     statusFilterPrev = null;
                     statusFilter = null;
                 }
-                List<Manutation> model = await _unitOfWork.ManutationRepository.FindAllNeededToAssign();
+                List<Manutation> model =  _unitOfWork.ManutationRepository.FindAllNeededToAssign();
                 ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames());
                 ViewBag.Stages = new string[] { "Check In", "Attivita", "Check Out" };
                 ViewBag.Statuses = new string[] { "Assigned", "Started", "Paused", "Finished" };
@@ -377,7 +377,7 @@ namespace ManutationItemsApp.Controllers
                 await _unitOfWork.CommitAsync();
 
                 ViewBag.freeMastersNames = new SelectList(await _unitOfWork.ApplicationUserRepository.GetAllFreeUsersNamesAsync());
-                var model = await _unitOfWork.ManutationRepository.FindAllNeededToAssign();
+                var model =  _unitOfWork.ManutationRepository.FindAllNeededToAssign();
                 return RedirectToAction(nameof(Administration));
             }
             catch (Exception e)
@@ -428,7 +428,7 @@ namespace ManutationItemsApp.Controllers
                 manutation.NotToDiplay = false;
                 await _unitOfWork.CommitAsync();
 
-                var model = await _unitOfWork.ManutationRepository.FindAllNeededToAssign();
+                var model =  _unitOfWork.ManutationRepository.FindAllNeededToAssign();
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)

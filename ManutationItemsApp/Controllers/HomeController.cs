@@ -520,12 +520,12 @@ namespace ManutationItemsApp.Controllers
 
                 if (User.IsInRole("Maintance Supervisor"))
                 {
-                    ViewBag.counter = await _unitOfWork.ManutationRepository.GetAllNeededToValidateCount();
+                    ViewBag.counter = _unitOfWork.ManutationRepository.GetAllNeededToValidateCount();
                 }
 
                 if (User.IsInRole("Admin"))
                 {
-                    var model = await _unitOfWork.ManutationRepository.FindAllNeededToAssign();
+                    var model = _unitOfWork.ManutationRepository.FindAllNeededToAssign();
                     ViewBag.counter = model.Count();
                 }
                 m.buttonUIs = _unitOfWork.ButtonUIRepository.GetAll();

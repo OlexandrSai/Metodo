@@ -133,24 +133,24 @@ namespace ManutationItemsApp.DAL.Repositories
             return await context.Manutations.AnyAsync(a => a.Id == id);
         }
 
-        public async Task<List<Manutation>> FindAllNeededToAssign()
+        public  List<Manutation> FindAllNeededToAssign()
         {
-            var collection = await context.Manutations.Where(m => m.NeedToAssign)
+            var collection = context.Manutations.Where(m => m.NeedToAssign)
                .Include(a => a.Asset)
                .Include(a => a.Creator)
                .Include(a => a.ErrorCode)
                .Include(a => a.TypeOfFault)
                .Include(a => a.ManutationStages)
                .ThenInclude(a => a.UserManutationStages)
-               .ToListAsync();
+               .ToList();
 
             return collection;
         }
 
-        public async Task<int> GetAllNeededToValidateCount()
+        public int GetAllNeededToValidateCount()
         {
             //
-            return await context.ManutationStages.Where(m => m.Name == "Check Out" && m.Statuses.First(a => a.Active).Name == "Finished").CountAsync();
+            return  context.ManutationStages.Where(m => m.Name == "Check Out" && m.Statuses.First(a => a.Active).Name == "Finished").Count();
         }
 
 

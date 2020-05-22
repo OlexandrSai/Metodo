@@ -34,7 +34,7 @@ namespace ManutationItemsApp.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(int itemId,UserRolesRules userRules, bool active)
         {
-            List<string> performers = await _unitOfWork.UserManutationsStagesRepository.GetAllPerformersOfManutation(itemId);
+            List<string> performers = _unitOfWork.UserManutationsStagesRepository.GetAllPerformersOfManutation(itemId);
             AssignButtonViewComponentModel model = new AssignButtonViewComponentModel()
             {
                 ItemId = itemId,

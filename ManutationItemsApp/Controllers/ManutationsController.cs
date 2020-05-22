@@ -35,7 +35,7 @@ namespace ManutationItemsApp.Controllers
         public async Task<IActionResult> GetAllNeededToAssign()
         {
             ViewBag.freeMastersNames = new SelectList(await _unitOfWork.ApplicationUserRepository.GetAllFreeUsersNamesAsync());
-            var model = await _unitOfWork.ManutationRepository.FindAllNeededToAssign();
+            var model =  _unitOfWork.ManutationRepository.FindAllNeededToAssign();
             return View("GetAllNeededToAssign", model);
         }
 
@@ -79,7 +79,7 @@ namespace ManutationItemsApp.Controllers
                 await _unitOfWork.CommitAsync();
 
                 ViewBag.freeMastersNames = new SelectList(await _unitOfWork.ApplicationUserRepository.GetAllFreeUsersNamesAsync());
-                var model = await _unitOfWork.ManutationRepository.FindAllNeededToAssign();
+                var model = _unitOfWork.ManutationRepository.FindAllNeededToAssign();
                 return View("GetAllNeededToAssign", model);
             }
             catch (Exception e)

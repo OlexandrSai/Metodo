@@ -37,7 +37,7 @@ namespace ManutationItemsApp.ViewComponents
                 ItemId = itemId,
                 UserRules = userRules
             };
-            List<string> performers = await _unitOfWork.UserManutationsStagesRepository.GetAllPerformersOfManutation(itemId);
+            List<string> performers =  _unitOfWork.UserManutationsStagesRepository.GetAllPerformersOfManutation(itemId);
             if (performers.Contains(User.Identity.Name))
             {
                 return View(model);
@@ -47,7 +47,7 @@ namespace ManutationItemsApp.ViewComponents
                 return View("ReadOnly", model);
             }
             //if it isn`t his manutation or he cannot validate it, then readonly details view
-            var manutation =await  _unitOfWork.ManutationRepository.FindByIdAsync(itemId);
+            //var manutation = _unitOfWork.ManutationRepository.FindByIdAsync(itemId);
             //if (userRules.CanValidate||manutation.Creator.Name==User.Identity.Name)
             //{
             //    return View( model);

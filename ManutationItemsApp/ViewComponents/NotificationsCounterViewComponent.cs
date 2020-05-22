@@ -21,12 +21,12 @@ namespace ManutationItemsApp.ViewComponents
             int count=0;
             if (User.IsInRole("Maintance Supervisor"))
             {
-                count = await _unitOfWork.ManutationRepository.GetAllNeededToValidateCount();
+                count = _unitOfWork.ManutationRepository.GetAllNeededToValidateCount();
             }
 
             if (User.IsInRole("Admin"))
             {
-                var model = await _unitOfWork.ManutationRepository.FindAllNeededToAssign();
+                var model =  _unitOfWork.ManutationRepository.FindAllNeededToAssign();
                 count = model.Count();
             }
 

@@ -36,7 +36,7 @@ namespace ManutationItemsApp.Controllers
            
             model.onGoing = data.Except(model.toBeResumed).Except(model.toBeInitialized).ToList();
 
-            model.needToAssign = await _unitOfWork.ManutationRepository.FindAllNeededToAssign();
+            model.needToAssign =  _unitOfWork.ManutationRepository.FindAllNeededToAssign();
 
 
             return View(model);

@@ -30,11 +30,11 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
             _context.AddAsync(value);
         }
 
-        public async Task<List<string>> GetAllPerformersOfManutation(int id)
+        public List<string> GetAllPerformersOfManutation(int id)
         {
-            List<string> allManutationStages = await _context.ManutationStages.Where(a => a.Manutation.Id==id).
-                Select(a=>a.Id).ToListAsync();
-            List<string> performers =await _context.UserManutationStages.Where(a => allManutationStages.Any(b => b == a.ManutationStageId)).Select(a => a.ApplicationUser.UserName).ToListAsync();
+            List<string> allManutationStages = _context.ManutationStages.Where(a => a.Manutation.Id==id).
+                Select(a=>a.Id).ToList();
+            List<string> performers =_context.UserManutationStages.Where(a => allManutationStages.Any(b => b == a.ManutationStageId)).Select(a => a.ApplicationUser.UserName).ToList();
             return performers.Distinct().ToList();
         }
     }
