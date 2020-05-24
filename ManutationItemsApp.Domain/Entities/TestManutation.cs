@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ManutationItemsApp.Domain.Entities
 {
-    class TestManutation
+    public class TestManutation
     {
         public int Id { get; set; }
 

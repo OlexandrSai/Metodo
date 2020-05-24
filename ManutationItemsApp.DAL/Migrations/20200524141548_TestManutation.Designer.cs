@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ManutationItemsApp.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200524141017_TestManutation")]
+    [Migration("20200524141548_TestManutation")]
     partial class TestManutation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -816,6 +816,30 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.ToTable("Suppliers");
                 });
 
+            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.TestManutation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AssetId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssetId");
+
+                    b.ToTable("TestManutations");
+                });
+
             modelBuilder.Entity("ManutationItemsApp.Domain.Entities.Tool", b =>
                 {
                     b.Property<int>("Id")
@@ -1260,6 +1284,15 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.HasOne("ManutationItemsApp.Domain.Entities.ManutationStage", "ManutationStage")
                         .WithMany("Statuses")
                         .HasForeignKey("ManutationStageId");
+                });
+
+            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.TestManutation", b =>
+                {
+                    b.HasOne("ManutationItemsApp.Domain.Entities.Asset", "Asset")
+                        .WithMany()
+                        .HasForeignKey("AssetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ManutationItemsApp.Domain.Entities.ToolTemp", b =>
