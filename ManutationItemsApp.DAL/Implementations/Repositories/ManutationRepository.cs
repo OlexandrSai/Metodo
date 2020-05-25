@@ -28,9 +28,9 @@ namespace ManutationItemsApp.DAL.Repositories
                 .FirstAsync();
         }
 
-        public async Task<List<Manutation>> GetAllManutationsWithTimelines()
+        public List<Manutation> GetAllManutationsWithTimelines()
         {
-            return await context.Manutations.Where(m=> m.ManutationStages.Where(d => d.Active == true).Count() > 0 && m.NotToDiplay == false)
+            return  context.Manutations.Where(m=> m.ManutationStages.Where(d => d.Active == true).Count() > 0 && m.NotToDiplay == false)
                 .Include(a => a.Asset)
                 .Include(a => a.Creator)
                 .Include(a => a.ErrorCode)
@@ -45,7 +45,7 @@ namespace ManutationItemsApp.DAL.Repositories
                 .ThenInclude(a => a.Tools)
                 .Include(a => a.ManutationStages)
                 .ThenInclude(a => a.Consumables)
-                .ToListAsync();
+                .ToList();
         }
 
         public async Task<List<Manutation>> GetManutationsWithTimelinesById(string id)

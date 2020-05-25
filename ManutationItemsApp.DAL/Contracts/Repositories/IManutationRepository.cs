@@ -13,7 +13,7 @@ namespace ManutationItemsApp.DAL.Contracts.Repositories
 
         public Task<bool> ManutationExists(int id);
 
-        public Task<List<Manutation>> GetAllManutationsWithTimelines();
+        public List<Manutation> GetAllManutationsWithTimelines();
 
         public Task<List<Manutation>> GetHistoricalManutationsWithTimelines();
         public Task<List<Manutation>> GetManutationsWithTimelinesById(string id);

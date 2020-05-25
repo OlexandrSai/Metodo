@@ -651,262 +651,297 @@ $(document).on('click', '#editManutation', function (e) {
     });
 });
 
-$(document).on('click', '#editCheckIn', function (e) {
-    e.preventDefault();
-    var model = {};
-    model.CheckInManutationId = $('input[name=CheckInManutationId]').val();
-    model.CheckInDescription = $('textarea[name=CheckInDescription').val();
-    model.CheckInStartDate = $('input[name=CheckInStartDate]').val();
-    //model.CheckInEndDate = $('input[name=CheckInEndDate]').val();
-    model.CheckInWorkingHoursCount = $('input[name=CheckInWorkingHoursCount]').val();
-    model.CheckInErrorCode = $('select[name = CheckInErrorCode]').children("option:selected").val();
-    model.CheckInFaultType = $('select[name = CheckInFaultType]').children("option:selected").val();
+//$(document).on('click', '#editCheckIn', function (e) {
+//    e.preventDefault();
+//    var model = {};
+//    model.CheckInManutationId = $('input[name=CheckInManutationId]').val();
+//    model.CheckInDescription = $('textarea[name=CheckInDescription').val();
+//    model.CheckInStartDate = $('input[name=CheckInStartDate]').val();
+//    //model.CheckInEndDate = $('input[name=CheckInEndDate]').val();
+//    model.CheckInWorkingHoursCount = $('input[name=CheckInWorkingHoursCount]').val();
+//    model.CheckInErrorCode = $('select[name = CheckInErrorCode]').children("option:selected").val();
+//    model.CheckInFaultType = $('select[name = CheckInFaultType]').children("option:selected").val();
 
-    $.ajax({
-        type: "POST",
-        url: $('#editCheckIn').attr('formaction'),
-        data: JSON.stringify(model),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (data) {
-            window.location.href = '/ManutationStages/Details/' + model.CheckInManutationId;
-        },
-    });
-});
+//    $.ajax({
+//        type: "POST",
+//        url: $('#editCheckIn').attr('formaction'),
+//        data: JSON.stringify(model),
+//        contentType: "application/json; charset=utf-8",
+//        dataType: "json",
+//        success: function (data) {
+//            window.location.href = '/ManutationStages/Details/' + model.CheckInManutationId;
+//        },
+//    });
+//});
 
-$(document).on('click', '#pauseAttivita', function (e) {
-    e.preventDefault();
-    var model = {};
-    $('#pauseAttivitaReasonModal').modal('hide');
-    model.ManutationId = $('input[name=AttivitaManutationId]').val();
-    model.Description = $('textarea[name=AttivitaDescription').val();
-    model.AttivitaStartDate = $('input[name=AttivitaStartDate]').val();
-    model.SpareParts = {};
-    model.Consumables = {};
-    model.Tools = {};
-    model.MeasuringTools = {};
+//$(document).on('click', '#pauseAttivita', function (e) {
+//    e.preventDefault();
+//    var model = {};
+//    $('#pauseAttivitaReasonModal').modal('hide');
+//    model.ManutationId = $('input[name=AttivitaManutationId]').val();
+//    model.Description = $('textarea[name=AttivitaDescription').val();
+//    model.AttivitaStartDate = $('input[name=AttivitaStartDate]').val();
+//    model.SpareParts = {};
+//    model.Consumables = {};
+//    model.Tools = {};
+//    model.MeasuringTools = {};
 
-    var pauseReason = '&pauseReason=' + $('select[name = pauseAttivitaReason]').children("option:selected").val();
+//    var pauseReason = '&pauseReason=' + $('select[name = pauseAttivitaReason]').children("option:selected").val();
 
-    $(".attivitaConsumable").each(function () {
-        var name = $(this).children('button').first().contents().get(0).nodeValue;
-        var count = $(this).children('button').first().children('span').text();
-        model.Consumables[name] = count;
-    });
+//    $(".attivitaConsumable").each(function () {
+//        var name = $(this).children('button').first().contents().get(0).nodeValue;
+//        var count = $(this).children('button').first().children('span').text();
+//        model.Consumables[name] = count;
+//    });
 
-    $(".attivitaMdc").each(function () {
-        var name = $(this).children('button').first().contents().get(0).nodeValue;
-        var count = $(this).children('button').first().children('span').text();
-        model.Tools[name] = count;
-    });
+//    $(".attivitaMdc").each(function () {
+//        var name = $(this).children('button').first().contents().get(0).nodeValue;
+//        var count = $(this).children('button').first().children('span').text();
+//        model.Tools[name] = count;
+//    });
 
-    $(".attivitaMeasuring").each(function () {
-        var name = $(this).children('button').first().contents().get(0).nodeValue;
-        var count = $(this).children('button').first().children('span').text();
-        model.MeasuringTools[name] = count;
-    });
+//    $(".attivitaMeasuring").each(function () {
+//        var name = $(this).children('button').first().contents().get(0).nodeValue;
+//        var count = $(this).children('button').first().children('span').text();
+//        model.MeasuringTools[name] = count;
+//    });
 
-    $(".attivitaItem").each(function () {
-        var name = $(this).children('button').first().contents().get(0).nodeValue;
-        var count = $(this).children('button').first().children('span').text();
-        model.SpareParts[name] = count;
-    });
+//    $(".attivitaItem").each(function () {
+//        var name = $(this).children('button').first().contents().get(0).nodeValue;
+//        var count = $(this).children('button').first().children('span').text();
+//        model.SpareParts[name] = count;
+//    });
 
-    $.ajax({
-        type: "POST",
-        url: $('#pauseAttivita').attr('formaction') + pauseReason,
-        data: JSON.stringify(model),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (data) {
-            $.ajax({
-                type: "GET",
-                url: '/ManutationStages/DetailsP/' + model.ManutationId,
-                success: function (data) {
-                    $('#details').html(data);
-                    $('.disabledcard *').prop('disabled', true);
-                }
-            });
-        },
-    });
-});
+//    $.ajax({
+//        type: "POST",
+//        url: $('#pauseAttivita').attr('formaction') + pauseReason,
+//        data: JSON.stringify(model),
+//        contentType: "application/json; charset=utf-8",
+//        dataType: "json",
+//        success: function (data) {
+//            $.ajax({
+//                type: "GET",
+//                url: '/ManutationStages/DetailsP/' + model.ManutationId,
+//                success: function (data) {
+//                    $('#details').html(data);
+//                    $('.disabledcard *').prop('disabled', true);
+//                }
+//            });
+//        },
+//    });
+//});
 
-$(document).on('click', '#finishAttivita', function (e) {
-    e.preventDefault();
-    var model = {};
-    model.ManutationId = $('input[name=AttivitaManutationId]').val();
-    model.Description = $('textarea[name=AttivitaDescription').val();
-    //model.AttivitaStartDate = $('input[name=AttivitaStartDate]').val();
-    //model.AttivitaEndDate = $('input[name=AttivitaEndDate]').val();
-    model.SpareParts = {};
-    model.Consumables = {};
-    model.Tools = {};
-    model.MeasuringTools = {};
+//$(document).on('click', '#finishAttivita', function (e) {
+//    e.preventDefault();
+//    var model = {};
+//    model.ManutationId = $('input[name=AttivitaManutationId]').val();
+//    model.Description = $('textarea[name=AttivitaDescription').val();
+//    //model.AttivitaStartDate = $('input[name=AttivitaStartDate]').val();
+//    //model.AttivitaEndDate = $('input[name=AttivitaEndDate]').val();
+//    model.SpareParts = {};
+//    model.Consumables = {};
+//    model.Tools = {};
+//    model.MeasuringTools = {};
 
-    $(".attivitaConsumable").each(function () {
-        var name = $(this).children('button').first().contents().get(0).nodeValue;
-        var count = $(this).children('button').first().children('span').text();
-        model.Consumables[name] = count;
-    });
+//    $(".attivitaConsumable").each(function () {
+//        var name = $(this).children('button').first().contents().get(0).nodeValue;
+//        var count = $(this).children('button').first().children('span').text();
+//        model.Consumables[name] = count;
+//    });
 
-    $(".attivitaMdc").each(function () {
-        var name = $(this).children('button').first().contents().get(0).nodeValue;
-        var count = $(this).children('button').first().children('span').text();
-        model.Tools[name] = count;
-    });
+//    $(".attivitaMdc").each(function () {
+//        var name = $(this).children('button').first().contents().get(0).nodeValue;
+//        var count = $(this).children('button').first().children('span').text();
+//        model.Tools[name] = count;
+//    });
 
-    $(".attivitaMeasuring").each(function () {
-        var name = $(this).children('button').first().contents().get(0).nodeValue;
-        var count = $(this).children('button').first().children('span').text();
-        model.MeasuringTools[name] = count;
-    });
+//    $(".attivitaMeasuring").each(function () {
+//        var name = $(this).children('button').first().contents().get(0).nodeValue;
+//        var count = $(this).children('button').first().children('span').text();
+//        model.MeasuringTools[name] = count;
+//    });
 
-    $(".attivitaItem").each(function () {
-        var name = $(this).children('button').first().contents().get(0).nodeValue;
-        var count = $(this).children('button').first().children('span').text();
-        model.SpareParts[name] = count;
-    });
+//    $(".attivitaItem").each(function () {
+//        var name = $(this).children('button').first().contents().get(0).nodeValue;
+//        var count = $(this).children('button').first().children('span').text();
+//        model.SpareParts[name] = count;
+//    });
 
-    $.ajax({
-        type: "POST",
-        url: $('#finishAttivita').attr('formaction'),
-        data: JSON.stringify(model),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (data) {
-            $.ajax({
-                type: "GET",
-                url: '/ManutationStages/DetailsP/' + model.ManutationId,
-                success: function (data) {
-                    $('#details').html(data);
-                    $('.disabledcard *').prop('disabled', true);
-                }
-            });
-        },
-    });
-});
+//    $.ajax({
+//        type: "POST",
+//        url: $('#finishAttivita').attr('formaction'),
+//        data: JSON.stringify(model),
+//        contentType: "application/json; charset=utf-8",
+//        dataType: "json",
+//        success: function (data) {
+//            $.ajax({
+//                type: "GET",
+//                url: '/ManutationStages/DetailsP/' + model.ManutationId,
+//                success: function (data) {
+//                    $('#details').html(data);
+//                    $('.disabledcard *').prop('disabled', true);
+//                }
+//            });
+//        },
+//    });
+//});
 
-$(document).on('click', '#editAttivita', function (e) {
-    e.preventDefault();
-    var model = {};
-    model.ManutationId = $('input[name=AttivitaManutationId]').val();
-    model.Description = $('textarea[name=AttivitaDescription').val();
-    //model.AttivitaStartDate = $('input[name=AttivitaStartDate]').val();
-    //model.AttivitaEndDate = $('input[name=AttivitaEndDate]').val();
-    model.SpareParts = {};
-    model.Consumables = {};
-    model.Tools = {};
-    model.MeasuringTools = {};
+//$(document).on('click', '#editAttivita', function (e) {
+//    e.preventDefault();
+//    var model = {};
+//    model.ManutationId = $('input[name=AttivitaManutationId]').val();
+//    model.Description = $('textarea[name=AttivitaDescription').val();
+//    //model.AttivitaStartDate = $('input[name=AttivitaStartDate]').val();
+//    //model.AttivitaEndDate = $('input[name=AttivitaEndDate]').val();
+//    model.SpareParts = {};
+//    model.Consumables = {};
+//    model.Tools = {};
+//    model.MeasuringTools = {};
 
-    $(".attivitaConsumable").each(function () {
-        var name = $(this).children('button').first().contents().get(0).nodeValue;
-        var count = $(this).children('button').first().children('span').text();
-        model.Consumables[name] = count;
-    });
+//    $(".attivitaConsumable").each(function () {
+//        var name = $(this).children('button').first().contents().get(0).nodeValue;
+//        var count = $(this).children('button').first().children('span').text();
+//        model.Consumables[name] = count;
+//    });
 
-    $(".attivitaMdc").each(function () {
-        var name = $(this).children('button').first().contents().get(0).nodeValue;
-        var count = $(this).children('button').first().children('span').text();
-        model.Tools[name] = count;
-    });
+//    $(".attivitaMdc").each(function () {
+//        var name = $(this).children('button').first().contents().get(0).nodeValue;
+//        var count = $(this).children('button').first().children('span').text();
+//        model.Tools[name] = count;
+//    });
 
-    $(".attivitaMeasuring").each(function () {
-        var name = $(this).children('button').first().contents().get(0).nodeValue;
-        var count = $(this).children('button').first().children('span').text();
-        model.MeasuringTools[name] = count;
-    });
+//    $(".attivitaMeasuring").each(function () {
+//        var name = $(this).children('button').first().contents().get(0).nodeValue;
+//        var count = $(this).children('button').first().children('span').text();
+//        model.MeasuringTools[name] = count;
+//    });
 
-    $(".attivitaItem").each(function () {
-        var name = $(this).children('button').first().contents().get(0).nodeValue;
-        var count = $(this).children('button').first().children('span').text();
-        model.SpareParts[name] = count;
-    });
+//    $(".attivitaItem").each(function () {
+//        var name = $(this).children('button').first().contents().get(0).nodeValue;
+//        var count = $(this).children('button').first().children('span').text();
+//        model.SpareParts[name] = count;
+//    });
 
-    $.ajax({
-        type: "POST",
-        url: $('#editAttivita').attr('formaction'),
-        data: JSON.stringify(model),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (data) {
-            window.location.href = '/ManutationStages/Details/' + model.ManutationId;
-        },
-    });
-});
+//    $.ajax({
+//        type: "POST",
+//        url: $('#editAttivita').attr('formaction'),
+//        data: JSON.stringify(model),
+//        contentType: "application/json; charset=utf-8",
+//        dataType: "json",
+//        success: function (data) {
+//            window.location.href = '/ManutationStages/Details/' + model.ManutationId;
+//        },
+//    });
+//});
 
-$(document).on('click', '#pauseCheckOut', function (e) {
-    e.preventDefault();
-    var model = {};
-    $('#pauseCheckOutReasonModal').modal('hide');
-    model.ManutationId = $('input[name=CheckOutManutationId]').val();
-    model.Description = $('textarea[name=CheckOutDescription').val();
-    //model.CheckOutStartDate = $('input[name=CheckOutStartDate]').val();
-    model.Tools = {};
-    model.MeasuringTools = {};
+//$(document).on('click', '#pauseCheckOut', function (e) {
+//    e.preventDefault();
+//    var model = {};
+//    $('#pauseCheckOutReasonModal').modal('hide');
+//    model.ManutationId = $('input[name=CheckOutManutationId]').val();
+//    model.Description = $('textarea[name=CheckOutDescription').val();
+//    //model.CheckOutStartDate = $('input[name=CheckOutStartDate]').val();
+//    model.Tools = {};
+//    model.MeasuringTools = {};
 
-    var pauseReason = '&pauseReason=' + $('select[name = pauseCheckOutReason]').children("option:selected").val();
+//    var pauseReason = '&pauseReason=' + $('select[name = pauseCheckOutReason]').children("option:selected").val();
 
-    $(".checkOutMdc").each(function () {
-        var name = $(this).children('button').first().contents().get(0).nodeValue;
-        var count = $(this).children('button').first().children('span').text();
-        model.Tools[name] = count;
-    });
+//    $(".checkOutMdc").each(function () {
+//        var name = $(this).children('button').first().contents().get(0).nodeValue;
+//        var count = $(this).children('button').first().children('span').text();
+//        model.Tools[name] = count;
+//    });
 
-    $(".checkOutMeasuring").each(function () {
-        var name = $(this).children('button').first().contents().get(0).nodeValue;
-        var count = $(this).children('button').first().children('span').text();
-        model.MeasuringTools[name] = count;
-    });
+//    $(".checkOutMeasuring").each(function () {
+//        var name = $(this).children('button').first().contents().get(0).nodeValue;
+//        var count = $(this).children('button').first().children('span').text();
+//        model.MeasuringTools[name] = count;
+//    });
 
-    $.ajax({
-        type: "POST",
-        url: $('#pauseCheckOut').attr('formaction') + pauseReason,
-        data: JSON.stringify(model),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (data) {
-            $.ajax({
-                type: "GET",
-                url: '/ManutationStages/DetailsP/' + model.ManutationId,
-                success: function (data) {
-                    $('#details').html(data);
-                    $('.disabledcard *').prop('disabled', true);
-                }
-            });
-        },
-    });
-});
+//    $.ajax({
+//        type: "POST",
+//        url: $('#pauseCheckOut').attr('formaction') + pauseReason,
+//        data: JSON.stringify(model),
+//        contentType: "application/json; charset=utf-8",
+//        dataType: "json",
+//        success: function (data) {
+//            $.ajax({
+//                type: "GET",
+//                url: '/ManutationStages/DetailsP/' + model.ManutationId,
+//                success: function (data) {
+//                    $('#details').html(data);
+//                    $('.disabledcard *').prop('disabled', true);
+//                }
+//            });
+//        },
+//    });
+//});
 
 
-$(document).on('click', '#showCheckOutNote', function (e) {
-    e.preventDefault();
-    $("#checkOutNotediv").toggle();
+//$(document).on('click', '#showCheckOutNote', function (e) {
+//    e.preventDefault();
+//    $("#checkOutNotediv").toggle();
 
     
-});
+//});
 
 
 $(document).on('click', '#finishCheckOut', function (e) {
     e.preventDefault();
     var model = {};
-    model.ManutationId = $('input[name=CheckOutManutationId]').val();
-    model.Description = $('textarea[name=CheckOutDescription').val();
-    //model.CheckOutStartDate = $('input[name=CheckOutStartDate]').val();
+    model.ManutationId = $('input[name=CheckInManutationId]').val();
+    model.CheckInDescription = $('textarea[name=CheckInDescription').val();
+    model.CheckInStartDate = $('input[name=CheckInStartDate]').val();
+    model.CheckInWorkingHoursCount = $('input[name=CheckInWorkingHoursCount]').val();
+    model.CheckInErrorCode = $('select[name = CheckInErrorCode]').children("option:selected").val();
+    model.CheckInFaultType = $('select[name = CheckInFaultType]').children("option:selected").val();
+
+    model.AttivitaDescription = $('textarea[name=AttivitaDescription').val();
+    model.AttivitaSpareParts = {};
+    model.AttivitaConsumables = {};
+    model.AttivitaTools = {};
+    model.AttivitaMeasuringTools = {};
+
+    $(".attivitaConsumable").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.AttivitaConsumables[name] = count;
+    });
+
+    $(".attivitaMdc").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.AttivitaTools[name] = count;
+    });
+
+    $(".attivitaMeasuring").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.AttivitaMeasuringTools[name] = count;
+    });
+
+    $(".attivitaItem").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.AttivitaSpareParts[name] = count;
+    });
+
+    model.CheckOutDescription = $('textarea[name=CheckOutDescription').val();
     model.CheckOutEndDate = $('input[name=CheckOutEndDate]').val();
-    model.Tools = {};
-    model.MeasuringTools = {};
-    model.CheckOutNote = $('textarea[name=CheckOutNote').val();
+    model.CheckOutTools = {};
+    model.CheckOutMeasuringTools = {};
+    //model.CheckOutNote = $('textarea[name=CheckOutNote').val();
 
     $(".checkOutMdc").each(function () {
         var name = $(this).children('button').first().contents().get(0).nodeValue;
         var count = $(this).children('button').first().children('span').text();
-        model.Tools[name] = count;
+        model.CheckOutTools[name] = count;
     });
 
     $(".checkOutMeasuring").each(function () {
         var name = $(this).children('button').first().contents().get(0).nodeValue;
         var count = $(this).children('button').first().children('span').text();
-        model.MeasuringTools[name] = count;
+        model.CheckOutMeasuringTools[name] = count;
     });
 
     $.ajax({

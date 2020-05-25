@@ -26,25 +26,25 @@
     //ViewData["activeStageStatus"] = Model.ManutationStages.First(a => a.Active == true).Statuses.First(a=>a.Active==true).Name;
 }
 
-@if (stage != null && stage.Active && stage.Statuses.First(a => a.Active).Name != "Paused" && stage.Active && stage.Statuses.First(a => a.Active).Name != "Finished")
+@if (Model.ManutationStages.First(a => a.Active).Name != "Request" || !Model.IsPaused )
 {
     <div class="card mt-5 ">
         <div class="card-header">
             <a type="button" class="btn btn-success mr-4">Attivita</a>
             @*<div class="input-group mt-2 col-4">
-                <div class="input-group-prepend">
-                    <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
+                    </div>
+                    <input asp-for="@stage.StartDate" name="AttivitaStartDate" class="form-control" />
+                    <span asp-validation-for="@stage.StartDate" class="text-danger"></span>
                 </div>
-                <input asp-for="@stage.StartDate" name="AttivitaStartDate" class="form-control" />
-                <span asp-validation-for="@stage.StartDate" class="text-danger"></span>
-            </div>
-            <div class="input-group mt-2 col-4">
-                <div class="input-group-prepend">
-                    <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
-                </div>
-                <input asp-for="@stage.EndDate" name="AttivitaEndDate" class="form-control" />
-                <span asp-validation-for="@stage.EndDate" class="text-danger"></span>
-            </div>*@
+                <div class="input-group mt-2 col-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
+                    </div>
+                    <input asp-for="@stage.EndDate" name="AttivitaEndDate" class="form-control" />
+                    <span asp-validation-for="@stage.EndDate" class="text-danger"></span>
+                </div>*@
         </div>
         <div class="card-body">
             <form>
@@ -147,11 +147,6 @@
                     </div>
                     <a data-toggle="modal" data-target="#attivitaMeasuringModal"><i class="fa fa-plus-square fa-lg"></i></a>
 
-                </div>
-                <div class="form-group">
-                    <a class="btn btn-success mr-4" data-toggle="modal" data-target="#pauseAttivitaReasonModal">Sospendi</a>
-                    @*<button id="pauseAttivita" asp-action="PauseAttivita" asp-controller="ManutationStages" class="btn btn-primary">Sospendi</button>*@
-                    <button id="finishAttivita" asp-action="FinishAttivita" asp-controller="ManutationStages" asp-route-stageName="Check In" asp-route-manutationId="@Model.Id" class="btn btn-primary">Chiudi  ATTIVITA’ e Passa a CHECK OUT</button>
                 </div>
             </form>
 
@@ -283,56 +278,10 @@ else
 {
     <div class="card mt-5">
         <div class="card-header">
-            @if (isNext || (stage != null && stage.Statuses != null && stage.Statuses.Where(a => a.Active).Count() > 0 && stage.Statuses.First(a => a.Active).Name == "Paused"))
-            {
-                <a type="button" class="btn btn-success mr-4" asp-action="StartOrContinue" asp-route-manutationId="@Model.Id" asp-route-stageName="Attivita" data-ajax="true" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-update="#details" data-ajax-success="renewDisabled">Attivita  <i class="fas fa-play"></i></a>
-            }
-            else
-            {
-                <button type="button" class="btn btn-success mr-4" disabled>Attivita</button>
-                if (finished && ViewBag.MasterView == true)
-                {
-                    <a asp-action="EditAttivita" asp-route-id="@Model.Id" asp-controller="ManutationStages"><i class="fa fa-marker fa-lg"></i></a>
-                }
-            }
+            <button type="button" class="btn btn-success mr-4" disabled>Attivita</button>
 
-            @*@if (stage != null && stage.StartDate != null)
-            {
-                <div class="input-group mt-2 disabled col-4">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
-                    </div>
-                    <input disabled asp-for="@stage.StartDate" name="AttivitaStartDate" class="form-control" />
-                </div>
-            }
-            else
-            {
-                <div class="input-group mt-2 disabled col-4">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
-                    </div>
-                    <input disabled name="AttivitaStartDate" class="form-control" />
-                </div>
-            }
 
-            @if (stage != null && stage.EndDate != null)
-            {
-                <div class="input-group mt-2 disabled col-4">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
-                    </div>
-                    <input disabled asp-for="@stage.EndDate" name="AttivitaEndDate" class="form-control" />
-                </div>
-            }
-            else
-            {
-                <div class="input-group mt-2 disabled col-4">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
-                    </div>
-                    <input disabled name="AttivitaEndDate" class="form-control" />
-                </div>
-            }*@
+
         </div>
         <div class="card-body disabledcard">
             <form>

@@ -14,8 +14,7 @@
 }
 
 
-
-@if (stage != null && stage.Active && stage.Statuses.First(a => a.Active).Name != "Paused" && stage.Active && stage.Statuses.First(a => a.Active).Name != "Finished")
+@if (Model.ManutationStages.First(a => a.Active).Name != "Request" || !Model.IsPaused)
 {
     <div class="card mt-5">
         <div class="card-header">
@@ -91,10 +90,8 @@
                     <a data-toggle="modal" data-target="#checkOutMeasuringModal"><i class="fa fa-plus-square fa-lg"></i></a>
                 </div>
                 <div class="form-group">
-                    <a class="btn btn-success mr-4" data-toggle="modal" data-target="#pauseCheckOutReasonModal">Sospendi</a>
-                    @*<button id="pauseCheckOut" asp-action="PauseCheckOut" asp-controller="ManutationStages" class="btn btn-primary">Sospendi</button>*@
-                <button id="finishCheckOut" asp-controller="ManutationStages" asp-action="FinishCheckOut" class="btn btn-primary">Chiudi CHECK OUT</button>
-</div>
+                    <button id="finishCheckOut" asp-controller="ManutationStages" asp-action="FinishCheckOut" class="btn btn-primary">Chiudi CHECK OUT</button>
+                </div>
             </form>
             <div class="modal fade" id="checkOutAttrezzaturaModal" tabindex="-1" role="dialog" aria-labelledby="checkOutAttrezzaturaModal" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -163,32 +160,7 @@ else
 {
     <div class="card mt-5">
         <div class="card-header">
-            @if (isNext || (stage != null && stage.Statuses != null && stage.Statuses.Where(a => a.Active).Count() > 0 && stage.Statuses.First(a => a.Active).Name == "Paused"))
-            {
-                <a type="button" class="btn btn-success mr-4" asp-action="StartOrContinue" asp-route-manutationId="@Model.Id" asp-route-stageName="Check Out" data-ajax="true" data-ajax-mode="replace" data-ajax-method="GET" data-ajax-update="#details" data-ajax-success="renewDisabled">Check Out  <i class="fas fa-play"></i></a>
-            }
-            else
-            {
-                <button type="button" class="btn btn-success mr-4" disabled>Check Out</button>
-            }
-            @*@if (stage != null && stage.StartDate != null)
-                {
-                    <div class="input-group mt-2 disabled col-4">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
-                        </div>
-                        <input disabled asp-for="@stage.StartDate" name="CheckOutStartDate" class="form-control" />
-                    </div>
-                }
-                else
-                {
-                    <div class="input-group mt-2 disabled col-4">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
-                        </div>
-                        <input disabled name="CheckOutStartDate" class="form-control" />
-                    </div>
-                }*@
+            <button type="button" class="btn btn-success mr-4" disabled>Check Out</button>
         </div>
         <div class="card-body disabledcard">
             <form asp-action="Continue" asp-controller="ManutationStages">
