@@ -74,7 +74,7 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
 
         public async Task<ApplicationUser> GetUserByNameAsync(string username)
         {
-            return await _userManager.FindByNameAsync(username);
+            return await _context.ApplicationUsers.FirstAsync(a=>a.UserName==username);
         }
 
         public UserRolesRules GetUserRules(string roleId)

@@ -1,0 +1,17 @@
+﻿@model ManutationItemsApp.Domain.Entities.Manutation
+@{
+    ViewData["Title"] = "Default";
+}
+
+    <div class="d-flex justify-content-end sticky-top" style="top: 20px">
+        @if (@Model.IsPaused)
+        {
+            <i class="far fa-play-circle fa-3x" style="color: #7CFC00"></i>
+        }
+        else
+        {
+            <i class="far fa-pause-circle fa-3x" style="color: blue"></i>
+        }
+        <a asp-action="EditManutation" asp-route-id="@Model.Id" asp-controller="ManutationStages"><i class="fa fa-marker fa-3x"></i></a>
+    </div>
+
