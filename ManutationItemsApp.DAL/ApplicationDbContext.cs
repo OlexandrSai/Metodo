@@ -39,6 +39,7 @@ namespace ManutationItemsApp.DAL
         public DbSet<UserRolesRules> UserRolesRules { get; set; }
         public DbSet<PauseReason> PauseReasons { get; set; }
         public DbSet<ButtonUI> ButtonUIs { get; set; }
+        public DbSet<TestManutation> TestManutations { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

@@ -4,14 +4,16 @@ using ManutationItemsApp.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ManutationItemsApp.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200524141548_TestManutation")]
+    partial class TestManutation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -609,9 +611,6 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.Property<bool>("IsOtherActivity")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsPaused")
-                        .HasColumnType("bit");
-
                     b.Property<int?>("ManutationTypeId")
                         .HasColumnType("int");
 
@@ -827,63 +826,16 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.Property<int>("AssetId")
                         .HasColumnType("int");
 
-                    b.Property<string>("BaseDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CheckOutNote")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CreatorId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("ErrorCodeId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Historical")
-                        .HasColumnType("bit");
-
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsCartolinaRossa")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsFailure")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsOtherActivity")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ManutationTypeId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("NeedToAssign")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("NotToDiplay")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("PauseReason")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TypeOfFaultId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AssetId");
-
-                    b.HasIndex("CreatorId");
-
-                    b.HasIndex("ErrorCodeId");
-
-                    b.HasIndex("ManutationTypeId");
-
-                    b.HasIndex("TypeOfFaultId");
 
                     b.ToTable("TestManutations");
                 });
@@ -1339,28 +1291,6 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.HasOne("ManutationItemsApp.Domain.Entities.Asset", "Asset")
                         .WithMany()
                         .HasForeignKey("AssetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ManutationItemsApp.Domain.Entities.ApplicationUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId");
-
-                    b.HasOne("ManutationItemsApp.Domain.Entities.ErrorCode", "ErrorCode")
-                        .WithMany()
-                        .HasForeignKey("ErrorCodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ManutationItemsApp.Domain.Entities.ManutationTypess", "ManutationType")
-                        .WithMany()
-                        .HasForeignKey("ManutationTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ManutationItemsApp.Domain.Entities.TypeOfFault", "TypeOfFault")
-                        .WithMany()
-                        .HasForeignKey("TypeOfFaultId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

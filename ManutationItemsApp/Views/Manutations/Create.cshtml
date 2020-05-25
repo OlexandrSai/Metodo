@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@model ManutationItemsApp.Service.Dto.Manutatons.CreateManutationDto
+@model ManutationItemsApp.Models.Manutations.ManutationVM
 @inject UserManager<ManutationItemsApp.Domain.Entities.ApplicationUser> UserManager
 @inject SignInManager<ManutationItemsApp.Domain.Entities.ApplicationUser> SignInManager
 
@@ -20,21 +20,21 @@
             <span asp-validation-for="DateOfCreation" class="text-danger"></span>
         </div>*@
             <div class="form-group">
-                <label asp-for="DateOfCreation" class="control-label">Data di creazione</label>
-                <input asp-for="DateOfCreation" class="form-control" />
-                <span asp-validation-for="DateOfCreation" class="text-danger"></span>
+                <label asp-for="CreateManutationDto.DateOfCreation" class="control-label">Data di creazione</label>
+                <input asp-for="CreateManutationDto.DateOfCreation" class="form-control" />
+                <span asp-validation-for="CreateManutationDto.DateOfCreation" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AssetName" class="control-label">Asset</label>  <i class="fa fa-qrcode fa-2x"></i>
-                <select asp-for="AssetName" class="form-control" asp-items="@ViewBag.assetNames">
+                <label asp-for="CreateManutationDto.AssetName" class="control-label">Asset</label>  <i class="fa fa-qrcode fa-2x"></i>
+                <select asp-for="CreateManutationDto.AssetName" class="form-control" asp-items="@Model.AssetList">
                     <option disabled selected></option>
                 </select>
-                <span asp-validation-for=" AssetName" class="text-danger">
+                <span asp-validation-for="CreateManutationDto.AssetName" class="text-danger">
                 </span>
             </div>
             <div class="form-check">
-                <input asp-for="IsFailure" class="form-check-input group1" type="checkbox">
-                <label asp-for="IsFailure" class="form-check-label">
+                <input asp-for="CreateManutationDto.IsFailure" class="form-check-input group1" type="checkbox">
+                <label asp-for="CreateManutationDto.IsFailure" class="form-check-label">
                     Guasto (fermo) o
                 </label>
             </div>
@@ -45,14 +45,14 @@
                 </label>
             </div>
             <div class="form-check">
-                <input asp-for="IsCartolinaRossa" class="form-check-input group1" type="checkbox">
-                <label asp-for="IsCartolinaRossa" class="form-check-label">
+                <input asp-for="CreateManutationDto.IsCartolinaRossa" class="form-check-input group1" type="checkbox">
+                <label asp-for="CreateManutationDto.IsCartolinaRossa" class="form-check-label">
                     Cartolina Rossa
                 </label>
             </div>
             <div class="form-check">
-                <input asp-for="IsOtherActivity" class="form-check-input group1" type="checkbox">
-                <label asp-for="IsOtherActivity" class="form-check-label">
+                <input asp-for="CreateManutationDto.IsOtherActivity" class="form-check-input group1" type="checkbox">
+                <label asp-for="CreateManutationDto.IsOtherActivity" class="form-check-label">
                     Altre attivita
                 </label>
             </div>
@@ -60,23 +60,23 @@
                 <label class="control-label">Descrivi il</label>  <i class="fa fa-file-alt fa-2x"></i>
                 <i class="fas fa-camera fa-2x"></i>
                 <i class="fa fa-file-audio fa-2x"></i>
-                <input asp-for="BaseDescription" class="form-control" />
-                <span asp-validation-for="BaseDescription" class="text-danger"></span>
+                <input asp-for="CreateManutationDto.BaseDescription" class="form-control" />
+                <span asp-validation-for="CreateManutationDto.BaseDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ErrorCodeName" class="control-label">Codice di errore</label>
-                <select asp-for="ErrorCodeName" class="form-control" asp-items="@ViewBag.errorCodesNames">
+                <label asp-for="CreateManutationDto.ErrorCodeName" class="control-label">Codice di errore</label>
+                <select asp-for="CreateManutationDto.ErrorCodeName" class="form-control" asp-items="@Model.ErrorCodeList">
                     <option disabled selected></option>
                 </select>
-                <span asp-validation-for=" ErrorCodeName" class="text-danger">
+                <span asp-validation-for="CreateManutationDto.ErrorCodeName" class="text-danger">
                 </span>
             </div>
             <div class="form-group">
-                <label asp-for="FaultTypeName" class="control-label">Tipologia di Guasto / Malfunzionamento</label>
-                <select asp-for="FaultTypeName" class="form-control" asp-items="@ViewBag.FaultTypeName">
+                <label asp-for="CreateManutationDto.FaultTypeName" class="control-label">Tipologia di Guasto / Malfunzionamento</label>
+                <select asp-for="CreateManutationDto.FaultTypeName" class="form-control" asp-items="@Model.TypeOfFaultList">
                     <option disabled selected></option>
                 </select>
-                <span asp-validation-for=" FaultTypeName" class="text-danger">
+                <span asp-validation-for="CreateManutationDto.FaultTypeName" class="text-danger">
                 </span>
             </div>
             <div class="form-group">

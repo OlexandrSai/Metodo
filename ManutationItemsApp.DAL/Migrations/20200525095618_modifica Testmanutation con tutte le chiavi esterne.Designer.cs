@@ -4,14 +4,16 @@ using ManutationItemsApp.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ManutationItemsApp.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200525095618_modifica Testmanutation con tutte le chiavi esterne")]
+    partial class modificaTestmanutationcontuttelechiaviesterne
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -607,9 +609,6 @@ namespace ManutationItemsApp.DAL.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsOtherActivity")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsPaused")
                         .HasColumnType("bit");
 
                     b.Property<int?>("ManutationTypeId")
