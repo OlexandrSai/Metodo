@@ -13,6 +13,7 @@ using ManutationItemsApp.Service.Dto.Manutatons;
 using ManutationItemsApp.DAL.Contracts;
 using System.Reflection;
 using System.Diagnostics.CodeAnalysis;
+using ManutationItemsApp.Models.Manutations;
 
 namespace ManutationItemsApp.Controllers
 {
@@ -93,11 +94,16 @@ namespace ManutationItemsApp.Controllers
         // GET: Manutations/Create
         public async Task<IActionResult> Create(string mType)
         {
-            //_unitOfWork.ManutationTypeRepository.GetAllManutationTypesNames()
-            ViewBag.assetNames = new SelectList(await _unitOfWork.AssetRepository.GetAssetNames());
-            ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames());
-            ViewBag.FaultTypeName = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllFaultTypes());
-            return View(new CreateManutationDto { DateOfCreation=DateTime.Now,ManutationTypeName=mType});
+            ManutationVM manutationVm = new ManutationVM()
+            {
+                AssetList = new SelectList(await _unitOfWork.AssetRepository.GetAssetNames()),
+                ErrorCodeList = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames()),
+                TypeOfFaultList = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllFaultTypes()),
+                CreateManutationDto = new CreateManutationDto { DateOfCreation = DateTime.Now, ManutationTypeName = mType }
+
+            }; 
+            
+            return View(manutationVm);
         }
 
         // POST: Manutations/Create
@@ -105,7 +111,7 @@ namespace ManutationItemsApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async  Task<IActionResult> Create(CreateManutationDto manutation)
+        public async  Task<IActionResult> Create(ManutationVM manutationVm)
         {
             if (!ModelState.IsValid)
             {
@@ -114,19 +120,19 @@ namespace ManutationItemsApp.Controllers
             try
             {
                 var user = await _unitOfWork.ApplicationUserRepository.GetUserByNameAsync(User.Identity.Name);
-                var asset = await _unitOfWork.AssetRepository.FindByFullName(manutation.AssetName);
-                var errorCode = await _unitOfWork.ErrorCodeRepository.GetCodeByNameAsync(manutation.ErrorCodeName);
-                var manutationType = await _unitOfWork.ManutationTypeRepository.GetManutationTypeByNameAsync(manutation.ManutationTypeName);
-                var Fault = await _unitOfWork.ErrorCodeRepository.GetFaultByName(manutation.FaultTypeName);
+                var asset = await _unitOfWork.AssetRepository.FindByFullName(manutationVm.CreateManutationDto.AssetName);
+                var errorCode = await _unitOfWork.ErrorCodeRepository.GetCodeByNameAsync(manutationVm.CreateManutationDto.ErrorCodeName);
+                var manutationType = await _unitOfWork.ManutationTypeRepository.GetManutationTypeByNameAsync(manutationVm.CreateManutationDto.ManutationTypeName);
+                var Fault = await _unitOfWork.ErrorCodeRepository.GetFaultByName(manutationVm.CreateManutationDto.FaultTypeName);
                 Manutation newManutation = new Manutation()
                 {
                     Asset = asset,
-                    IsFailure=manutation.IsFailure,
-                    IsCartolinaRossa=manutation.IsCartolinaRossa,
-                    IsOtherActivity = manutation.IsOtherActivity,
-                    DateOfCreation = manutation.DateOfCreation,
+                    IsFailure= manutationVm.CreateManutationDto.IsFailure,
+                    IsCartolinaRossa= manutationVm.CreateManutationDto.IsCartolinaRossa,
+                    IsOtherActivity = manutationVm.CreateManutationDto.IsOtherActivity,
+                    DateOfCreation = manutationVm.CreateManutationDto.DateOfCreation,
                     Creator = user,
-                    BaseDescription=manutation.BaseDescription,
+                    BaseDescription= manutationVm.CreateManutationDto.BaseDescription,
                     ErrorCode = errorCode,
                     TypeOfFault=Fault,
                     ManutationType = manutationType,
