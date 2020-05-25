@@ -581,6 +581,76 @@ $(document).on('click', '#finishCheckIn', function (e) {
     });
 });
 
+$(document).on('click', '#editManutation', function (e) {
+    e.preventDefault();
+    var model = {};
+    model.ManutationId = $('input[name=CheckInManutationId]').val();
+    model.CheckInDescription = $('textarea[name=CheckInDescription').val();
+    model.CheckInStartDate = $('input[name=CheckInStartDate]').val();
+    //model.CheckInEndDate = $('input[name=CheckInEndDate]').val();
+    model.CheckInWorkingHoursCount = $('input[name=CheckInWorkingHoursCount]').val();
+    model.CheckInErrorCode = $('select[name = CheckInErrorCode]').children("option:selected").val();
+    model.CheckInFaultType = $('select[name = CheckInFaultType]').children("option:selected").val();
+
+    model.AttivitaSpareParts = {};
+    model.AttivitaConsumables = {};
+    model.AttivitaTools = {};
+    model.AttivitaMeasuringTools = {};
+
+    $(".attivitaConsumable").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.AttivitaConsumables[name] = count;
+    });
+
+    $(".attivitaMdc").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.AttivitaTools[name] = count;
+    });
+
+    $(".attivitaMeasuring").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.AttivitaMeasuringTools[name] = count;
+    });
+
+    $(".attivitaItem").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.AttivitaSpareParts[name] = count;
+    });
+
+    model.CheckOutDescription = $('textarea[name=CheckOutDescription').val();
+    model.CheckOutEndDate = $('input[name=CheckOutEndDate]').val();
+    model.CheckOutTools = {};
+    model.CheckOutMeasuringTools = {};
+    model.CheckOutNote = $('textarea[name=CheckOutNote').val();
+
+    $(".checkOutMdc").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.CheckOutTools[name] = count;
+    });
+
+    $(".checkOutMeasuring").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.CheckOutMeasuringTools[name] = count;
+    });
+    var link = $('#editManutation').attr('formaction');
+    $.ajax({
+        type: "POST",
+        url: link,
+        data: JSON.stringify(model),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+       success: function (data) {
+            window.location.href = '/ManutationStages/Details/' + model.CheckInManutationId;
+        }, 
+    });
+});
+
 $(document).on('click', '#editCheckIn', function (e) {
     e.preventDefault();
     var model = {};

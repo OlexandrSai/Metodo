@@ -137,97 +137,12 @@ namespace ManutationItemsApp.Controllers
                     TypeOfFault=Fault,
                     ManutationType = manutationType,
                     NeedToAssign=true,
-                    NotToDiplay=false
+                    NotToDiplay=false,
+                    IsPaused = true
                 };
-                //ManutationStage manutationStage = new ManutationStage()
-                //{
-                //    Description = manutation.BaseDescription,
-                //    StartDate = manutation.DateOfCreation,
-                //    Manutation = newManutation,
-                //    Name="Check In",
-                //    Status= "Manutation Created"
-                //};
 
                 _unitOfWork.ManutationRepository.Create(newManutation);
                 await _unitOfWork.CommitAsync();
-
-                //await _unitOfWork.ManutationStageRepository.CreateNew(manutationStage);
-                //await _unitOfWork.CommitAsync();
-
-                //_unitOfWork.UserManutationsStagesRepository.CreateNewAsync(user, manutationStage);
-                //await _unitOfWork.CommitAsync();
-
-               // var freeMasters = await _unitOfWork.ApplicationUserRepository.GetAllFreeUsersAsync();
-               //// var parentManutation = _unitOfWork.ManutationRepository.FindByCondition(a => a.DateOfCreation == newManutation.DateOfCreation).First();
-               // Random rand = new Random();
-               // var userToAssign = freeMasters[0];
-               // ManutationStage manutationNextStage = new ManutationStage()
-               // {
-               //     Description = newManutation.BaseDescription,
-               //     StartDate = DateTime.Now,
-               //     Name="Check In",
-               //     Status = "AutoAssigned",
-               //     Manutation = newManutation,
-               //     Active = true
-               // };
-                
-                //await _unitOfWork.ManutationStageRepository.CreateNew(manutationNextStage);
-                //await _unitOfWork.CommitAsync();
-
-                //_unitOfWork.UserManutationsStagesRepository.CreateNewAsync(userToAssign, manutationStage);
-                //await _unitOfWork.CommitAsync();
-
-                //Check In
-                //ManutationStage manutationNextStageCheckIn = new ManutationStage()
-                //{
-                //    //Description = newManutation.BaseDescription,
-                //    StartDate = DateTime.Now,
-                //    Name = "Check In",
-                //    Status = "Check In",
-                //    Manutation = newManutation,
-                //    Active = true
-                //};
-
-                //await _unitOfWork.ManutationStageRepository.CreateNew(manutationNextStageCheckIn);
-                //await _unitOfWork.CommitAsync();
-
-                //_unitOfWork.UserManutationsStagesRepository.CreateNewAsync(userToAssign, manutationNextStageCheckIn);
-                //await _unitOfWork.CommitAsync();
-
-                ////Attivita
-                //ManutationStage manutationNextStageAttivita = new ManutationStage()
-                //{
-                //    //Description = newManutation.BaseDescription,
-                //    StartDate = DateTime.Now,
-                //    Name = "Attivita",
-                //    Status = "Attivita",
-                //    Manutation = newManutation,
-                //    Active = true
-                //};
-
-                //await _unitOfWork.ManutationStageRepository.CreateNew(manutationNextStageAttivita);
-                //await _unitOfWork.CommitAsync();
-
-                //_unitOfWork.UserManutationsStagesRepository.CreateNewAsync(userToAssign, manutationNextStageAttivita);
-                //await _unitOfWork.CommitAsync();
-
-                ////Check Out
-                //ManutationStage manutationNextStageCheckOut = new ManutationStage()
-                //{
-                //    //Description = newManutation.BaseDescription,
-                //    StartDate = DateTime.Now,
-                //    Name = "Check Out",
-                //    Status = "Check Out",
-                //    Manutation = newManutation,
-                //    Active = true
-                //};
-
-                //await _unitOfWork.ManutationStageRepository.CreateNew(manutationNextStageCheckOut);
-                //await _unitOfWork.CommitAsync();
-
-                //_unitOfWork.UserManutationsStagesRepository.CreateNewAsync(userToAssign, manutationNextStageCheckOut);
-                //await _unitOfWork.CommitAsync();
-
                 
                 return RedirectToAction("Index", "Home");
             }

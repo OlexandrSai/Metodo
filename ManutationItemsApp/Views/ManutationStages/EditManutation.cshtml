@@ -493,7 +493,7 @@
     {
         @if (checkOut != null && checkOut.EndDate != null)
         {
-            <div class="input-group mt-2 disabled col-4">
+            <div class="input-group mt-2 col-4">
                 <div class="input-group-prepend">
                     <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
                 </div>
@@ -511,11 +511,7 @@
         }
     }
     <div class="mt-4">
-        <button id="passOnValidation" asp-controller="ManutationStages" asp-action="FinishCheckOut" class="btn btn-primary">Salva</button>
+        <button id="editManutation" asp-controller="ManutationStages" asp-action="EditManutation" class="btn btn-primary">Salva</button>
     </div>
 
 </div>
-
-
-
-@await Component.InvokeAsync("PauseReason", new { action = "PauseCheckOut", controller = "ManutationStages", stageName = "Check Out", manutationId = @Model.Id.ToString() })
