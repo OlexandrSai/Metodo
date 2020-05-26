@@ -18,21 +18,21 @@ namespace ManutationItemsApp.Domain.Entities
         public bool NotToDiplay { get; set; }
         public bool Historical { get; set; }
         public string CheckOutNote { get; set; }
-        [NotMapped]
-        public string ActiveStageName { 
-            get 
-            {
-                return this.ManutationStages.First(a => a.Active == true).Name;
-            } 
-            }
-        [NotMapped]
-        public string ActiveStageStatus
-        {
-            get
-            {
-                return this.ManutationStages.First(a => a.Active == true).Status;
-            }
-        }
+        //[NotMapped]
+        //public string ActiveStageName { 
+        //    get 
+        //    {
+        //        //return this.ManutationStages.First(a => a.Active == true).Name;
+        //    } 
+        //    }
+        //[NotMapped]
+        //public string ActiveStageStatus
+        //{
+        //    get
+        //    {
+        //        //return this.ManutationStages.First(a => a.Active == true).Status;
+        //    }
+        //}
 
         public DateTime DateOfCreation { get; set; }
         public string BaseDescription { get; set; }

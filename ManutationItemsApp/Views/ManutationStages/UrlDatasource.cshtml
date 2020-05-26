@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewData["Title"] = "UrlDatasource";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ejs-grid id="Grid" allowPaging="true" allowSorting="true" allowFiltering="true" toolbar="@(new List<string>() {"Search" })">
+    <e-data-manager url="@Url.Action("UrlDatasource", "ManutationStages")" adaptor="UrlAdaptor"></e-data-manager>
+    <e-grid-columns>
+        <e-grid-column field="DateOfCreation" headerText="Nome" textAlign="Right" width="120"></e-grid-column>
+        @*<e-grid-column field="Nationality" headerText="Nazione" width="150"></e-grid-column>
+            <e-grid-column field="Address" headerText="Indirizzo" width="150"></e-grid-column>
+            <e-grid-column field="CommercialRefferent" headerText="Rif. Comm." width="150"></e-grid-column>
+            <e-grid-column field="PhoneCom" headerText="Tel. Comm" width="150"></e-grid-column>
+            <e-grid-column field="EmailCom" headerText="Email Comm" width="150"></e-grid-column>
+            <e-grid-column field="TechnicalRefferent" headerText="Rif. Tecnico" width="150"></e-grid-column>
+            <e-grid-column field="PhoneTechn" headerText="Tel. Tecnico" width="150"></e-grid-column>
+            <e-grid-column field="EmailTechn" headerText="Email Tecnico" width="150"></e-grid-column>
+            <e-grid-column field="ApprovTemp" headerText="Approv. Temp." width="150"></e-grid-column>*@
+
+    </e-grid-columns>
+</ejs-grid>
+
+
+
+
