@@ -6,7 +6,7 @@
     //ViewData["activeStageStatus"] = Model.ManutationStages.First(a => a.Active == true).Statuses.First(a=>a.Active==true).Name;
 }
 
-@if (Model.ManutationStages.First(a=>a.Active).Name!="Request"|| !Model.IsPaused)
+@if (Model.ManutationStages.First(a=>a.Active).Name!="Request"|| !Model.IsPaused ||!(Model.ManutationStages.First(a=>a.Active).Name=="Check Out"))
 {
     <div class="card mt-5">
         <div class="card-header">

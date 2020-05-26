@@ -14,7 +14,7 @@
 }
 
 
-@if (Model.ManutationStages.First(a => a.Active).Name != "Request" || !Model.IsPaused)
+@if (Model.ManutationStages.First(a => a.Active).Name != "Request" || !Model.IsPaused || !(Model.ManutationStages.First(a => a.Active).Name == "Check Out"))
 {
     <div class="card mt-5">
         <div class="card-header">
@@ -262,7 +262,7 @@ else
         }
     }
     <div class="mt-4">
-        <button id="passOnValidation" asp-controller="ManutationStages" asp-action="FinishCheckOut" class="btn btn-primary">Passa alla  VALIDAZIONE</button>
+        <button id="passOnValidation" asp-controller="ManutationStages" asp-action="PassOnValidation" class="btn btn-primary">Passa alla  VALIDAZIONE</button>
     </div>
 
 </div>

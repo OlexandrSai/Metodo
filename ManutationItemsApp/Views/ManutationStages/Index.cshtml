@@ -13,76 +13,7 @@
     List<ManutationItemsApp.Domain.Entities.ApplicationUser> allUsers = ViewBag.allUsers;
 }
 
-
-
-
-<table class="table sticky">
-    <thead class="thead-dark">
-        <tr>
-            <th>
-                #
-            </th>
-            <th class="text-center">
-                <p>Data di creazione</p>
-            </th>
-            <th class="text-center">
-                <p>Asset</p>
-            </th>
-            <th class="text-center">
-                <p>Descrizione originale</p>
-            </th>
-            <th class="text-center">
-                <p>Richiedente</p>
-            </th>
-            <th class="text-center">
-                <p>Tipologia Guasto/M.:</p>
-            </th>
-   
-            <th class="text-center">
-                <p>Stato</p>
-      
-            </th>
-            <th class="text-center">
-                <p>Motivo Pausa</p>
-            </th>
-            <th class="text-center"><p>Dettagli</p></th>
-            <th class="text-center"><p>Executore/i</p></th>
-        </tr>
-    </thead>
-    <tbody>
-        @{await Html.RenderPartialAsync("OnPause", Model);}
-        @{await Html.RenderPartialAsync("ToBeInitialized", Model);}
-        @{await Html.RenderPartialAsync("ToBeAssigned", Model);}
-        @{await Html.RenderPartialAsync("OnGoing", Model);}
-    </tbody>
-</table>
-
-
-<div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="assignModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="assignModal">Assegna all'utente:</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label class="control-label">Utente:</label>
-                        <select id="utenteName" class="form-control" asp-items="@ViewBag.freeMastersNames">
-                            <option disabled selected>Selezionare</option>
-                        </select>
-                        <span class="text-danger">
-                        </span>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="assignUtente" class="btn btn-primary" disabled>Assegnare</button>
-            </div>
-        </div>
-    </div>
+<div id="manutations">
+    @{ await Html.RenderPartialAsync("NewView", Model);}
 </div>
 

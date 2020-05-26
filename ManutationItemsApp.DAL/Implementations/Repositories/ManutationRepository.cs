@@ -30,8 +30,29 @@ namespace ManutationItemsApp.DAL.Repositories
 
         public List<Manutation> GetAllManutationsWithTimelines()
         {
-            return  context.Manutations.Where(m=> m.ManutationStages.Where(d => d.Active == true).Count() > 0 && m.NotToDiplay == false)
+            return context.Manutations.Where(m => m.ManutationStages.Where(d => d.Active == true).Count() > 0 && m.NotToDiplay == false)
                 .Include(a => a.Asset)
+                .Include(a => a.Creator)
+                .Include(a => a.ErrorCode)
+                .Include(a => a.TypeOfFault)
+                .Include(a => a.ManutationStages)
+                .ThenInclude(a => a.UserManutationStages).OrderByDescending(a => a.DateOfCreation)
+                .Include(a => a.ManutationStages)
+                .ThenInclude(a => a.Statuses).OrderByDescending(a => a.DateOfCreation)
+                .Include(a => a.ManutationStages)
+                .ThenInclude(a => a.Items)
+                .Include(a => a.ManutationStages)
+                .ThenInclude(a => a.Tools)
+                .Include(a => a.ManutationStages)
+                .ThenInclude(a => a.Consumables)
+                .ToList();
+        }
+
+        public List<Manutation> GetAllToBeResumedManutationsWithTimelines()
+        {
+            return context.Manutations.Where(m => m.ManutationStages.Where(d => d.Active == true).Count() > 0 && m.NotToDiplay == false)
+                .Where(a => a.ManutationStages.First(b => b.Active).Statuses.First(c => c.Active).Name == "Paused")
+                                                                                                                                        .Include(a => a.Asset)
                 .Include(a => a.Creator)
                 .Include(a => a.ErrorCode)
                 .Include(a => a.TypeOfFault)
@@ -55,7 +76,7 @@ namespace ManutationItemsApp.DAL.Repositories
             //var result = new List<Manutation>();
             //result.AddRange(await FindAllNeededToAssign());
 
-            return await context.Manutations.Where(m=>manutations.Any(a => a == m.Id) && m.ManutationStages.Where(d => d.Active == true).Count() > 0 && m.NotToDiplay == false)
+            return await context.Manutations.Where(m => manutations.Any(a => a == m.Id) && m.ManutationStages.Where(d => d.Active == true).Count() > 0 && m.NotToDiplay == false)
                 .Include(a => a.Asset)
                 .Include(a => a.Creator)
                 .Include(a => a.ErrorCode)
@@ -133,7 +154,7 @@ namespace ManutationItemsApp.DAL.Repositories
             return await context.Manutations.AnyAsync(a => a.Id == id);
         }
 
-        public  List<Manutation> FindAllNeededToAssign()
+        public List<Manutation> FindAllNeededToAssign()
         {
             var collection = context.Manutations.Where(m => m.NeedToAssign)
                .Include(a => a.Asset)
@@ -150,7 +171,7 @@ namespace ManutationItemsApp.DAL.Repositories
         public int GetAllNeededToValidateCount()
         {
             //
-            return  context.ManutationStages.Where(m => m.Name == "Check Out" && m.Statuses.First(a => a.Active).Name == "Finished").Count();
+            return context.ManutationStages.Where(m => m.Name == "Check Out" && m.Statuses.First(a => a.Active).Name == "Finished").Count();
         }
 
 
@@ -190,14 +211,14 @@ namespace ManutationItemsApp.DAL.Repositories
 
         public async Task<List<Manutation>> GetManutationsWithTimelinesByIdOnPause(string id)
         {
-            
+
 
             var manutationStages = context.UserManutationStages.Where(ms => ms.ApplicationUserId == id).Select(ms => ms.ManutationStageId);
             var manutations = context.ManutationStages.Where(m => manutationStages.Any(c => c == m.Id)).Select(a => a.Manutation.Id);
-       
+
 
             return await context.Manutations.Where(m => manutations.Any(a => a == m.Id) && m.ManutationStages.Where(d => d.Active == true).Count() > 0 && m.NotToDiplay == false
-            && m.ManutationStages.First(l=>l.Active).Statuses.First(g=>g.Active).Name=="Paused")
+            && m.ManutationStages.First(l => l.Active).Statuses.First(g => g.Active).Name == "Paused")
                 .Include(a => a.Asset)
                 .Include(a => a.Creator)
                 .Include(a => a.ErrorCode)

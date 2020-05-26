@@ -98,7 +98,7 @@ namespace ManutationItemsApp.Controllers
 
         public async Task<IActionResult> SyncF()
         {
-            List<Manutation> data = await _unitOfWork.ManutationRepository.GetAllManutationsWithTimelines();
+            List<Manutation> data = _unitOfWork.ManutationRepository.GetAllManutationsWithTimelines();
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             var roles = await _userManager.GetRolesAsync(user);
             var role = await _roleManager.FindByNameAsync(roles.First());
@@ -134,7 +134,7 @@ namespace ManutationItemsApp.Controllers
                 var role = await _roleManager.FindByNameAsync(roles.First());
 
                 ManutationViewModel model = new ManutationViewModel();
-                model.toBeResumed = data.Where(a => a.ManutationStages.First(b => b.Active).Statuses.First(c => c.Active).Name == "Paused").ToList();
+                model.toBeResumed = _unitOfWork.ManutationRepository.GetAllToBeResumedManutationsWithTimelines() ;
                 model.toBeInitialized = data.Where(a => a.ManutationStages.First(b => b.Active).Name == "Request"
         && a.ManutationStages.First(c => c.Active).Statuses.First(d => d.Active).Name == "Assigned").ToList();
                 model.needToAssign =  _unitOfWork.ManutationRepository.FindAllNeededToAssign();
@@ -1717,6 +1717,28 @@ namespace ManutationItemsApp.Controllers
 
                 //manutation.NotToDiplay = true;
                 await _unitOfWork.CommitAsync();
+
+                return Json(new { success = true, responseText = "Your message successfuly sent!" });
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PassOnValidation([FromBody]ValidationModel model)
+        {
+            try
+            {
+                var user = await _unitOfWork.ApplicationUserRepository.GetUserByNameAsync(User.Identity.Name);
+                var manutation = await _unitOfWork.ManutationRepository.GetManutation(model.ManutationId);
+
+                manutation.CheckOutNote = model.CheckOutNote;
+                await _unitOfWork.CommitAsync();
+
+               await _unitOfWork.CommitAsync();
 
                 return Json(new { success = true, responseText = "Your message successfuly sent!" });
             }
