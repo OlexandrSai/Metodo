@@ -23,6 +23,11 @@ namespace ManutationItemsApp.Controllers
         {
             return View(_unitOfWork.ConsumableRepository.FindAll());
         }
+        public IActionResult SyncF()
+        {
+            return View(_unitOfWork.ConsumableRepository.GetAll(includeProperties: "Supplier"));
+        }
+
 
         // GET: Tools
         public async Task<IActionResult> GetAll()

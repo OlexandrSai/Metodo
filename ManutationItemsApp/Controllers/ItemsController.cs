@@ -36,6 +36,11 @@ namespace ManutationItemsApp.Controllers
             return View(_unitOfWork.ItemRepository.FindAll());
         }
 
+        public IActionResult ItemSyncF()
+        {
+            return View(_unitOfWork.ItemRepository.GetAll(includeProperties: "Parent,ItemType"));
+        }
+
         // GET: Items/Create
         public async Task<IActionResult> Create()
         {

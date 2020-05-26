@@ -1,0 +1,43 @@
+﻿@model IEnumerable<ManutationItemsApp.Domain.Entities.Item>
+
+@{
+    ViewData["Title"] = "SyncF";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+   
+    <div id="default">
+        <ejs-grid id="Grid" detailTemplate="#detailtemplate" dataSource="@Model" allowResizing="true" allowFiltering="true" allowPaging="true" locale="it-IT" allowExcelExport="true" toolbarClick="toolbarClick" toolbar="@(new List<string>() {"ExcelExport"})">
+
+            <e-grid-filterSettings type="Excel"></e-grid-filterSettings>
+            <e-grid-pagesettings pageSizes="true">
+            </e-grid-pagesettings>
+            <e-grid-columns>
+                <e-grid-column field="Name" headerText="Nome" textAlign="Right" width="120"></e-grid-column>
+                <e-grid-column field="ModelFMECA" headerText="Modello FMeca" textAlign="Right" width="120"></e-grid-column>
+                <e-grid-column field="SupplierItemCode" headerText="Codice Fornitore" width="150"></e-grid-column>
+                <e-grid-column field="SerialNumber" headerText="Numero di Serie" width="150"></e-grid-column>
+                <e-grid-column field="ItemType.Name" headerText="Tipo" width="150"></e-grid-column>
+                <e-grid-column field="Asset.Name" headerText="Asset" width="150"></e-grid-column>
+                @*<e-grid-column field="Supplier.Name" headerText="Fornitore" width="150"></e-grid-column>
+                    <e-grid-column field="TechnicalRefferent" headerText="Rif. Tecnico" width="150"></e-grid-column>
+                <e-grid-column field="PhoneTechn" headerText="Tel. Tecnico" width="150"></e-grid-column>
+                <e-grid-column field="EmailTechn" headerText="Email Tecnico" width="150"></e-grid-column>
+                <e-grid-column field="ApprovTemp" headerText="Approv. Temp." width="150"></e-grid-column>*@
+
+            </e-grid-columns>
+        </ejs-grid>
+        <br />
+        <a class="btn btn-secondary" asp-action="Index"><i class="fad fa-analytics"></i>&nbsp; < Indietro </a>
+    </div>
+
+
+
+<script>
+    function toolbarClick(args) {
+        var gridObj = document.getElementById("Grid").ej2_instances[0];
+        if (args.item.id === 'Grid_excelexport') {
+            gridObj.excelExport();
+        }
+    }
+</script>

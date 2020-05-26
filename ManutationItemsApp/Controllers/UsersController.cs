@@ -49,6 +49,11 @@ namespace ManutationItemsApp.Controllers
             return PartialView(users);
         }
 
+        public IActionResult AssetSyncF()
+        {
+            //return View(_userManager..GetAll();
+        }
+
         // GET: Users/Details/5
         public ActionResult Details(int id)
         {

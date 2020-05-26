@@ -10,27 +10,8 @@
     </div>
     <div class="col-6 text-right">
         <a class="btn btn-primary"><i class="fas fa-plus"></i>&nbsp; Crea Nuovo Asset</a>
+        <a type="button" class="btn btn-secondary" asp-controller="Assets" asp-action="AssetSyncF">Tabella Excel</a>
     </div>
 </div>
 
 
-
-
-<ejs-grid id="Grid" dataSource="@Model" height="273" toolbar="@(new List<string>() { "Add", "Edit", "Delete","Update", "Cancel" })">
-    <e-grid-editSettings allowAdding="true" allowDeleting="true" allowEditing="true" mode="Normal"></e-grid-editSettings>
-    <e-grid-columns>
-        <e-grid-column field="Id" headerText="Codice" allowEditing="false" type="string" isPrimaryKey="true"  width="120"></e-grid-column>
-        <e-grid-column field="ModelName" headerText="ModelName" width="150"></e-grid-column>
-    </e-grid-columns>
-</ejs-grid>
-
-<ejs-grid id="Grid" height="273" toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Cancel", "Update" })" allowPaging="true">
-    <e-data-manager url="/Home/UrlDataSource" insertUrl="/Home/Insert" updateUrl="/Home/Update" removeUrl="/Home/Delete" adaptor="UrlAdaptor"></e-data-manager>
-    <e-grid-editSettings allowAdding="true" allowDeleting="true" allowEditing="true" mode="Normal"></e-grid-editSettings>
-    <e-grid-columns>
-        <e-grid-column field="OrderID" headerText="Order ID" isPrimaryKey="true" textAlign="Right" width="100"></e-grid-column>
-        <e-grid-column field="CustomerID" headerText="Customer ID" type="string" width="120"></e-grid-column>
-        <e-grid-column field="Freight" headerText="Freight" textAlign="Right" format="C2" editType="numericedit" width="120"></e-grid-column>
-        <e-grid-column field="ShipCountry" headerText="Ship Country" width="150"></e-grid-column>
-    </e-grid-columns>
-</ejs-grid>

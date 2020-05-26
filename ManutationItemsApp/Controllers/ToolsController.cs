@@ -26,6 +26,11 @@ namespace ManutationItemsApp.Controllers
             return View( _unitOfWork.ToolRepository.GetAll());
         }
 
+        public IActionResult SyncF()
+        {
+            return View(_unitOfWork.ToolRepository.GetAll());
+        }
+
         // GET: Tools
         public async Task<IActionResult> GetAll()
         {

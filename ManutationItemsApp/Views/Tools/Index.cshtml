@@ -6,7 +6,7 @@
 }
 
 <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#createNewTool">Create New+</a>
-<i class="fa fa-file-excel fa-lg"></i>
+<a class="btn btn-secondary" asp-action="SyncF"><i class="fad fa-analytics"></i>&nbsp; Excel</a>
 <div id="toolsViewDiv">
     @{ await Html.RenderPartialAsync("GetAll", Model);}
 </div>

@@ -33,6 +33,11 @@ namespace ManutationItemsApp.Controllers
             _appEnvironment = webHostEnvironment;
         }
 
+        public IActionResult AssetSyncF()
+        {
+            return View(_unitOfWork.AssetRepository.GetAll(includeProperties:"Supplier"));
+        }
+
         // GET: Assets
         public IActionResult Index()
         {

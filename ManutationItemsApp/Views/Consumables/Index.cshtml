@@ -6,8 +6,8 @@
     ViewData["Title"] = "Index";
 }
 
-    <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#createNewConsumable">Crea nuovo +</a>
-    <i class="fa fa-file-excel fa-lg"></i>
+<a type="button" class="btn btn-primary" data-toggle="modal" data-target="#createNewConsumable">Crea nuovo +</a>
+<a class="btn btn-secondary" asp-action="SyncF"><i class="fad fa-analytics"></i>&nbsp; Excel</a>
 <div id="consumablesViewDiv">
     @{ await Html.RenderPartialAsync("GetAll", Model);}
 </div>

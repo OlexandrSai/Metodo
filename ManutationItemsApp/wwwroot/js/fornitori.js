@@ -8,19 +8,19 @@ $(document).ready(function () {
 function loadDataTable() {
     dataTable = $('#tblData').DataTable({
         "ajax": {
-            "url": "/Suppliers/GetAllJson"
+            "url": "/Suppliers/GetAllJson/"
         },
         "columns": [
-            { "data": "Name" },
-            { "data": "Nationality" },
-            { "data": "Address" },
-            { "data": "CommercialRefferent" },
-            { "data": "PhoneCom" },
-            { "data": "EmailCom" },           
-            { "data": "TechnicalRefferent" },
-            { "data": "PhoneTechn" },
-            { "data": "EmailTechn" },
-            { "data": "ApprovTemp" },
+            { "data": "name" },
+            { "data": "nationality" },
+            { "data": "address" },
+            { "data": "commercialRefferent" },
+            { "data": "phoneCom" },
+            { "data": "emailCom" },           
+            { "data": "technicalRefferent" },
+            { "data": "phoneTechn" },
+            { "data": "emailTechn" },
+            { "data": "approvTemp" },
             {
                 "data": "Id",
                 "render": function (data) {

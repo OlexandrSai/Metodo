@@ -22,16 +22,18 @@
     <script src="https://kendo.cdn.telerik.com/2020.1.219/js/kendo.all.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2020.1.219/js/kendo.aspnetmvc.min.js"></script>
 
+    <!-- Syncfusion Essential JS 2 Styles -->
+    <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css" />
+    <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/bootstrap.css" />
+
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
     <script src="extensions/sticky-header/bootstrap-table-sticky-header.js"></script>
-    
-    <!-- Syncfusion Essential JS 2 Styles -->
-    <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css" />
 
-    <!-- Syncfusion Essential JS 2 Scripts -->
-    <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js"></script>
+
+
+
 
 </head>
 <body>
@@ -40,11 +42,11 @@
             <div class="container">
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><h5>METODO</h5></a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><h5>METODO</h5></a>
                 }
                 else
                 {
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><h5>METODO – Reliability and Maintenance Management Software</h5></a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><h5>METODO – Reliability and Maintenance Management Software</h5></a>
                 }
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -53,91 +55,91 @@
 
                 @if (!SignInManager.IsSignedIn(User))
                 {
-                    <div class="float-right">
-                        <a class="btn btn-secondary" asp-controller="Account" asp-action="Login">Sign In</a>
-                        <a class="btn btn-success" asp-controller="Account" asp-action="Register">Register</a>
-                        <select id="lgSelect">
-                            <option>IT</option>
-                            <option>EN</option>
-                        </select>
-                    </div>
-
-                }
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="CalendarMenuButton" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Calendario
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="CalendarMenuButton">
-                                    <a class="dropdown-item" href="#">CALENDARIO - PLANNING</a>
-                                    <a class="dropdown-item" href="#"></a>
-                                    <a class="dropdown-item" href="#"></a>
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="MaintenanceMenuButton" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Manutenzione
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="MaintenanceMenuButton">
-                                    <a class="dropdown-item" href="#">CORRETTIVA</a>
-                                    <a class="dropdown-item" href="#">PREVENTIVA</a>
-                                    <a class="dropdown-item" href="#">CARTOLINA ROSSA</a>
-                                    <a class="dropdown-item" href="#">PULIZIE</a>
-                                    <a class="dropdown-item" href="#">PREDITTIVA</a>
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="MaintenanceMenuButton" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Supporto
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="MaintenanceMenuButton">
-                                    <a class="dropdown-item" href="#">UTENTI</a>
-                                    <a class="dropdown-item" href="#">PARTI RICAMBIO E MATERIALI DI CONSUMO</a>
-                                    <a class="dropdown-item" href="#">ATTREZZATURE</a>
-                                    <a class="dropdown-item" href="#">STRUMENTI</a>
-                                    <a class="dropdown-item" href="#">OUTSOURCER</a>
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="KPIMenuButton" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    KPI
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="KPIMenuButton">
-                                    <a class="dropdown-item" href="#">KPI</a>
-                                    <a class="dropdown-item" href="#">AUDIT</a>
-                                    <a class="dropdown-item" href="#">MANAGEMENT REVIEW</a>
-                                    <a class="dropdown-item" href="#">STRUMENTI</a>
-                                    <a class="dropdown-item" href="#">OUTSOURCER</a>
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="MAPMenuButton" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    MAP
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="MAPMenuButton">
-                                    <a class="dropdown-item" href="#">MAP</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <a asp-action="Count" asp-controller="Notifications" data-ajax="true" data-ajax-method="GET" data-ajax-success="GetNotificationsCount"><i class="far fa-bell fa-lg"></i></a>
-                    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-                            </li>
-                            <li>
-                                <button type="submit" class="btn btn-primary">Log out</button>
-                            </li>
-                        </ul>
-                    </form>
+                <div class="float-right">
+                    <a class="btn btn-secondary" asp-controller="Account" asp-action="Login">Sign In</a>
+                    <a class="btn btn-success" asp-controller="Account" asp-action="Register">Register</a>
                     <select id="lgSelect">
                         <option>IT</option>
                         <option>EN</option>
                     </select>
+                </div>
+
+                }
+                @if (SignInManager.IsSignedIn(User))
+                {
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="CalendarMenuButton" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Calendario
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="CalendarMenuButton">
+                                <a class="dropdown-item" href="#">CALENDARIO - PLANNING</a>
+                                <a class="dropdown-item" href="#"></a>
+                                <a class="dropdown-item" href="#"></a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="MaintenanceMenuButton" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Manutenzione
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="MaintenanceMenuButton">
+                                <a class="dropdown-item" href="#">CORRETTIVA</a>
+                                <a class="dropdown-item" href="#">PREVENTIVA</a>
+                                <a class="dropdown-item" href="#">CARTOLINA ROSSA</a>
+                                <a class="dropdown-item" href="#">PULIZIE</a>
+                                <a class="dropdown-item" href="#">PREDITTIVA</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="MaintenanceMenuButton" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Supporto
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="MaintenanceMenuButton">
+                                <a class="dropdown-item" href="#">UTENTI</a>
+                                <a class="dropdown-item" href="#">PARTI RICAMBIO E MATERIALI DI CONSUMO</a>
+                                <a class="dropdown-item" href="#">ATTREZZATURE</a>
+                                <a class="dropdown-item" href="#">STRUMENTI</a>
+                                <a class="dropdown-item" href="#">OUTSOURCER</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="KPIMenuButton" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                KPI
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="KPIMenuButton">
+                                <a class="dropdown-item" href="#">KPI</a>
+                                <a class="dropdown-item" href="#">AUDIT</a>
+                                <a class="dropdown-item" href="#">MANAGEMENT REVIEW</a>
+                                <a class="dropdown-item" href="#">STRUMENTI</a>
+                                <a class="dropdown-item" href="#">OUTSOURCER</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="MAPMenuButton" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                MAP
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="MAPMenuButton">
+                                <a class="dropdown-item" href="#">MAP</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <a asp-action="Count" asp-controller="Notifications" data-ajax="true" data-ajax-method="GET" data-ajax-success="GetNotificationsCount"><i class="far fa-bell fa-lg"></i></a>
+                <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                        </li>
+                        <li>
+                            <button type="submit" class="btn btn-primary">Log out</button>
+                        </li>
+                    </ul>
+                </form>
+                <select id="lgSelect">
+                    <option>IT</option>
+                    <option>EN</option>
+                </select>
                 }
             </div>
         </nav>
@@ -162,11 +164,14 @@
             integrity="sha256-PAC000yuHt78nszJ2RO0OiDMu/uLzPLRlYTk8J3AO10="
             crossorigin="anonymous"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- Syncfusion Essential JS 2 Scripts -->
+    <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://kit.fontawesome.com/e19c476714.js"></script>
+
     @RenderSection("Scripts", required: false)
 
     <!-- Syncfusion Essential JS 2 ScriptManager -->
