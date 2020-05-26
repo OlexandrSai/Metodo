@@ -3,13 +3,15 @@
 @{
     ViewData["Title"] = "Details";
 }
-@await Component.InvokeAsync("ActionOnManutation", new {manutation = Model})
-<div id="details">
-    @{ await Html.RenderPartialAsync("Request", Model);}
-    @{await Html.RenderPartialAsync("CheckIn", Model); }
-    @{await Html.RenderPartialAsync("Attivita", Model, ViewData); }
-    @{await Html.RenderPartialAsync("CheckOut", Model, ViewData); }
-</div>
+
+    <div id="details">
+        @await Component.InvokeAsync("ActionOnManutation", new { manutation = Model })
+        @{ await Html.RenderPartialAsync("Request", Model);}
+        @{await Html.RenderPartialAsync("CheckIn", Model); }
+        @{await Html.RenderPartialAsync("Attivita", Model, ViewData); }
+        @{await Html.RenderPartialAsync("CheckOut", Model, ViewData); }
+    </div>
+@await Component.InvokeAsync("PauseReason", new { action = "PauseCheckIn", controller = "ManutationStages", stageName = "Check In", manutationId = @Model.Id.ToString() })
 
 
 

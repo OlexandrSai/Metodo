@@ -523,12 +523,61 @@ $(document).on('click', '#pauseCheckIn', function (e) {
     e.preventDefault();
     $('#pauseReasonModal').modal('hide');
     var model = {};
-    model.CheckInManutationId = $('input[name=CheckInManutationId]').val();
+    model.ManutationId = $('input[name=CheckInManutationId]').val();
     model.CheckInDescription = $('textarea[name=CheckInDescription').val();
     model.CheckInStartDate = $('input[name=CheckInStartDate]').val();
     model.CheckInWorkingHoursCount = $('input[name=CheckInWorkingHoursCount]').val();
     model.CheckInErrorCode = $('select[name = CheckInErrorCode]').children("option:selected").val();
     model.CheckInFaultType = $('select[name = CheckInFaultType]').children("option:selected").val();
+
+    model.AttivitaDescription = $('textarea[name=AttivitaDescription').val();
+    model.AttivitaSpareParts = {};
+    model.AttivitaConsumables = {};
+    model.AttivitaTools = {};
+    model.AttivitaMeasuringTools = {};
+
+    $(".attivitaConsumable").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.AttivitaConsumables[name] = count;
+    });
+
+    $(".attivitaMdc").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.AttivitaTools[name] = count;
+    });
+
+    $(".attivitaMeasuring").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.AttivitaMeasuringTools[name] = count;
+    });
+
+    $(".attivitaItem").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.AttivitaSpareParts[name] = count;
+    });
+
+    model.CheckOutDescription = $('textarea[name=CheckOutDescription').val();
+    model.CheckOutEndDate = $('input[name=CheckOutEndDate]').val();
+    model.CheckOutTools = {};
+    model.CheckOutMeasuringTools = {};
+    //model.CheckOutNote = $('textarea[name=CheckOutNote').val();
+
+    $(".checkOutMdc").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.CheckOutTools[name] = count;
+    });
+
+    $(".checkOutMeasuring").each(function () {
+        var name = $(this).children('button').first().contents().get(0).nodeValue;
+        var count = $(this).children('button').first().children('span').text();
+        model.CheckOutMeasuringTools[name] = count;
+    });
+
 
     var pauseReason ='&pauseReason='+ $('select[name = pauseReason]').children("option:selected").val();
 
@@ -539,14 +588,7 @@ $(document).on('click', '#pauseCheckIn', function (e) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
-            $.ajax({
-                type: "GET",
-                url: '/ManutationStages/DetailsP/' + model.CheckInManutationId,
-                success: function (data) {
-                    $('#details').html(data);
-                    $('.disabledcard *').prop('disabled', true);
-                }
-            });
+            window.location.href = '/ManutationStages';
         },
     });
 });
@@ -646,7 +688,7 @@ $(document).on('click', '#editManutation', function (e) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
        success: function (data) {
-            window.location.href = '/ManutationStages/Details/' + model.CheckInManutationId;
+            window.location.href = '/ManutationStages/Details/' + model.ManutationId;
         }, 
     });
 });
@@ -966,25 +1008,10 @@ $(document).on('click', '#finishCheckOut', function (e) {
 $(document).on('click', '#passOnValidation', function (e) {
     e.preventDefault();
     var model = {};
-    model.ManutationId = $('input[name=CheckOutManutationId]').val();
-    model.Description = $('textarea[name=CheckOutDescription').val();
-    //model.CheckOutStartDate = $('input[name=CheckOutStartDate]').val();
+    model.ManutationId = $('input[name=CheckInManutationId]').val();
+    
     model.CheckOutEndDate = $('input[name=CheckOutEndDate]').val();
-    model.Tools = {};
-    model.MeasuringTools = {};
     model.CheckOutNote = $('textarea[name=CheckOutNote').val();
-
-    $(".checkOutMdc").each(function () {
-        var name = $(this).children('button').first().contents().get(0).nodeValue;
-        var count = $(this).children('button').first().children('span').text();
-        model.Tools[name] = count;
-    });
-
-    $(".checkOutMeasuring").each(function () {
-        var name = $(this).children('button').first().contents().get(0).nodeValue;
-        var count = $(this).children('button').first().children('span').text();
-        model.MeasuringTools[name] = count;
-    });
 
     $.ajax({
         type: "POST",

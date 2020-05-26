@@ -15,6 +15,8 @@ namespace ManutationItemsApp.DAL.Contracts.Repositories
 
         public List<Manutation> GetAllManutationsWithTimelines();
         public List<Manutation> GetAllToBeResumedManutationsWithTimelines();
+        
+            public List<Manutation> GetAllToBeResumedManutationsWithTimelinesSyncF();
 
         public Task<List<Manutation>> GetHistoricalManutationsWithTimelines();
         public Task<List<Manutation>> GetManutationsWithTimelinesById(string id);
