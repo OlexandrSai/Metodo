@@ -13,12 +13,77 @@
     }
 }
 
-
-@if (Model.ManutationStages.First(a => a.Active).Name != "Request" || !Model.IsPaused || !(Model.ManutationStages.First(a => a.Active).Name == "Check Out"))
+@if (Model.ManutationStages.First(a => a.Active).Name == "Request" || Model.IsPaused || Model.ManutationStages.First(a => a.Active).Name == "Check Out")
 {
     <div class="card mt-5">
         <div class="card-header">
-            <button type="button" class="btn btn-success mr-4">Check Out</button>
+            <button type="button" class="btn btn-success mr-4" disabled>Check Out</button>
+        </div>
+        <div class="card-body disabledcard">
+            <form asp-action="Continue" asp-controller="ManutationStages">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Descrizione attività di Check Out:
+                    </label>
+                    <textarea asp-for="@stage.Description" class="form-control"></textarea>
+                    <span asp-validation-for="@stage.Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Aggiungi Manutentore o Outsoucer:
+                    </label>
+                    <a><i class="fa fa-plus-square fa-lg"></i></a>
+                    @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
+                        <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Attrezzatura:
+                    </label>
+                    <div id="checkOutMdcList">
+                        @if (ViewBag.Tools != null)
+                        {
+                            @foreach (var item in ViewBag.Tools)
+                            {
+                                <div class="checkOutMdc">
+                                    <button type="button" class="btn btn-light">@item.Name<span class="badge badge-dark">@item.Count</span></button>
+                                    <button type="button" class="checkOutClose"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                            }
+                        }
+
+                    </div>
+                    <a data-toggle="modal" data-target="#checkOutAttrezzaturaModal"><i class="fa fa-plus-square fa-lg"></i></a>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Strumento Misura:
+                    </label>
+                    <div id="checkOutMeasuringList">
+                        @if (ViewBag.MeasuringTools != null)
+                        {
+                            @foreach (var item in ViewBag.MeasuringTools)
+                            {
+                                <div class="checkOutMeasuring">
+                                    <button type="button" class="btn btn-light">@item.Name<span class="badge badge-dark">@item.Count</span></button>
+                                    <button type="button" class="checkOutClose"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                            }
+                        }
+
+                    </div>
+                    <a data-toggle="modal" data-target="#checkOutMeasuringModal"><i class="fa fa-plus-square fa-lg"></i></a>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card mt-5">
+        <div class="card-header">
+            <button type="button" class="btn btn-success mr-4" disabled>Check Out</button>
             @*<div class="input-group mt-2 col-4">
                     <div class="input-group-prepend">
                         <div class="input-group-text"><i class="fa fa-calendar-check fa-lg"></i></div>
@@ -156,72 +221,6 @@
         </div>
     </div>
 }
-else
-{
-    <div class="card mt-5">
-        <div class="card-header">
-            <button type="button" class="btn btn-success mr-4" disabled>Check Out</button>
-        </div>
-        <div class="card-body disabledcard">
-            <form asp-action="Continue" asp-controller="ManutationStages">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label class="control-label">
-                        Descrizione attività di Check Out:
-                    </label>
-                    <textarea asp-for="@stage.Description" class="form-control"></textarea>
-                    <span asp-validation-for="@stage.Description" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">
-                        Aggiungi Manutentore o Outsoucer:
-                    </label>
-                    <a><i class="fa fa-plus-square fa-lg"></i></a>
-                    @*<input asp-for="@stage.StartDate" value="@DateTime.Now" class="form-control" />
-                        <span asp-validation-for="@stage.StartDate" class="text-danger"></span>*@
-                </div>
-                <div class="form-group">
-                    <label class="control-label">
-                        Attrezzatura:
-                    </label>
-                    <div id="checkOutMdcList">
-                        @if (ViewBag.Tools != null)
-                        {
-                            @foreach (var item in ViewBag.Tools)
-                            {
-                                <div class="checkOutMdc">
-                                    <button type="button" class="btn btn-light">@item.Name<span class="badge badge-dark">@item.Count</span></button>
-                                    <button type="button" class="checkOutClose"><span aria-hidden="true">&times;</span></button>
-                                </div>
-                            }
-                        }
-
-                    </div>
-                    <a data-toggle="modal" data-target="#checkOutAttrezzaturaModal"><i class="fa fa-plus-square fa-lg"></i></a>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">
-                        Strumento Misura:
-                    </label>
-                    <div id="checkOutMeasuringList">
-                        @if (ViewBag.MeasuringTools != null)
-                        {
-                            @foreach (var item in ViewBag.MeasuringTools)
-                            {
-                                <div class="checkOutMeasuring">
-                                    <button type="button" class="btn btn-light">@item.Name<span class="badge badge-dark">@item.Count</span></button>
-                                    <button type="button" class="checkOutClose"><span aria-hidden="true">&times;</span></button>
-                                </div>
-                            }
-                        }
-
-                    </div>
-                    <a data-toggle="modal" data-target="#checkOutMeasuringModal"><i class="fa fa-plus-square fa-lg"></i></a>
-                </div>
-            </form>
-        </div>
-    </div>
-}
 
 <div class="form-group" id="checkOutNotediv">
     <div>
@@ -244,20 +243,20 @@ else
     {
         @if (stage != null && stage.EndDate != null)
         {
-            <div class="input-group mt-2 disabled col-4">
+            <div class="input-group mt-2  col-4">
                 <div class="input-group-prepend">
                     <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
                 </div>
-                <input disabled asp-for="@stage.EndDate" name="CheckOutEndDate" class="form-control" />
+                <input  asp-for="@stage.EndDate" name="CheckOutEndDate" class="form-control" />
             </div>
         }
         else
         {
-            <div class="input-group mt-2 disabled col-4">
+            <div class="input-group mt-2 col-4">
                 <div class="input-group-prepend">
                     <div class="input-group-text"><i class="fa fa-calendar-times fa-lg"></i></div>
                 </div>
-                <input disabled name="CheckOutEndDate" class="form-control" />
+                <input  name="CheckOutEndDate" class="form-control" />
             </div>
         }
     }
@@ -266,7 +265,3 @@ else
     </div>
 
 </div>
-
-
-
-@await Component.InvokeAsync("PauseReason", new { action = "PauseCheckOut", controller = "ManutationStages", stageName = "Check Out", manutationId = @Model.Id.ToString() })

@@ -47,6 +47,26 @@ namespace ManutationItemsApp.DAL.Repositories
                 .ThenInclude(a => a.Consumables)
                 .ToList();
         }
+        public List<Manutation> GetAllToBeResumedManutationsWithTimelinesSyncF()
+        {
+            return context.Manutations.Where(m => m.ManutationStages.Where(d => d.Active == true).Count() > 0 && m.NotToDiplay == false)
+                .Where(a => a.ManutationStages.First(b => b.Active).Statuses.First(c => c.Active).Name == "Paused")
+                // .Include(a => a.Asset)
+                //.Include(a => a.Creator)
+                //.Include(a => a.ErrorCode)
+                //.Include(a => a.TypeOfFault)
+                //.Include(a => a.ManutationStages)
+                //.ThenInclude(a => a.UserManutationStages).OrderByDescending(a => a.DateOfCreation)
+                //.Include(a => a.ManutationStages)
+                //.ThenInclude(a => a.Statuses).OrderByDescending(a => a.DateOfCreation)
+                //.Include(a => a.ManutationStages)
+                //.ThenInclude(a => a.Items)
+                //.Include(a => a.ManutationStages)
+                //.ThenInclude(a => a.Tools)
+                //.Include(a => a.ManutationStages)
+                //.ThenInclude(a => a.Consumables)
+                .ToList();
+        }
 
         public List<Manutation> GetAllToBeResumedManutationsWithTimelines()
         {

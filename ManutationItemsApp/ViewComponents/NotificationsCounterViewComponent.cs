@@ -23,10 +23,9 @@ namespace ManutationItemsApp.ViewComponents
             {
                 count = _unitOfWork.ManutationRepository.GetAllNeededToValidateCount();
             }
-
-            if (User.IsInRole("Admin"))
+            else
             {
-                var model =  _unitOfWork.ManutationRepository.FindAllNeededToAssign();
+                var model = _unitOfWork.ManutationRepository.FindAllNeededToAssign();
                 count = model.Count();
             }
 

@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace ManutationItemsApp.Domain.Entities
 {
@@ -91,6 +93,8 @@ namespace ManutationItemsApp.Domain.Entities
         //public virtual Item Parent { get; set; }
         //public virtual ItemType ItemType { get; set; }
         //public virtual IEnumerable<ItemCreator> ItemCreators { get; set; }
+        [JsonIgnore]
+        [IgnoreDataMember]
         public virtual IEnumerable<Manutation> Manutations { get; set; }
         public virtual Supplier Supplier { get; set; }
         public virtual IEnumerable<AssetItem> AssetsItems { get; set; }
