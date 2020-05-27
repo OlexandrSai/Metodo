@@ -4,14 +4,16 @@ using ManutationItemsApp.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ManutationItemsApp.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200527142748_only ITEM")]
+    partial class onlyITEM
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -460,9 +462,6 @@ namespace ManutationItemsApp.DAL.Migrations
 
                     b.Property<string>("InternalIdentificationalCode")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsAsset")
-                        .HasColumnType("bit");
 
                     b.Property<string>("IsReparaible")
                         .HasColumnType("nvarchar(max)");

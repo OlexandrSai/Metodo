@@ -10,6 +10,10 @@ namespace ManutationItemsApp.Domain.Entities
     {
         //CodeItem = ModelName + Version + ManufacturerNumber
         public int Id { get; set; }
+        public int IdParent { get; set; }
+        public bool HasChild { get; set; }
+
+        public bool IsAsset { get; set; }
         public string ModelFMECA { get; set; }
 
         public string InternalIdentificationalCode { get; set; }
@@ -94,5 +98,39 @@ namespace ManutationItemsApp.Domain.Entities
         public virtual Supplier Supplier { get; set; }
         public virtual IEnumerable<AssetItem> AssetsItems { get; set; }
         //public virtual IEnumerable<ManutationStageItem> ManutationStageItems { get; set; }
+
+        //// ASSET
+
+        public bool Active { get; set; }
+
+        //[Required]
+        public string ModelName { get; set; }
+        public string Version { get; set; }
+
+        //[Required]
+        public string ManufacturerNumber { get; set; }
+        public string FullName { get; set; }
+
+  
+        [NotMapped]
+        [Required]
+        public string SupplierName { get; set; }
+
+
+
+
+
+
+        public int WorkingHoursCount { get; set; }
+
+
+        public string Function { get; set; }
+
+        public string Note { get; set; }
+
+
+
+
+
     }
 }
