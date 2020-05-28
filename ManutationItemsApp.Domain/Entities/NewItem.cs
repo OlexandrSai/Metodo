@@ -28,7 +28,7 @@ namespace ManutationItemsApp.Domain.Entities
         public int SupplyTime { get; set; }
 
         [Display(Name = "Riparabile")]
-        public string IsReparaible { get; set; }
+        public bool IsReparaible { get; set; }
 
         [Display(Name = "Quantità Totali Installate")]
         public int IntalledQuantity { get; set; }
