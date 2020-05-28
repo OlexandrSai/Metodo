@@ -7,7 +7,7 @@
 
 
 <div id="default">
-    <ejs-grid id="Grid" detailTemplate="#detailtemplate" dataSource="@Model" allowResizing="true" allowFiltering="true" allowPaging="true" locale="it-IT" allowExcelExport="true" toolbarClick="toolbarClick" toolbar="@(new List<string>() {"Add", "Edit", "Delete", "Cancel", "Update","ExcelExport"})">
+    <ejs-grid id="Grid" detailTemplate="#detailtemplate" dataSource="@Model" allowResizing="true" allowFiltering="true" allowPaging="true" locale="it-IT" allowExcelExport="true" toolbarClick="toolbarClick" toolbar="@(new List<string>() {"ExcelExport"})">
         <e-grid-editSettings allowAdding="true" allowDeleting="true" allowEditing="true"></e-grid-editSettings>
         <e-grid-filterSettings type="Excel"></e-grid-filterSettings>
         <e-grid-pagesettings pageSizes="true">
@@ -46,5 +46,4 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>SyncF</h1>
 
