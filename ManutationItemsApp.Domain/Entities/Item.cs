@@ -92,10 +92,12 @@ namespace ManutationItemsApp.Domain.Entities
         public string ReorderLevelLr { get; set; }
         public string OptimalPurchaseQuantity { get; set; }
 
-
+        //public string ImageUrl { get; set; }
         public virtual Asset Parent { get; set; }
-        public virtual ItemType ItemType { get; set; }
+
+
         public virtual Supplier Supplier { get; set; }
+
         public virtual IEnumerable<AssetItem> AssetsItems { get; set; }
         //public virtual IEnumerable<ManutationStageItem> ManutationStageItems { get; set; }
 
@@ -119,7 +121,7 @@ namespace ManutationItemsApp.Domain.Entities
 
 
 
-
+        public string ImageUrl { get; set; }
 
         public int WorkingHoursCount { get; set; }
 

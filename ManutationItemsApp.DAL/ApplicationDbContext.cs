@@ -40,6 +40,10 @@ namespace ManutationItemsApp.DAL
         public DbSet<PauseReason> PauseReasons { get; set; }
         public DbSet<ButtonUI> ButtonUIs { get; set; }
         public DbSet<TestManutation> TestManutations { get; set; }
+
+        public DbSet<NewItem> NewItems  { get; set; }
+        public DbSet<NewAsset> NewAssets { get; set; }
+        public DbSet<BaseObject> BaseObjects  { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

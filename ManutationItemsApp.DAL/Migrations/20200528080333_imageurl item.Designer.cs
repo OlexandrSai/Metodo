@@ -4,14 +4,16 @@ using ManutationItemsApp.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ManutationItemsApp.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200528080333_imageurl item")]
+    partial class imageurlitem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -250,53 +252,6 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.HasIndex("AssetId");
 
                     b.ToTable("AssetsItems");
-                });
-
-            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.BaseObject", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<byte[]>("BarCode")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("HasChild")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("IdParent")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ModelFMECA")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("NFC")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<byte[]>("QRCode")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<int>("SupplierId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SupplierItemCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SupplierId");
-
-                    b.ToTable("BaseObjects");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("BaseObject");
                 });
 
             modelBuilder.Entity("ManutationItemsApp.Domain.Entities.ButtonUI", b =>
@@ -1269,123 +1224,6 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.NewAsset", b =>
-                {
-                    b.HasBaseType("ManutationItemsApp.Domain.Entities.BaseObject");
-
-                    b.Property<DateTime>("CommissioningDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("HourConter")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HourConterAtcommissioning")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Layout")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ManufacturerNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ModelName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SerialNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("TestDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Version")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("WarrantyExpiresDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("YearOfManufacture")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ZonaDettaglio")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ZonaGenerale")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasDiscriminator().HasValue("NewAsset");
-                });
-
-            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.NewItem", b =>
-                {
-                    b.HasBaseType("ManutationItemsApp.Domain.Entities.BaseObject");
-
-                    b.Property<string>("Characteristics")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ConsumptionSpeed")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Cost")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("DescriptionItalian")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DescriptionOriginal")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Deterioration")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Fila_Warehouse")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HandlingWay")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("IntalledQuantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("IsReparaible")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MaxGiacenza")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ModelName")
-                        .HasColumnName("NewItem_ModelName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OptimalPurchaseQuantity")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Position_Warehouse")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ReorderLevelLr")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Scaffale_Warehouse")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SecurityLevelLs")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Size")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SupplyTime")
-                        .HasColumnType("int");
-
-                    b.HasDiscriminator().HasValue("NewItem");
-                });
-
             modelBuilder.Entity("ManutationItemsApp.Domain.Entities.Asset", b =>
                 {
                     b.HasOne("ManutationItemsApp.Domain.Entities.Supplier", "Supplier")
@@ -1427,15 +1265,6 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.HasOne("ManutationItemsApp.Domain.Entities.Item", "Item")
                         .WithMany("AssetsItems")
                         .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.BaseObject", b =>
-                {
-                    b.HasOne("ManutationItemsApp.Domain.Entities.Supplier", "Supplier")
-                        .WithMany()
-                        .HasForeignKey("SupplierId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
