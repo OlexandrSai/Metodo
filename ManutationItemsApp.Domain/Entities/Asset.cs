@@ -93,9 +93,9 @@ namespace ManutationItemsApp.Domain.Entities
         //public virtual Item Parent { get; set; }
         //public virtual ItemType ItemType { get; set; }
         //public virtual IEnumerable<ItemCreator> ItemCreators { get; set; }
-        [JsonIgnore]
-        [IgnoreDataMember]
-        public virtual IEnumerable<Manutation> Manutations { get; set; }
+        //[JsonIgnore]
+        //[IgnoreDataMember]
+        //public virtual IEnumerable<Manutation> Manutations { get; set; }
         public virtual Supplier Supplier { get; set; }
         public virtual IEnumerable<AssetItem> AssetsItems { get; set; }
         public virtual IEnumerable<AssetErrorCode> AssetsErrorCodes { get; set; }
