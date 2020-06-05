@@ -8,7 +8,7 @@ namespace ManutationItemsApp.DAL.Contracts
 {
     public interface IUnitOfWork
     {
-        IManutationRepository ManutationRepository { get; }
+        //IManutationRepository ManutationRepository { get; }
         IApplicationUserRepository ApplicationUserRepository { get; }
         IErrorCodeRepository ErrorCodeRepository { get; }
         IUserManutationsStagesRepository UserManutationsStagesRepository { get;  }
@@ -33,6 +33,7 @@ namespace ManutationItemsApp.DAL.Contracts
 
         InewAssetRepository NewAssetRepository { get; }
         INewItemRepository NewItemRepository { get; }
+        public INewManutationRepository ManutationRepository { get;  }
         Task<int> CommitAsync();
 
         void Save();

@@ -8,10 +8,10 @@ namespace ManutationItemsApp.Models.Manutations
 {
     public class ManutationViewModel
     {
-        public List<Manutation> toBeResumed { get; set; }
-        public List<Manutation> toBeInitialized { get; set; }
-        public List<Manutation> onGoing { get; set; }
-        public List<Manutation> needToAssign { get; set; }
+        public List<NewManutation> toBeResumed { get; set; }
+        public List<NewManutation> toBeInitialized { get; set; }
+        public List<NewManutation> onGoing { get; set; }
+        public List<NewManutation> needToAssign { get; set; }
 
         public UserRolesRules UserRules { get; set; }
        

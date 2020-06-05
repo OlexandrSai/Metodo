@@ -9,7 +9,7 @@ namespace ManutationItemsApp.ViewComponents
 {
     public class ActionOnManutationViewComponent : ViewComponent
     {
-        public async Task<IViewComponentResult> InvokeAsync(Manutation manutation)
+        public async Task<IViewComponentResult> InvokeAsync(NewManutation manutation)
         {
             return View();
         }

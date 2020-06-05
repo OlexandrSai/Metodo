@@ -18,9 +18,9 @@ namespace ManutationItemsApp.Domain.Entities
         public DateTime? EndDate { get; set; }
         public string Status { get; set; }
 
-        [JsonIgnore]
-        [IgnoreDataMember]
-        public virtual Manutation Manutation { get; set; }
+        //[JsonIgnore]
+        //[IgnoreDataMember]
+        public virtual NewManutation Manutation { get; set; }
         public virtual IEnumerable<Status> Statuses { get; set; }
         public virtual IEnumerable<UserManutationStage> UserManutationStages { get; set; }
         public virtual IEnumerable<ItemTemp> Items { get; set; }

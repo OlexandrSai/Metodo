@@ -22,7 +22,7 @@ namespace ManutationItemsApp.DAL.Implementations
             _context = context;
             _userManager = userManager;
             ApplicationUserRepository = new ApplicationUserRepository(_context, _userManager);
-            ManutationRepository = new ManutationRepository(_context);
+            ManutationRepository = new NewManutationRepository(_context);
             ErrorCodeRepository = new ErrorCodeRepository(_context);
             AssetRepository = new AssetRepository(_context);
             ManutationTypeRepository = new ManutationTypeRepository(_context);
@@ -46,7 +46,7 @@ namespace ManutationItemsApp.DAL.Implementations
 
         }
 
-        public IManutationRepository ManutationRepository { get; private set; }
+        //public IManutationRepository ManutationRepository { get; private set; }
         public IApplicationUserRepository ApplicationUserRepository { get; private set; }
         public IErrorCodeRepository ErrorCodeRepository { get; private set; }
 
@@ -73,6 +73,8 @@ namespace ManutationItemsApp.DAL.Implementations
         public InewAssetRepository NewAssetRepository { get; private set; }
 
         public INewItemRepository NewItemRepository { get; private set; }
+        public INewManutationRepository ManutationRepository { get; private set; }
+
 
         public void Dispose()
         {

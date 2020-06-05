@@ -1,4 +1,4 @@
-﻿@model ManutationItemsApp.Domain.Entities.Manutation
+﻿@model ManutationItemsApp.Domain.Entities.NewManutation
 @{
     var checkIn = Model.ManutationStages.FirstOrDefault(a => a.Name == "Check In");
 
@@ -62,7 +62,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Intervento richiesto da:</label>
-                @Html.DisplayFor(modelItem => Model.Creator.UserName)
+                @Html.DisplayFor(modelItem => Model.CreatorName)
             </div>
             <div class="form-group">
                 <label class="control-label">

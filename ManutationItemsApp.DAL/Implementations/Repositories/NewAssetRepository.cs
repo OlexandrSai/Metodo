@@ -1,10 +1,12 @@
 ﻿using ManutationItemsApp.DAL.Contracts.Repositories;
 using ManutationItemsApp.DAL.Repositories;
 using ManutationItemsApp.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ManutationItemsApp.DAL.Implementations.Repositories
 {
@@ -42,5 +44,7 @@ namespace ManutationItemsApp.DAL.Implementations.Repositories
             }
             
         }
+
+       
     }
 }

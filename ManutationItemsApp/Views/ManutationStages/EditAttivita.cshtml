@@ -1,4 +1,4 @@
-﻿@model ManutationItemsApp.Domain.Entities.Manutation
+﻿@model ManutationItemsApp.Domain.Entities.NewManutation
 @{
     var isNext = Model.ManutationStages.FirstOrDefault(a => a.Name == "Check Out") == null &&
         Model.ManutationStages.FirstOrDefault(a => a.Name == "Check In") != null &&

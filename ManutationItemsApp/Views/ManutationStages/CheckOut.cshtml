@@ -1,4 +1,4 @@
-﻿@model ManutationItemsApp.Domain.Entities.Manutation
+﻿@model ManutationItemsApp.Domain.Entities.NewManutation
 @{
     var isNext = Model.ManutationStages.FirstOrDefault(a => a.Name == "Attivita") != null &&
         Model.ManutationStages.FirstOrDefault(a => a.Name == "Attivita").Statuses.Where(a => a.Name == "Finished").Count() > 0;

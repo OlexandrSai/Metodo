@@ -29,7 +29,7 @@ namespace ManutationItemsApp.Controllers
         {
             //  commit
             ManutationViewModel model = new ManutationViewModel();
-            List<Manutation> data = await _unitOfWork.ManutationRepository.GetManutationsWithTimelinesById(_userManager.GetUserId(User));
+            List<NewManutation> data = await _unitOfWork.ManutationRepository.GetManutationsWithTimelinesById(_userManager.GetUserId(User));
             model.toBeResumed = data.Where(a => a.ManutationStages.First(b => b.Active).Statuses.First(c => c.Active).Name == "Paused").ToList();
             model.toBeInitialized = data.Where(a => a.ManutationStages.First(b => b.Active).Name == "Request"
             && a.ManutationStages.First(c => c.Active).Statuses.First(d => d.Active).Name == "Assigned").ToList();
@@ -45,7 +45,7 @@ namespace ManutationItemsApp.Controllers
 
         public async Task<IActionResult> OnPause()
         {
-            List<Manutation> model = await _unitOfWork.ManutationRepository.GetManutationsWithTimelinesByIdOnPause(_userManager.GetUserId(User));
+            List<NewManutation> model = await _unitOfWork.ManutationRepository.GetManutationsWithTimelinesByIdOnPause(_userManager.GetUserId(User));
             return PartialView("OnPause",model);
         }
     }

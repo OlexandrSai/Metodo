@@ -1,4 +1,4 @@
-﻿@model ManutationItemsApp.Domain.Entities.Manutation
+﻿@model ManutationItemsApp.Domain.Entities.NewManutation
 @{
     var stage = Model.ManutationStages.First(a => a.Name == "Request");
     //ViewData["activeStageStatus"] = Model.ManutationStages.First(a => a.Active == true).Statuses.First(a=>a.Active==true).Name;
@@ -43,7 +43,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">Intervento richiesto da:</label>
-                    @Html.DisplayFor(modelItem => Model.Creator.UserName)
+                    @Html.DisplayFor(modelItem => Model.CreatorName)
                 </div>
                 <div class="form-group">
                     <label class="control-label">

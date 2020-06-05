@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ManutationItemsApp.Domain.Entities.Manutation>
+﻿@model IEnumerable<ManutationItemsApp.Domain.Entities.NewManutation>
 
     <table class="table sticky">
         <thead class="thead-dark">
@@ -131,7 +131,7 @@
                     @Html.DisplayFor(modelItem => item.BaseDescription)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Creator.UserName)
+                    @Html.DisplayFor(modelItem => item.CreatorName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TypeOfFault.Name)

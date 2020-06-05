@@ -76,7 +76,7 @@ namespace ManutationItemsApp.Controllers
                 await _unitOfWork.CommitAsync();
 
                 manutation.NeedToAssign = false;
-                manutation.NotToDiplay = false;
+                
                 await _unitOfWork.CommitAsync();
 
                 ViewBag.freeMastersNames = new SelectList(await _unitOfWork.ApplicationUserRepository.GetAllFreeUsersNamesAsync());
@@ -124,20 +124,19 @@ namespace ManutationItemsApp.Controllers
                 var errorCode = await _unitOfWork.ErrorCodeRepository.GetCodeByNameAsync(manutationVm.CreateManutationDto.ErrorCodeName);
                 var manutationType = await _unitOfWork.ManutationTypeRepository.GetManutationTypeByNameAsync(manutationVm.CreateManutationDto.ManutationTypeName);
                 var Fault = await _unitOfWork.ErrorCodeRepository.GetFaultByName(manutationVm.CreateManutationDto.FaultTypeName);
-                Manutation newManutation = new Manutation()
+                NewManutation newManutation = new NewManutation()
                 {
                     Asset = asset,
                     IsFailure= manutationVm.CreateManutationDto.IsFailure,
                     IsCartolinaRossa= manutationVm.CreateManutationDto.IsCartolinaRossa,
                     IsOtherActivity = manutationVm.CreateManutationDto.IsOtherActivity,
                     DateOfCreation = manutationVm.CreateManutationDto.DateOfCreation,
-                    Creator = user,
+                    CreatorName = user.Name,
                     BaseDescription= manutationVm.CreateManutationDto.BaseDescription,
                     ErrorCode = errorCode,
                     TypeOfFault=Fault,
                     ManutationType = manutationType,
                     NeedToAssign=true,
-                    NotToDiplay=false,
                     IsPaused = true
                 };
 
@@ -175,7 +174,7 @@ namespace ManutationItemsApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")]Manutation manutation)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")]NewManutation manutation)
         {
             if (id != manutation.Id)
             {

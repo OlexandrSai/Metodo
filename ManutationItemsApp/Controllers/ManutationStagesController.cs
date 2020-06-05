@@ -99,7 +99,7 @@ namespace ManutationItemsApp.Controllers
 
         public async Task<IActionResult> SyncF()
         {
-            List<Manutation> data = _unitOfWork.ManutationRepository.GetAllManutationsWithTimelines();
+            List<NewManutation> data = _unitOfWork.ManutationRepository.GetAllManutationsWithTimelines();
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             var roles = await _userManager.GetRolesAsync(user);
             var role = await _roleManager.FindByNameAsync(roles.First());
@@ -125,7 +125,7 @@ namespace ManutationItemsApp.Controllers
 
         public IActionResult UrlDatasource([FromBody] DataManagerRequest dm)
         {
-            IEnumerable<Manutation> DataSource = _unitOfWork.ManutationRepository.GetAllManutationsWithTimelines();
+            IEnumerable<NewManutation> DataSource = _unitOfWork.ManutationRepository.GetAllManutationsWithTimelines();
             DataOperations operation = new DataOperations();
             if (dm.Search != null && dm.Search.Count > 0)
             {
@@ -158,7 +158,7 @@ namespace ManutationItemsApp.Controllers
             {
                 //model.Manutations = get all manutations
                 //model.UserRules = get user rules
-                List<Manutation> data = _unitOfWork.ManutationRepository.GetAllManutationsWithTimelines();
+                List<NewManutation> data = _unitOfWork.ManutationRepository.GetAllManutationsWithTimelines();
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 var roles = await _userManager.GetRolesAsync(user);
                 var role = await _roleManager.FindByNameAsync(roles.First());
@@ -202,7 +202,7 @@ namespace ManutationItemsApp.Controllers
                     statusFilter = null;
                 }
 
-                List<Manutation> data = _unitOfWork.ManutationRepository.GetAllManutationsWithTimelines();
+                List<NewManutation> data = _unitOfWork.ManutationRepository.GetAllManutationsWithTimelines();
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 var roles = await _userManager.GetRolesAsync(user);
                 var role = await _roleManager.FindByNameAsync(roles.First());
@@ -333,11 +333,11 @@ namespace ManutationItemsApp.Controllers
                 #endregion
 
                 manutation.NeedToAssign = false;
-                manutation.NotToDiplay = false;
+                
                 await _unitOfWork.CommitAsync();
 
                 ViewBag.freeMastersNames = new SelectList(await _unitOfWork.ApplicationUserRepository.GetAllFreeUsersNamesAsync());
-                List<Manutation> model = await _unitOfWork.ManutationRepository.GetManutationsWithTimelinesById(_userManager.GetUserId(User));
+                List<NewManutation> model = await _unitOfWork.ManutationRepository.GetManutationsWithTimelinesById(_userManager.GetUserId(User));
                 return RedirectToAction(nameof(Details),new { id = manutationId });
             }
             catch (Exception e)
@@ -361,7 +361,7 @@ namespace ManutationItemsApp.Controllers
                     statusFilterPrev = null;
                     statusFilter = null;
                 }
-                List<Manutation> model =  _unitOfWork.ManutationRepository.FindAllNeededToAssign();
+                List<NewManutation> model =  _unitOfWork.ManutationRepository.FindAllNeededToAssign();
                 ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames());
                 ViewBag.Stages = new string[] { "Check In", "Attivita", "Check Out" };
                 ViewBag.Statuses = new string[] { "Assigned", "Started", "Paused", "Finished" };
@@ -408,7 +408,7 @@ namespace ManutationItemsApp.Controllers
                     statusFilterPrev = null;
                     statusFilter = null;
                 }
-                List<Manutation> model = await _unitOfWork.ManutationRepository.GetManutationsWithTimelinesById(_userManager.GetUserId(User));
+                List<NewManutation> model = await _unitOfWork.ManutationRepository.GetManutationsWithTimelinesById(_userManager.GetUserId(User));
                 ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames());
                 ViewBag.Stages = new string[] { "Check In", "Attivita", "Check Out" };
                 ViewBag.Statuses = new string[] { "Assigned", "Started", "Paused", "Finished" };
@@ -477,7 +477,7 @@ namespace ManutationItemsApp.Controllers
                 await _unitOfWork.CommitAsync();
 
                 manutation.NeedToAssign = false;
-                manutation.NotToDiplay = false;
+                
                 await _unitOfWork.CommitAsync();
 
                 ViewBag.freeMastersNames = new SelectList(await _unitOfWork.ApplicationUserRepository.GetAllFreeUsersNamesAsync());
@@ -529,7 +529,7 @@ namespace ManutationItemsApp.Controllers
                 await _unitOfWork.CommitAsync();
 
                 manutation.NeedToAssign = false;
-                manutation.NotToDiplay = false;
+                
                 await _unitOfWork.CommitAsync();
 
                 var model =  _unitOfWork.ManutationRepository.FindAllNeededToAssign();
@@ -545,7 +545,7 @@ namespace ManutationItemsApp.Controllers
             try
             {
                 ManutationAdministrationViewModel model = new ManutationAdministrationViewModel();
-                List<Manutation> data = await _unitOfWork.ManutationRepository.GetAllPending();
+                List<NewManutation> data = await _unitOfWork.ManutationRepository.GetAllPending();
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 var roles = await _userManager.GetRolesAsync(user);
                 var role = await _roleManager.FindByNameAsync(roles.First());
@@ -582,7 +582,7 @@ namespace ManutationItemsApp.Controllers
                     statusFilter = null;
                 }
 
-                List<Manutation> model;
+                List<NewManutation> model;
 
                 if (historical)
                 {
@@ -1932,7 +1932,7 @@ namespace ManutationItemsApp.Controllers
                     statusFilterPrev = null;
                     statusFilter = null;
                 }
-                List<Manutation> model = await _unitOfWork.ManutationRepository.GetAllPending();
+                List<NewManutation> model = await _unitOfWork.ManutationRepository.GetAllPending();
                 ViewBag.errorCodesNames = new SelectList(await _unitOfWork.ErrorCodeRepository.GetAllNames());
                 ViewBag.Stages = new string[] { "Check In", "Attivita", "Check Out" };
                 ViewBag.Statuses = new string[] { "Assigned", "Started", "Paused", "Finished" };
