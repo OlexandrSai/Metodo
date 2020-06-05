@@ -4,14 +4,16 @@ using ManutationItemsApp.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ManutationItemsApp.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200528173053_populate users")]
+    partial class populateusers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -745,9 +747,6 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("NewManutationId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -757,8 +756,6 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ManutationId");
-
-                    b.HasIndex("NewManutationId");
 
                     b.ToTable("ManutationStages");
                 });
@@ -815,71 +812,6 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.HasIndex("ManutationStageId");
 
                     b.ToTable("MeasuringToolTemps");
-                });
-
-            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.NewManutation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AssetId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("BaseDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CheckOutNote")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CreatorName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateOfCreation")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("ErrorCodeId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Historical")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsCartolinaRossa")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsFailure")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsOtherActivity")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsPaused")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("ManutationTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("NeedToAssign")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("PauseReason")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("TypeOfFaultId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AssetId");
-
-                    b.HasIndex("ErrorCodeId");
-
-                    b.HasIndex("ManutationTypeId");
-
-                    b.HasIndex("TypeOfFaultId");
-
-                    b.ToTable("NewManutations");
                 });
 
             modelBuilder.Entity("ManutationItemsApp.Domain.Entities.PauseReason", b =>
@@ -1572,7 +1504,7 @@ namespace ManutationItemsApp.DAL.Migrations
             modelBuilder.Entity("ManutationItemsApp.Domain.Entities.Manutation", b =>
                 {
                     b.HasOne("ManutationItemsApp.Domain.Entities.Asset", "Asset")
-                        .WithMany()
+                        .WithMany("Manutations")
                         .HasForeignKey("AssetId");
 
                     b.HasOne("ManutationItemsApp.Domain.Entities.ApplicationUser", "Creator")
@@ -1580,15 +1512,15 @@ namespace ManutationItemsApp.DAL.Migrations
                         .HasForeignKey("CreatorId");
 
                     b.HasOne("ManutationItemsApp.Domain.Entities.ErrorCode", "ErrorCode")
-                        .WithMany()
+                        .WithMany("Manutations")
                         .HasForeignKey("ErrorCodeId");
 
                     b.HasOne("ManutationItemsApp.Domain.Entities.ManutationTypess", "ManutationType")
-                        .WithMany()
+                        .WithMany("Manutations")
                         .HasForeignKey("ManutationTypeId");
 
                     b.HasOne("ManutationItemsApp.Domain.Entities.TypeOfFault", "TypeOfFault")
-                        .WithMany()
+                        .WithMany("Manutations")
                         .HasForeignKey("TypeOfFaultId");
                 });
 
@@ -1597,10 +1529,6 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.HasOne("ManutationItemsApp.Domain.Entities.Manutation", "Manutation")
                         .WithMany("ManutationStages")
                         .HasForeignKey("ManutationId");
-
-                    b.HasOne("ManutationItemsApp.Domain.Entities.NewManutation", null)
-                        .WithMany("ManutationStages")
-                        .HasForeignKey("NewManutationId");
                 });
 
             modelBuilder.Entity("ManutationItemsApp.Domain.Entities.MeasuringToolTemp", b =>
@@ -1608,25 +1536,6 @@ namespace ManutationItemsApp.DAL.Migrations
                     b.HasOne("ManutationItemsApp.Domain.Entities.ManutationStage", "ManutationStage")
                         .WithMany("MeasuringTools")
                         .HasForeignKey("ManutationStageId");
-                });
-
-            modelBuilder.Entity("ManutationItemsApp.Domain.Entities.NewManutation", b =>
-                {
-                    b.HasOne("ManutationItemsApp.Domain.Entities.Asset", "Asset")
-                        .WithMany()
-                        .HasForeignKey("AssetId");
-
-                    b.HasOne("ManutationItemsApp.Domain.Entities.ErrorCode", "ErrorCode")
-                        .WithMany()
-                        .HasForeignKey("ErrorCodeId");
-
-                    b.HasOne("ManutationItemsApp.Domain.Entities.ManutationTypess", "ManutationType")
-                        .WithMany()
-                        .HasForeignKey("ManutationTypeId");
-
-                    b.HasOne("ManutationItemsApp.Domain.Entities.TypeOfFault", "TypeOfFault")
-                        .WithMany()
-                        .HasForeignKey("TypeOfFaultId");
                 });
 
             modelBuilder.Entity("ManutationItemsApp.Domain.Entities.Status", b =>

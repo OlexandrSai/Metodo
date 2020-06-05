@@ -40,18 +40,8 @@ namespace ManutationItemsApp.DAL.Implementations
             MeasuringToolRepository = new MeasuringToolRepository(_context);
             ButtonUIRepository = new ButtonUIRepository(_context);
             TestManutation = new TestManutationRepository(_context);
-
-
-
-
-
-
-
-
-
-
-
-
+            NewItemRepository = new NewItemRepository(_context);
+            NewAssetRepository =new  NewAssetRepository(_context);
 
 
         }
@@ -80,6 +70,9 @@ namespace ManutationItemsApp.DAL.Implementations
         public IButtonUIRepository ButtonUIRepository { get; private set; }
         public ITestManutationRepository TestManutation { get; private set; }
 
+        public InewAssetRepository NewAssetRepository { get; private set; }
+
+        public INewItemRepository NewItemRepository { get; private set; }
 
         public void Dispose()
         {
